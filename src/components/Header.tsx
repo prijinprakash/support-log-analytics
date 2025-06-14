@@ -1,9 +1,9 @@
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
-import { Moon } from "lucide-react";
-import { Tooltip } from "@/components/ui/tooltip";
-import { useState } from "react";
+import { Moon, Sun } from "lucide-react";
+import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 // Header bar is always dark, regardless of theme
@@ -13,6 +13,12 @@ const headerText = "text-white";
 const Header = () => {
   // for dark/light theme, managed locally here as demo
   const [dark, setDark] = useState(true);
+
+  useEffect(() => {
+    // Initialize theme based on document class
+    const isDark = document.documentElement.classList.contains("dark");
+    setDark(isDark);
+  }, []);
 
   // Always keep header/footer dark, toggle theme for rest
   const handleThemeToggle = () => {
@@ -38,16 +44,24 @@ const Header = () => {
         <div className="flex items-center gap-2 min-w-[320px] justify-end">
           <TimezoneSelector />
           <Tooltip>
-            <button
-              aria-label="Toggle dark mode"
-              className="ml-2 rounded p-2 bg-transparent hover:bg-[#222] transition-colors"
-              onClick={handleThemeToggle}
-              data-testid="dark-toggle"
-              type="button"
-            >
-              <Moon size={18} className="text-[#aaa]" />
-            </button>
-            <span className="text-xs">Switch dark/light theme</span>
+            <TooltipTrigger asChild>
+              <button
+                aria-label="Toggle dark mode"
+                className="ml-2 rounded p-2 bg-transparent hover:bg-[#222] transition-colors"
+                onClick={handleThemeToggle}
+                data-testid="dark-toggle"
+                type="button"
+              >
+                {dark ? (
+                  <Moon size={18} className="text-[#aaa]" />
+                ) : (
+                  <Sun size={18} className="text-[#aaa]" />
+                )}
+              </button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <span className="text-xs">Switch to {dark ? 'light' : 'dark'} theme</span>
+            </TooltipContent>
           </Tooltip>
         </div>
       </div>
