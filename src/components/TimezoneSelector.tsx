@@ -3,17 +3,16 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
+import moment from "moment-timezone";
 
 function getTimezones(): string[] {
-  return Intl.supportedValuesOf("timeZone") || [
-    "UTC", "America/New_York", "Europe/London", "Asia/Kolkata", "Asia/Singapore"
-  ];
+  return moment.tz.names();
 }
 
 const TimezoneSelector = () => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [tz, setTz] = useState(Intl.DateTimeFormat().resolvedOptions().timeZone);
+  const [tz, setTz] = useState(moment.tz.guess());
 
   const zones = getTimezones().filter(z =>
     z.toLowerCase().includes(search.toLowerCase())
@@ -29,7 +28,7 @@ const TimezoneSelector = () => {
         >
           <span className="flex-1 text-left truncate">{tz.replace("_", " ")}</span>
           <span className="ml-2 text-xs text-[#aaa]">
-            {Intl.DateTimeFormat("en-US", { timeZone: tz, timeZoneName: "short" }).format(new Date()).split(" ").at(-1)}
+            {moment.tz(tz).format('z')}
           </span>
           <ChevronDown size={12} className="ml-1" />
         </button>
