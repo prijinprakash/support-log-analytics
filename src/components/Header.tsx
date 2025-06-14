@@ -1,3 +1,4 @@
+
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
@@ -7,7 +8,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 
 // Header bar is always dark, regardless of theme
-const headerBg = "bg-[#18191b]";
+const headerBg = "bg-[#09090b]"; // updated dark background
 const headerText = "text-white";
 
 const Header = () => {

@@ -1,5 +1,5 @@
 
-import { Search } from "lucide-react";
+import { Search, ListFilter } from "lucide-react";
 import { Tooltip } from "@/components/ui/tooltip";
 import { useRef } from "react";
 
@@ -24,7 +24,7 @@ const SearchBar = () => {
       </span>
       <input
         ref={ref}
-        className="w-full rounded bg-[#222324] text-white pl-10 pr-24 py-2 text-sm border-none outline-none focus:ring-2 focus:ring-[#03bd4d] placeholder:text-[#7d8699]"
+        className="w-full rounded bg-[#222324] text-white pl-10 pr-14 py-2 text-sm border-none outline-none placeholder:text-[#7d8699] focus:outline-none"
         placeholder="Search ..."
         type="search"
         aria-label="Search"
@@ -32,12 +32,13 @@ const SearchBar = () => {
       <button
         type="button"
         tabIndex={-1}
-        className="absolute right-4 top-1/2 -translate-y-1/2 px-2 py-1 rounded bg-[#232426] text-xs font-medium text-[#99e0b6] border border-[#03bd4d70] hover:bg-[#03bd4d20] transition hover-scale"
-        style={{ minWidth: 52 }}
+        className="absolute right-4 top-1/2 -translate-y-1/2 p-0 bg-transparent border-none text-[#99e0b6] hover:bg-[#03bd4d20] hover:text-[#03bd4d] rounded flex items-center transition"
+        style={{ minWidth: 32 }}
+        aria-label="Filter"
       >
-        Filter
+        <ListFilter size={18} />
       </button>
-      <div className="absolute right-20 top-1/2 -translate-y-1/2 text-xs px-2 py-1 bg-[#292b2e] text-[#8cbf99] rounded hidden md:flex items-center pointer-events-none border border-[#03bd4d40]">
+      <div className="absolute right-14 top-1/2 -translate-y-1/2 text-xs px-2 py-1 bg-[#292b2e] text-[#8cbf99] rounded hidden md:flex items-center pointer-events-none border-0 shadow-none focus:outline-none select-none">
         ⌘K
       </div>
     </form>
