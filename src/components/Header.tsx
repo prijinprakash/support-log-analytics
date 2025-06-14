@@ -1,4 +1,3 @@
-
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
@@ -37,8 +36,8 @@ const Header = () => {
             Dashboard
           </span>
         </div>
-        {/* Center: SearchBar (make sure it's flex and full-height for vertical alignment) */}
-        <div className="flex flex-1 justify-center items-center h-full max-w-xl px-2">
+        {/* Center: SearchBar */}
+        <div className="flex flex-1 justify-center items-center h-full max-w-xs px-2">
           <SearchBar />
         </div>
         {/* Right: Timezone selector and icon buttons */}
@@ -74,4 +73,3 @@ const Header = () => {
 };
 
 export default Header;
-

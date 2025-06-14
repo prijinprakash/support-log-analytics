@@ -43,7 +43,6 @@ const TabNavigation = () => {
 
   return (
     <div className="w-full bg-[#09090b] border-b border-[#18191b]">
-      {/* Unified flex container for title, tabs, and button */}
       <div
         className={cn(
           "w-full flex items-center px-4",
@@ -62,7 +61,10 @@ const TabNavigation = () => {
           className={cn(
             "flex items-center gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent flex-1 min-w-0 h-full"
           )}
-          style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
+          style={{
+            minHeight: TABS_HEIGHT,
+            height: TABS_HEIGHT,
+          }}
         >
           {tabs.length === 0 ? (
             <div className="flex items-center h-full text-[#fff4] text-sm px-4 w-full">
@@ -79,12 +81,11 @@ const TabNavigation = () => {
                     : "bg-transparent text-[#aaa] hover:bg-[#16191d]",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
-                  tabs.length <= 4
-                    ? "min-w-[120px] max-w-[240px]"
-                    : "min-w-[80px] max-w-[160px]"
+                  // Only minimum width to prevent over-expansion for few tabs
+                  "min-w-[90px] max-w-[180px]"
                 )}
                 style={{
-                  flex: "1 1 140px",
+                  flex: "0 0 auto", // No grow!
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap"
@@ -129,4 +130,3 @@ const TabNavigation = () => {
 };
 
 export default TabNavigation;
-
