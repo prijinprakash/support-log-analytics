@@ -26,14 +26,19 @@ const Header = () => {
 
   return (
     <header className={cn(headerBg, headerText, "w-full border-b border-[#18191b]")}>
-      <div className="flex flex-row items-center justify-between px-4 gap-2 min-h-[44px] h-[44px]">
+      <div
+        className="flex flex-row items-center justify-between px-4 gap-2"
+        style={{ minHeight: 44, height: 44 }}
+      >
         {/* Left: Logo and title */}
         <div className="flex items-center min-w-[150px] h-full">
           <Logo />
-          <span className="ml-2 text-base font-semibold hidden sm:block leading-none">Dashboard</span>
+          <span className="ml-2 text-base font-semibold hidden sm:block leading-none">
+            Dashboard
+          </span>
         </div>
-        {/* Center: SearchBar */}
-        <div className="flex-1 flex justify-center px-2 h-full max-w-xl">
+        {/* Center: SearchBar (make sure it's flex and full-height for vertical alignment) */}
+        <div className="flex flex-1 justify-center items-center h-full max-w-xl px-2">
           <SearchBar />
         </div>
         {/* Right: Timezone selector and icon buttons */}
@@ -56,7 +61,9 @@ const Header = () => {
               </button>
             </TooltipTrigger>
             <TooltipContent>
-              <span className="text-xs">Switch to {dark ? 'light' : 'dark'} theme</span>
+              <span className="text-xs">
+                Switch to {dark ? "light" : "dark"} theme
+              </span>
             </TooltipContent>
           </Tooltip>
           {/* Add more icons here for settings, etc as in screenshot if needed */}
@@ -67,3 +74,4 @@ const Header = () => {
 };
 
 export default Header;
+
