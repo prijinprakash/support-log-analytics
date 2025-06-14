@@ -15,7 +15,7 @@ const initialTabs: Tab[] = [
   { id: "3", label: "00345621" },
 ];
 
-const TABS_HEIGHT = 44; // px
+const TABS_HEIGHT = 44; // px to match header
 
 const TabNavigation = () => {
   const [tabs, setTabs] = useState<Tab[]>(initialTabs);
@@ -44,16 +44,14 @@ const TabNavigation = () => {
   return (
     <div
       className={cn(
-        "w-full border-b border-[#222] px-4 bg-[#18191b] select-none",
-        "flex items-end", // align at bottom for tab bar look
-        "relative",
+        "w-full bg-[#09090b] border-b border-[#18191b] flex items-center relative px-4",
       )}
       style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT, paddingBottom: 0 }}
     >
-      {/* Tabs list with overflow */}
+      {/* Tabs, flex-1, will overflow horizontally if too many */}
       <div
         className={cn(
-          "flex items-end gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent flex-1 min-w-0 h-full"
+          "flex items-center gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent flex-1 min-w-0 h-full"
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
@@ -62,17 +60,20 @@ const TabNavigation = () => {
             No cases open.
           </div>
         ) : (
-          tabs.map((tab) => (
+          tabs.map((tab, i) => (
             <div
               key={tab.id}
               className={cn(
-                "group flex items-center px-2 sm:px-3 py-0 max-w-[180px] min-w-[80px] text-xs sm:text-sm",
+                "group flex items-center px-3 py-0",
                 activeTab === tab.id
                   ? "bg-[#212223] text-[#03bd4d] border-b-2 border-[#03bd4d] z-10"
                   : "bg-transparent text-[#aaa] hover:bg-[#16191d]",
-                "flex-shrink-1 flex-grow max-w-[180px] min-w-[80px] rounded-t-md mr-1 transition-all cursor-pointer",
-                "h-[32px]", // tab height
-                "truncate"
+                "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
+                "truncate",
+                // Width: fill available, but shrink with many tabs
+                tabs.length <= 4
+                  ? "min-w-[120px] max-w-[240px]"
+                  : "min-w-[80px] max-w-[160px]"
               )}
               style={{
                 flex: "1 1 140px",
@@ -101,12 +102,12 @@ const TabNavigation = () => {
           ))
         )}
       </div>
-      {/* New case button right-aligned */}
-      <div className="flex-0 flex items-center h-full min-w-[120px] justify-end pl-2">
+      {/* New case button right-aligned, flush to the tab bar */}
+      <div className="flex-0 flex items-center h-full min-w-[110px] justify-end pl-2">
         <Button
           onClick={addTab}
           variant="outline"
-          className="bg-[#191a1d] border border-[#03bd4d70] text-[#03bd4d] hover:bg-[#03bd4d20] transition h-8 px-2 py-1 rounded flex items-center whitespace-nowrap"
+          className="bg-[#191a1d] border border-[#03bd4d70] text-[#03bd4d] hover:bg-[#03bd4d20] transition h-8 px-3 rounded flex items-center whitespace-nowrap"
           aria-label="Open new tab"
           style={{ alignSelf: 'center' }}
         >
