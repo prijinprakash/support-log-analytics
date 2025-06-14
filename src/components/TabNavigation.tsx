@@ -1,6 +1,8 @@
 
 import { X, Plus } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 type Tab = {
   id: string;
@@ -41,69 +43,79 @@ const TabNavigation = () => {
 
   return (
     <div
-      className="w-full border-b border-[#222] px-4 bg-[#18191b] select-none"
-      style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT, display: "flex", alignItems: "flex-end", paddingBottom: 0 }}
+      className={cn(
+        "w-full border-b border-[#222] px-4 bg-[#18191b] select-none",
+        "flex items-end", // align at bottom for tab bar look
+        "relative",
+      )}
+      style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT, paddingBottom: 0 }}
     >
-      {/* Flex row: Tabs list and right-aligned New case button */}
-      <div className="flex w-full items-end justify-between">
-        {/* Tabs list */}
-        <div
-          className="flex-1 flex items-end gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent"
-          style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
-        >
-          {tabs.length === 0 ? (
-            <div className="flex items-center h-full text-[#fff4] text-sm px-4">
-              No cases open.
-            </div>
-          ) : (
-            tabs.map((tab) => (
-              <div
-                key={tab.id}
-                className={`group flex items-center px-2 sm:px-3 py-0 h-[32px] max-w-[180px] min-w-[80px] text-xs sm:text-sm
-                  ${activeTab === tab.id
-                    ? "bg-[#212223] text-[#03bd4d] border-b-2 border-[#03bd4d] z-10"
-                    : "bg-transparent text-[#aaa] hover:bg-[#16191d]"
-                  } 
-                  flex-shrink-0 rounded-t-md mr-1 transition-all cursor-pointer`}
-                title={tab.label}
-                style={{
-                  flex: "0 1 140px", // allow to shrink/grow
-                  overflow: "hidden",
-                  textOverflow: "ellipsis",
-                  whiteSpace: "nowrap"
+      {/* Tabs list with overflow */}
+      <div
+        className={cn(
+          "flex items-end gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent flex-1 min-w-0 h-full"
+        )}
+        style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
+      >
+        {tabs.length === 0 ? (
+          <div className="flex items-center h-full text-[#fff4] text-sm px-4 w-full">
+            No cases open.
+          </div>
+        ) : (
+          tabs.map((tab) => (
+            <div
+              key={tab.id}
+              className={cn(
+                "group flex items-center px-2 sm:px-3 py-0 max-w-[180px] min-w-[80px] text-xs sm:text-sm",
+                activeTab === tab.id
+                  ? "bg-[#212223] text-[#03bd4d] border-b-2 border-[#03bd4d] z-10"
+                  : "bg-transparent text-[#aaa] hover:bg-[#16191d]",
+                "flex-shrink-1 flex-grow max-w-[180px] min-w-[80px] rounded-t-md mr-1 transition-all cursor-pointer",
+                "h-[32px]", // tab height
+                "truncate"
+              )}
+              style={{
+                flex: "1 1 140px",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap"
+              }}
+              onClick={() => setActiveTab(tab.id)}
+              title={tab.label}
+            >
+              <span className="truncate">{tab.label}</span>
+              <Button
+                aria-label="Close tab"
+                variant="ghost"
+                size="icon"
+                tabIndex={-1}
+                className="ml-2 p-0 h-5 w-5 opacity-70 hover:opacity-100 text-[#888] hover:text-[#fc7a7a] cursor-pointer transition rounded focus:outline-none focus:ring-0"
+                onClick={e => {
+                  e.stopPropagation();
+                  closeTab(tab.id);
                 }}
-                onClick={() => setActiveTab(tab.id)}
               >
-                <span className="truncate">{tab.label}</span>
-                <button
-                  aria-label="Close tab"
-                  className="ml-2 opacity-70 hover:opacity-100 text-[#888] hover:text-[#fc7a7a] cursor-pointer transition"
-                  onClick={e => {
-                    e.stopPropagation();
-                    closeTab(tab.id);
-                  }}
-                  tabIndex={-1}
-                >
-                  <X size={16} />
-                </button>
-              </div>
-            ))
-          )}
-        </div>
-        {/* New case button right-aligned */}
-        <button
+                <X size={16} />
+              </Button>
+            </div>
+          ))
+        )}
+      </div>
+      {/* New case button right-aligned */}
+      <div className="flex-0 flex items-center h-full min-w-[120px] justify-end pl-2">
+        <Button
           onClick={addTab}
-          className="ml-4 bg-[#191a1d] border border-[#03bd4d70] rounded px-2 py-1 flex items-center text-[#03bd4d] hover:bg-[#03bd4d20] transition"
+          variant="outline"
+          className="bg-[#191a1d] border border-[#03bd4d70] text-[#03bd4d] hover:bg-[#03bd4d20] transition h-8 px-2 py-1 rounded flex items-center whitespace-nowrap"
           aria-label="Open new tab"
-          style={{ height: 32, alignSelf: 'center', whiteSpace: "nowrap" }}
+          style={{ alignSelf: 'center' }}
         >
           <Plus size={16} />
           <span className="ml-1 text-xs">New case</span>
-        </button>
+        </Button>
       </div>
     </div>
   );
 };
 
 export default TabNavigation;
-
