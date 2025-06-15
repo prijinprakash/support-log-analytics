@@ -11,13 +11,41 @@ const Header = () => {
   const [dark, setDark] = useState(true);
 
   useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
+    // Check localStorage first, then fall back to system preference
+    const savedTheme = localStorage.getItem('theme');
+    let isDark = true;
+    
+    if (savedTheme) {
+      isDark = savedTheme === 'dark';
+    } else {
+      // Check system preference if no saved theme
+      isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    
+    // Apply the theme
+    if (isDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    
     setDark(isDark);
   }, []);
 
   const handleThemeToggle = () => {
-    document.documentElement.classList.toggle("dark");
-    setDark((d) => !d);
+    const newDark = !dark;
+    
+    // Toggle the class
+    if (newDark) {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+    
+    // Save to localStorage
+    localStorage.setItem('theme', newDark ? 'dark' : 'light');
+    
+    setDark(newDark);
   };
 
   return (
