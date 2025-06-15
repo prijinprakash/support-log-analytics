@@ -7,8 +7,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect } from "react";
-import { Search, X } from "lucide-react";
-import { Trash } from "lucide-react";
+import { Search, X, Trash } from "lucide-react";
 
 const STORAGE_KEY = "searchDialog_recentSearches";
 const MAX_RECENT_SEARCHES = 5;
@@ -46,7 +45,6 @@ export default function SearchDialog({
 
   const addToRecentSearches = (searchTerm: string) => {
     if (!searchTerm.trim()) return;
-    
     setRecentSearches(prev => {
       const filtered = prev.filter(item => item !== searchTerm);
       const updated = [searchTerm, ...filtered].slice(0, MAX_RECENT_SEARCHES);
@@ -78,7 +76,7 @@ export default function SearchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[500px] p-0 border border-border bg-background">
+      <DialogContent className="max-w-[500px] p-0 border border-border bg-background shadow-xl">
         <div className="p-6">
           {/* Search Mode Selection */}
           <div className="mb-6">
@@ -92,8 +90,10 @@ export default function SearchDialog({
                   value="normal"
                   className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
-                <span className={`text-sm font-medium ${
-                  mode === "normal" ? "text-foreground" : "text-muted-foreground"
+                <span className={`text-sm font-medium transition-colors ${
+                  mode === "normal"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
                 }`}>
                   Normal Search
                 </span>
@@ -103,8 +103,10 @@ export default function SearchDialog({
                   value="advanced"
                   className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
-                <span className={`text-sm font-medium ${
-                  mode === "advanced" ? "text-foreground" : "text-muted-foreground"
+                <span className={`text-sm font-medium transition-colors ${
+                  mode === "advanced"
+                    ? "text-foreground"
+                    : "text-muted-foreground"
                 }`}>
                   Advanced Search
                 </span>
@@ -115,13 +117,14 @@ export default function SearchDialog({
           {/* Search Input */}
           <form onSubmit={handleSubmit} className="mb-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground pointer-events-none" />
               <Input
                 autoFocus
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
                 placeholder="Enter search term..."
-                className="pl-10 pr-10 h-12 bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0"
+                className="pl-11 pr-11 h-12 bg-secondary/70 dark:bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0 transition-colors"
+                style={{ boxShadow: "none" }} // Ensure no forced box-shadow in input
               />
               {searchValue && (
                 <Button
@@ -129,8 +132,8 @@ export default function SearchDialog({
                   variant="ghost"
                   size="icon"
                   onClick={clearSearchInput}
-                  // Fix vertical alignment for close button
-                  className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground hover:text-foreground flex items-center justify-center"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 text-muted-foreground hover:bg-accent hover:text-foreground flex items-center justify-center"
+                  tabIndex={-1}
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -141,21 +144,21 @@ export default function SearchDialog({
           {/* Recent Searches */}
           {recentSearches.length > 0 && (
             <div className="space-y-3">
-              <h3 className="text-sm font-medium text-muted-foreground">
+              <h3 className="text-sm font-medium text-muted-foreground mb-1">
                 Recent Searches
               </h3>
-              <div className="space-y-1">
+              <div className="space-y-2">
                 {recentSearches.map((searchTerm, index) => (
                   <div
                     key={`${searchTerm}-${index}`}
-                    className={`group flex items-center justify-between px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
-                      searchValue.trim() === "" && index === 0
-                        ? "bg-secondary text-foreground"
-                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
-                    }`}
+                    className={`group flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors
+                      ${searchValue.trim() === "" && index === 0
+                        ? "bg-secondary/80 dark:bg-secondary/60 border border-border text-foreground"
+                        : "hover:bg-accent/50 hover:text-foreground bg-transparent text-muted-foreground"
+                      }`}
                   >
                     <span 
-                      className="text-sm flex-1"
+                      className="text-sm flex-1 truncate"
                       onClick={() => handleRecentSearchClick(searchTerm)}
                     >
                       {searchTerm}
@@ -167,7 +170,8 @@ export default function SearchDialog({
                         e.stopPropagation();
                         removeFromRecentSearches(searchTerm);
                       }}
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                      className="h-6 w-6 opacity-60 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
+                      tabIndex={-1}
                     >
                       <Trash className="h-3 w-3" />
                     </Button>
