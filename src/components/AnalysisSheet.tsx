@@ -96,14 +96,14 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="max-w-md w-full">
+      <SheetContent side="right" className="max-w-md w-full flex flex-col">
         <SheetHeader>
           <SheetTitle>select analyses</SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-6 mt-4 h-[60vh] overflow-auto pr-2">
+        <div className="flex flex-col gap-4 mt-4 flex-1 overflow-auto pr-2">
           {ANALYSIS_OPTIONS.map(category => (
-            <div key={category.key} className="border border-muted rounded-lg p-4">
-              <div className="flex items-center gap-3 mb-4">
+            <div key={category.key} className="border border-muted rounded-lg p-3">
+              <div className="flex items-center gap-2 pb-2 mb-3 border-b border-muted">
                 <Checkbox
                   id={`cat-${category.key}`}
                   checked={!!categoryChecked[category.key]}
@@ -115,10 +115,10 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
                   {category.category}
                 </label>
               </div>
-              <div className="pl-6 space-y-3">
+              <div className="pl-4 space-y-2">
                 {category.analyses.map(analysis => (
                   <div key={analysis.key} className="space-y-1">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-2">
                       <Checkbox
                         id={`analysis-${analysis.key}`}
                         checked={!!analysisChecked[analysis.key]}
@@ -130,7 +130,7 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
                         {analysis.name}
                       </label>
                     </div>
-                    <div className="pl-8 text-xs text-muted-foreground">
+                    <div className="pl-6 text-xs text-muted-foreground">
                       {analysis.description}
                     </div>
                   </div>
@@ -140,13 +140,13 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
           ))}
         </div>
         {/* Footer Buttons */}
-        <SheetFooter className="px-0 pt-3 flex-row justify-end gap-2">
+        <SheetFooter className="px-0 pt-3 flex-row gap-2">
           <SheetClose asChild>
-            <Button type="button" variant="outline" size="sm">
+            <Button type="button" variant="outline" className="flex-1 h-10">
               Cancel
             </Button>
           </SheetClose>
-          <Button type="button" size="sm" onClick={() => onOpenChange(false)}>
+          <Button type="button" className="flex-1 h-10" onClick={() => onOpenChange(false)}>
             View Analyses
           </Button>
         </SheetFooter>
