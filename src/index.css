@@ -81,12 +81,15 @@ body {
     @apply bg-background text-foreground;
     font-size: 16px;
   }
+  .navicon {
+    @apply rounded p-2 bg-lightbackground hover:bg-zinc-800 transition-colors h-9 w-9 flex items-center justify-center;
+  }
 
-  /* Remove focus outlines for all inputs */
-  input:focus,
-  textarea:focus,
-  select:focus,
-  button:focus {
+/* Remove focus outlines for all inputs */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
     outline: none !important;
   }
 }

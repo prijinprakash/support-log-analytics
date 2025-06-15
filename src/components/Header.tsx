@@ -1,11 +1,10 @@
 
-import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
-import { Moon, Sun } from "lucide-react";
+import { HelpCircle, Moon, Sun } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
+import { FileUp, ChartLine, Settings } from "lucide-react";
 
 const Header = () => {
   const [dark, setDark] = useState(true);
@@ -49,30 +48,88 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-zinc-950 border-b border-zinc-800">
+    <header className="w-full bg-headerbackground border-zinc-800">
       <div
         className="flex flex-row items-center justify-between px-4 gap-2"
         style={{ minHeight: 44, height: 44 }}
       >
         {/* Left: Logo and title */}
-        <div className="flex items-center min-w-[150px] h-full">
-          <Logo />
-          <span className="ml-2 text-base font-semibold hidden sm:block leading-none text-zinc-50">
-            Dashboard
-          </span>
-        </div>
+        <a href="/" className="flex items-center" aria-label="Home">
+          <img
+            src="logo.svg"
+            alt="Logo"
+            className="h-8 w-8 rounded"
+            draggable={false}
+          />
+        </a>
         {/* Center: SearchBar */}
         <div className="flex flex-1 justify-center items-center h-full max-w-xs px-2">
           <SearchBar />
         </div>
         {/* Right: Timezone selector and icon buttons */}
-        <div className="flex items-center justify-end min-w-[320px] gap-1 h-full">
+        <div className="flex items-center justify-end min-w-[320px] gap-2 h-full">
           <TimezoneSelector />
           <Tooltip>
             <TooltipTrigger asChild>
               <button
+                aria-label="upload-file"
+                className="navicon"
+                // onClick={handleThemeToggle}
+                // data-testid="dark-toggle"
+                type="button"
+              >
+                <FileUp size={18} className="text-zinc-400"/>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-secondary text-xs">upload file</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                aria-label="user-statistics"
+                className="navicon"
+                // onClick={handleThemeToggle}
+                // data-testid="dark-toggle"
+                type="button"
+              >
+                <ChartLine size={18} className="text-zinc-400"/>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-secondary text-xs">user statistics</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                aria-label="help"
+                className="navicon"
+                // onClick={handleThemeToggle}
+                // data-testid="dark-toggle"
+                type="button"
+              >
+                <HelpCircle size={18} className="text-zinc-400"/>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-secondary text-xs">help</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
+                aria-label="settings"
+                className="navicon"
+                // onClick={handleThemeToggle}
+                // data-testid="dark-toggle"
+                type="button"
+              >
+                <Settings size={18} className="text-zinc-400"/>
+              </button>
+            </TooltipTrigger>
+            <TooltipContent className="bg-white text-secondary text-xs">settings</TooltipContent>
+          </Tooltip>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <button
                 aria-label="Toggle dark mode"
-                className="rounded p-2 bg-transparent hover:bg-zinc-800 transition-colors h-9 w-9 flex items-center justify-center"
+                className="navicon"
                 onClick={handleThemeToggle}
                 data-testid="dark-toggle"
                 type="button"
@@ -84,10 +141,8 @@ const Header = () => {
                 )}
               </button>
             </TooltipTrigger>
-            <TooltipContent>
-              <span className="text-xs">
+            <TooltipContent className="bg-white text-secondary text-xs">
                 Switch to {dark ? "light" : "dark"} theme
-              </span>
             </TooltipContent>
           </Tooltip>
         </div>
