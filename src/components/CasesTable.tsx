@@ -1,12 +1,11 @@
 
 import React, { useEffect, useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
-import { useNavigate } from "react-router-dom";
 import moment from "moment-timezone";
-import { ChevronUp, ChevronDown, Search as SearchIcon } from "lucide-react";
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { CasesTableFilters } from "./CasesTableFilters";
+import { CasesTableRow } from "./CasesTableRow";
+import { CasesTablePagination } from "./CasesTablePagination";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
 interface Case {
@@ -41,7 +40,6 @@ function generateDemoCases(): Case[] {
     }));
 }
 
-const statusOptions: CaseStatus[] = ["new", "in progress", "queued", "finished"];
 const PAGE_SIZE = 10;
 
 const CasesTable: React.FC = () => {
@@ -111,9 +109,6 @@ const CasesTable: React.FC = () => {
 
   const pageCount = Math.ceil(filteredData.length / PAGE_SIZE);
 
-  // Routing for case link
-  const navigate = useNavigate();
-
   function handleSort(column: "id" | "createdAt" | "status") {
     if (sortBy === column) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else {
@@ -122,62 +117,25 @@ const CasesTable: React.FC = () => {
     }
   }
 
-  // Color for status chips
-  function statusColor(status: CaseStatus) {
-    switch (status) {
-      case "new":
-        return "bg-blue-500/20 text-blue-400 border border-blue-500/30";
-      case "in progress":
-        return "bg-yellow-500/20 text-yellow-400 border border-yellow-500/30";
-      case "queued":
-        return "bg-gray-500/20 text-gray-400 border border-gray-500/30";
-      case "finished":
-        return "bg-green-500/20 text-green-400 border border-green-500/30";
-      default:
-        return "bg-gray-500/20 text-gray-400 border border-gray-500/30";
-    }
-  }
+  const handleSearchChange = (value: string) => {
+    setSearch(value);
+    setPage(1);
+  };
+
+  const handleStatusFilterChange = (value: string) => {
+    setStatusFilter(value);
+    setPage(1);
+  };
 
   return (
     <section className="mx-auto px-4 max-w-7xl py-8 w-full">
-      <div className="mb-6 flex flex-col sm:flex-row gap-4 sm:items-end justify-between">
-        <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
-          <div className="relative flex-1 min-w-[300px]">
-            <Input
-              placeholder="Search case number, serial, or host…"
-              value={search}
-              onChange={e => {
-                setSearch(e.target.value);
-                setPage(1);
-              }}
-              className="w-full pl-10 bg-lightbackground border-brand/30 text-white placeholder:text-gray-400 focus:border-brand h-10"
-            />
-            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
-          </div>
-          <Select
-            value={statusFilter}
-            onValueChange={v => {
-              setStatusFilter(v);
-              setPage(1);
-            }}
-          >
-            <SelectTrigger className="sm:min-w-[180px] bg-lightbackground border-brand/30 text-white focus:border-brand h-10">
-              <SelectValue placeholder="Filter by status" />
-            </SelectTrigger>
-            <SelectContent className="bg-[#191a1b] border-brand/30">
-              <SelectItem value="all" className="text-white hover:bg-brand/20">All statuses</SelectItem>
-              {statusOptions.map((status) => (
-                <SelectItem value={status} key={status} className="text-white hover:bg-brand/20">
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-        <div className="text-sm text-gray-400 mt-1 sm:mt-0">
-          Showing {filteredData.length} results{search && ` for '${search}'`}
-        </div>
-      </div>
+      <CasesTableFilters
+        search={search}
+        statusFilter={statusFilter}
+        onSearchChange={handleSearchChange}
+        onStatusFilterChange={handleStatusFilterChange}
+        resultCount={filteredData.length}
+      />
       
       <div className="bg-lightbackground rounded-lg border border-brand/20 overflow-hidden">
         <Table>
@@ -216,87 +174,18 @@ const CasesTable: React.FC = () => {
               </TableRow>
             ) : (
               paginated.map(row => (
-                <TableRow key={row.id} className="border-b border-brand/10 hover:bg-brand/5 transition-colors">
-                  <TableCell className="px-6 py-4 text-white font-medium">{row.id}</TableCell>
-                  <TableCell className="px-6 py-4">
-                    <button
-                      onClick={() => navigate(`/cases/${row.uuid}`)}
-                      className="text-brand font-mono underline-offset-2 hover:underline hover:text-brand/80 transition-colors px-1 py-1 font-semibold"
-                    >
-                      {row.caseNumber}
-                    </button>
-                  </TableCell>
-                  <TableCell className="px-6 py-4">
-                    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider ${statusColor(row.status)}`}>
-                      {row.status}
-                    </span>
-                  </TableCell>
-                  <TableCell className="px-6 py-4 text-gray-300 font-mono text-sm">{row.serialNumber}</TableCell>
-                  <TableCell className="px-6 py-4 text-gray-300">{row.hostName}</TableCell>
-                  <TableCell className="px-6 py-4 text-gray-300 font-mono text-sm">
-                    {moment(row.createdAt).tz(timezone).format("YYYY-MM-DD HH:mm")}
-                  </TableCell>
-                  <TableCell className="px-6 py-4 text-gray-300 font-mono text-sm">
-                    {moment(row.syslogEndTime).tz(timezone).format("YYYY-MM-DD HH:mm")}
-                  </TableCell>
-                </TableRow>
+                <CasesTableRow key={row.id} case={row} timezone={timezone} />
               ))
             )}
           </TableBody>
         </Table>
       </div>
       
-      <div className="mt-8 flex justify-center">
-        <Pagination>
-          <PaginationContent className="gap-2">
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={e => {
-                  e.preventDefault();
-                  setPage(prev => Math.max(prev - 1, 1));
-                }}
-                href="#"
-                aria-disabled={page <= 1}
-                tabIndex={page <= 1 ? -1 : 0}
-                className={`bg-lightbackground border-brand/30 text-white hover:bg-brand/20 hover:text-white ${page <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
-              />
-            </PaginationItem>
-            
-            {Array.from({ length: pageCount }, (_, i) => (
-              <PaginationItem key={i + 1}>
-                <PaginationLink
-                  isActive={i + 1 === page}
-                  href="#"
-                  tabIndex={0}
-                  onClick={e => {
-                    e.preventDefault();
-                    setPage(i + 1);
-                  }}
-                  className={`${i + 1 === page 
-                    ? 'bg-brand text-white border-brand' 
-                    : 'bg-lightbackground border-brand/30 text-white hover:bg-brand/20 hover:text-white'
-                  }`}
-                >
-                  {i + 1}
-                </PaginationLink>
-              </PaginationItem>
-            ))}
-            
-            <PaginationItem>
-              <PaginationNext
-                onClick={e => {
-                  e.preventDefault();
-                  setPage(prev => Math.min(prev + 1, pageCount));
-                }}
-                href="#"
-                aria-disabled={page >= pageCount}
-                tabIndex={page >= pageCount ? -1 : 0}
-                className={`bg-lightbackground border-brand/30 text-white hover:bg-brand/20 hover:text-white ${page >= pageCount ? 'opacity-50 cursor-not-allowed' : ''}`}
-              />
-            </PaginationItem>
-          </PaginationContent>
-        </Pagination>
-      </div>
+      <CasesTablePagination
+        currentPage={page}
+        totalPages={pageCount}
+        onPageChange={setPage}
+      />
     </section>
   );
 };
