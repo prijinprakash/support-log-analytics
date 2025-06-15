@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
@@ -257,7 +258,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                 value={tab.key}
                 className="h-full overflow-auto mt-0"
               >
-                <div className="flex flex-col gap-1">
+                <div className="border rounded-lg p-2">
                   {getFilteredAnalyses(tab.key).length > 0 &&
                     getFilteredAnalyses(tab.key).map(analysis => {
                       const isSelected = selectedAnalyses.includes(analysis.key);
@@ -267,14 +268,14 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                           key={analysis.key}
                           onClick={() => handleAnalysisClick(analysis.key)}
                           className={`
-                            flex items-center gap-2 p-2 rounded cursor-pointer transition-colors border
+                            flex items-center gap-2 p-2 rounded cursor-pointer transition-colors mb-1 last:mb-0
                             ${isSelected && isAlert
-                              ? "bg-red-100 border-red-500"
+                              ? "bg-red-100"
                               : isAlert
-                                ? "bg-red-50 border-red-300"
+                                ? "bg-red-50"
                                 : isSelected
-                                  ? "bg-primary/10 border-primary"
-                                  : "hover:bg-muted border-transparent"}
+                                  ? "bg-primary/10"
+                                  : "hover:bg-muted"}
                           `}
                           tabIndex={0}
                           role="button"
