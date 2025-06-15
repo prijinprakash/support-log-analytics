@@ -1,29 +1,53 @@
+
 import { X, Plus } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 type Tab = {
   id: string;
   label: string;
+  caseId: string;
+};
+
+// Generate UUIDs for case IDs
+const generateCaseId = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    const r = Math.random() * 16 | 0;
+    const v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
 };
 
 const initialTabs: Tab[] = [
-  { id: "1", label: "00123456" },
-  { id: "2", label: "00987654" },
-  { id: "3", label: "00345621" },
+  { id: "1", label: "00123456", caseId: generateCaseId() },
+  { id: "2", label: "00987654", caseId: generateCaseId() },
+  { id: "3", label: "00345621", caseId: generateCaseId() },
 ];
 
 const TABS_HEIGHT = 44; // px to match header
 
 const TabNavigation = () => {
   const [tabs, setTabs] = useState(initialTabs);
-  const [activeTab, setActiveTab] = useState(initialTabs[0].id);
   const location = useLocation();
+  const navigate = useNavigate();
 
   // Check if we're on a page where tabs should be disabled
   const isTabsDisabled = location.pathname === "/statistics" || location.pathname === "/settings";
+
+  // Determine active tab based on current route
+  const getActiveTabFromRoute = () => {
+    const caseMatch = location.pathname.match(/^\/cases\/(.+)$/);
+    if (caseMatch) {
+      const caseId = caseMatch[1];
+      const tab = tabs.find(t => t.caseId === caseId);
+      return tab?.id || null;
+    }
+    return null;
+  };
+
+  const activeTab = getActiveTabFromRoute();
 
   // Get page title based on current route
   const getPageTitle = () => {
@@ -33,28 +57,51 @@ const TabNavigation = () => {
       case "/statistics":
         return "User Statistics";
       default:
+        if (location.pathname.startsWith("/cases/")) {
+          const caseMatch = location.pathname.match(/^\/cases\/(.+)$/);
+          if (caseMatch) {
+            const caseId = caseMatch[1];
+            const tab = tabs.find(t => t.caseId === caseId);
+            return tab ? `Case ${tab.label}` : "Case Details";
+          }
+        }
         return "Cases";
     }
   };
 
   const addTab = () => {
     const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
+    const newCaseId = generateCaseId();
     const newId = Date.now().toString();
-    setTabs([...tabs, { id: newId, label: newLabel }]);
-    setActiveTab(newId);
+    const newTab = { id: newId, label: newLabel, caseId: newCaseId };
+    
+    setTabs([...tabs, newTab]);
+    navigate(`/cases/${newCaseId}`);
   };
 
   const closeTab = (id: string) => {
+    const tabToClose = tabs.find(t => t.id === id);
     const idx = tabs.findIndex(t => t.id === id);
     let newTabs = tabs.filter(t => t.id !== id);
-    let newActive: string | undefined = activeTab;
-    if (activeTab === id) {
-      if (newTabs[idx]) newActive = newTabs[idx].id;
-      else if (idx > 0) newActive = newTabs[idx - 1].id;
-      else newActive = newTabs[0]?.id;
+    
+    // If we're closing the currently active tab, navigate to another tab or home
+    if (tabToClose && location.pathname === `/cases/${tabToClose.caseId}`) {
+      if (newTabs[idx]) {
+        navigate(`/cases/${newTabs[idx].caseId}`);
+      } else if (idx > 0) {
+        navigate(`/cases/${newTabs[idx - 1].caseId}`);
+      } else if (newTabs[0]) {
+        navigate(`/cases/${newTabs[0].caseId}`);
+      } else {
+        navigate('/');
+      }
     }
+    
     setTabs(newTabs);
-    if (newActive) setActiveTab(newActive);
+  };
+
+  const handleTabClick = (tab: Tab) => {
+    navigate(`/cases/${tab.caseId}`);
   };
 
   // Calculate dynamic tab width based on number of tabs
@@ -110,8 +157,8 @@ const TabNavigation = () => {
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap"
                 }}
-                onClick={() => setActiveTab(tab.id)}
-                title={tab.label}
+                onClick={() => handleTabClick(tab)}
+                title={`Case ${tab.label}`}
               >
                 <span className="truncate">{tab.label}</span>
                 <Button
