@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { FileText, Clock, User, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -13,6 +14,15 @@ const CaseDetail = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [sheetOpen, setSheetOpen] = useState(false);
+
+  // Simulate loading and then set loading to false
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A for Mac)
   useEffect(() => {
