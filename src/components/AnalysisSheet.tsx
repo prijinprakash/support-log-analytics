@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 const ANALYSIS_OPTIONS = [
   {
     category: "Potential Bugs",
-    description: "Analyses which may indicate software or system issues.",
     key: "potential-bugs",
     analyses: [
       {
@@ -33,7 +32,6 @@ const ANALYSIS_OPTIONS = [
   },
   {
     category: "Performance",
-    description: "Analyses focused on system performance.",
     key: "performance",
     analyses: [
       {
@@ -102,10 +100,10 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
         <SheetHeader>
           <SheetTitle>select analyses</SheetTitle>
         </SheetHeader>
-        <div className="flex flex-col gap-4 mt-4 h-[60vh] overflow-auto pr-2">
+        <div className="flex flex-col gap-6 mt-4 h-[60vh] overflow-auto pr-2">
           {ANALYSIS_OPTIONS.map(category => (
-            <div key={category.key} className="border border-muted rounded-lg p-3 mb-2">
-              <div className="flex items-center gap-2">
+            <div key={category.key} className="border border-muted rounded-lg p-4">
+              <div className="flex items-center gap-3 mb-4">
                 <Checkbox
                   id={`cat-${category.key}`}
                   checked={!!categoryChecked[category.key]}
@@ -113,23 +111,28 @@ const AnalysisSheet = ({ open, onOpenChange }: AnalysisSheetProps) => {
                     handleCategoryChange(category.key, !!checked)
                   }
                 />
-                <label htmlFor={`cat-${category.key}`} className="font-medium">
+                <label htmlFor={`cat-${category.key}`} className="text-base font-semibold">
                   {category.category}
                 </label>
-                <div className="text-sm text-muted-foreground ml-2">{category.description}</div>
               </div>
-              <div className="pl-6 mt-2 flex flex-col gap-2">
+              <div className="pl-6 space-y-3">
                 {category.analyses.map(analysis => (
-                  <div key={analysis.key} className="flex items-center gap-2">
-                    <Checkbox
-                      id={`analysis-${analysis.key}`}
-                      checked={!!analysisChecked[analysis.key]}
-                      onCheckedChange={checked =>
-                        handleAnalysisChange(category.key, analysis.key, !!checked)
-                      }
-                    />
-                    <label htmlFor={`analysis-${analysis.key}`} className="font-medium">{analysis.name}</label>
-                    <div className="text-xs text-muted-foreground ml-3">{analysis.description}</div>
+                  <div key={analysis.key} className="space-y-1">
+                    <div className="flex items-center gap-3">
+                      <Checkbox
+                        id={`analysis-${analysis.key}`}
+                        checked={!!analysisChecked[analysis.key]}
+                        onCheckedChange={checked =>
+                          handleAnalysisChange(category.key, analysis.key, !!checked)
+                        }
+                      />
+                      <label htmlFor={`analysis-${analysis.key}`} className="text-sm font-medium">
+                        {analysis.name}
+                      </label>
+                    </div>
+                    <div className="pl-8 text-xs text-muted-foreground">
+                      {analysis.description}
+                    </div>
                   </div>
                 ))}
               </div>
