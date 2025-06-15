@@ -1,6 +1,6 @@
 
 import { TableCell, TableRow } from "@/components/ui/table";
-import CaseStatusBadge from "./CaseStatusBadge";
+import { CaseStatusBadge } from "./CaseStatusBadge";
 import { useState } from "react";
 import PageLoader from "./PageLoader";
 

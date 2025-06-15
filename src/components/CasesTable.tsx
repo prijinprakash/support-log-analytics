@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import moment from "moment-timezone";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { CasesTableFilters } from "./CasesTableFilters";
-import { CasesTableRow } from "./CasesTableRow";
+import CasesTableRow from "./CasesTableRow";
 import { CasesTablePagination } from "./CasesTablePagination";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
