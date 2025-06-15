@@ -2,7 +2,7 @@
 const Logo = () => (
   <a href="/" className="flex items-center" aria-label="Home">
     <img
-      src="/lovable-uploads/30512ed2-43f2-4eba-8981-df7a81aff141.png"
+      src="logo.svg"
       alt="Logo"
       className="h-8 w-8 rounded"
       draggable={false}

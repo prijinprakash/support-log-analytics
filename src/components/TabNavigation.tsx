@@ -50,11 +50,11 @@ const TabNavigation = () => {
   };
 
   return (
-    <div className="w-full bg-zinc-950 border-b border-zinc-800">
+    <div className="w-full bg-headerbackground border-b border-zinc-800">
       <div
         className={cn(
           "w-full flex items-center px-4",
-          "bg-zinc-950 border-t border-zinc-800"
+          "bg-headerbackground border-t border-zinc-800"
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
@@ -123,7 +123,7 @@ const TabNavigation = () => {
           <Button
             onClick={addTab}
             variant="outline"
-            className="bg-zinc-950 border border-green-500/70 text-green-500 hover:bg-green-500/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            className="bg-headerbackground border border-green-500/70 text-green-500 hover:bg-green-500/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
             aria-label="Open new tab"
             style={{ alignSelf: 'center' }}
           >

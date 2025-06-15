@@ -21,6 +21,8 @@ export default {
 		extend: {
 			colors: {
 				brand: "#03bd4d",
+				headerbackground: 'hsl(224 71.4% 4.1%)',
+				lightbackground: '#0e121c',
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
