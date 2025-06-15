@@ -6,6 +6,7 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 import { CasesTableFilters } from "./CasesTableFilters";
 import CasesTableRow from "./CasesTableRow";
 import { CasesTablePagination } from "./CasesTablePagination";
+import { useCasesStore } from "@/store/casesStore";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
 interface Case {
@@ -19,30 +20,11 @@ interface Case {
   syslogEndTime: string; // ISO string
 }
 
-// For demo: mock 50 cases
-function generateDemoCases(): Case[] {
-  function randStatus() {
-    const s = ["new", "in progress", "queued", "finished"] as const;
-    return s[Math.floor(Math.random() * s.length)];
-  }
-  const now = Date.now();
-  return Array(50)
-    .fill(null)
-    .map((_, idx) => ({
-      id: idx + 1,
-      uuid: crypto.randomUUID(),
-      caseNumber: ("00000000" + (Math.floor(100000 + Math.random() * 900000))).slice(-8),
-      status: randStatus(),
-      serialNumber: "SN-" + Math.floor(10000000 + Math.random() * 90000000),
-      hostName: `host${idx + 1}.example.com`,
-      createdAt: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
-      syslogEndTime: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
-    }));
-}
-
 const CasesTable: React.FC = () => {
+  // Store state
+  const { cases, isLoading, fetchCases } = useCasesStore();
+  
   // Table state
-  const [data] = useState<Case[]>(generateDemoCases());
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"id" | "createdAt" | "status">("id");
@@ -61,6 +43,11 @@ const CasesTable: React.FC = () => {
 
   // Timezone from localStorage or default (sync to changes)
   const [timezone, setTimezone] = useState<string>(moment.tz.guess());
+
+  // Fetch cases on component mount
+  useEffect(() => {
+    fetchCases();
+  }, [fetchCases]);
 
   useEffect(() => {
     const tz = localStorage.getItem("selectedTimezone") || moment.tz.guess();
@@ -86,7 +73,7 @@ const CasesTable: React.FC = () => {
 
   // Filtering, Searching, Sorting, Pagination
   const filteredData = useMemo(() => {
-    let items = [...data];
+    let items = [...cases];
     if (search.trim()) {
       const s = search.trim().toLowerCase();
       items = items.filter(
@@ -117,7 +104,7 @@ const CasesTable: React.FC = () => {
       return 0;
     });
     return items;
-  }, [data, search, statusFilter, sortBy, sortDir]);
+  }, [cases, search, statusFilter, sortBy, sortDir]);
 
   const paginated = useMemo(() => {
     const start = (page - 1) * pageSize;
@@ -148,6 +135,17 @@ const CasesTable: React.FC = () => {
     setPageSize(newPageSize);
     setPage(1);
   };
+
+  if (isLoading) {
+    return (
+      <section className="px-4 w-full">
+        <div className="flex items-center justify-center py-12">
+          <div className="w-8 h-8 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
+          <span className="ml-3 text-muted-foreground">Loading cases...</span>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section className="px-4 w-full">
