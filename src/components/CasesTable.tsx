@@ -248,7 +248,6 @@ const CasesTable: React.FC = () => {
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              asChild
               onClick={e => {
                 e.preventDefault();
                 setPage(prev => Math.max(prev - 1, 1));
@@ -262,7 +261,6 @@ const CasesTable: React.FC = () => {
             <PaginationItem key={i + 1}>
               <PaginationLink
                 isActive={i + 1 === page}
-                asChild
                 href="#"
                 tabIndex={0}
                 onClick={e => {
@@ -276,7 +274,6 @@ const CasesTable: React.FC = () => {
           ))}
           <PaginationItem>
             <PaginationNext
-              asChild
               onClick={e => {
                 e.preventDefault();
                 setPage(prev => Math.min(prev + 1, pageCount));
@@ -293,4 +290,3 @@ const CasesTable: React.FC = () => {
 };
 
 export default CasesTable;
-
