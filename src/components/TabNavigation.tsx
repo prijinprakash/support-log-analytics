@@ -1,7 +1,6 @@
 
 import { X, Plus } from "lucide-react";
 import { useState } from "react";
-import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -19,21 +18,8 @@ const initialTabs: Tab[] = [
 const TABS_HEIGHT = 44; // px to match header
 
 const TabNavigation = () => {
-  const location = useLocation();
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTab, setActiveTab] = useState(initialTabs[0].id);
-
-  // Get dynamic title based on current route
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case '/settings':
-        return 'Settings';
-      case '/statistics':
-        return 'User Statistics';
-      default:
-        return 'Cases';
-    }
-  };
 
   const addTab = () => {
     const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
@@ -64,21 +50,14 @@ const TabNavigation = () => {
   };
 
   return (
-    <div className="w-full bg-headerbackground border-b border-zinc-800">
+    <div className="w-full border-b border-zinc-800">
       <div
         className={cn(
           "w-full flex items-center px-4",
-          "bg-headerbackground border-t border-zinc-800"
+          "border-t border-zinc-800"
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
-        {/* Dynamic Title */}
-        <div className="flex items-center min-w-[70px] h-full pr-4">
-          <span className="text-lg font-semibold text-zinc-50 tracking-tight">
-            {getPageTitle()}
-          </span>
-        </div>
-        {/* Tabs */}
         <div
           className={cn(
             "flex items-center gap-0 flex-1 min-w-0 h-full overflow-hidden"
@@ -99,7 +78,7 @@ const TabNavigation = () => {
                 className={cn(
                   "group flex items-center px-3 py-0",
                   activeTab === tab.id
-                    ? "bg-zinc-800 text-green-500 border-b-2 border-green-500 z-10"
+                    ? "bg-zinc-800 text-brand border-b-2 border-brand z-10"
                     : "bg-transparent text-zinc-400 hover:bg-zinc-800",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
@@ -137,7 +116,7 @@ const TabNavigation = () => {
           <Button
             onClick={addTab}
             variant="outline"
-            className="bg-headerbackground border border-green-500/70 text-green-500 hover:bg-green-500/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            className="border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
             aria-label="Open new tab"
             style={{ alignSelf: 'center' }}
           >
