@@ -46,9 +46,9 @@ export default function FilterDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="rounded-xl max-w-[380px] bg-[#161617] text-white border-[#28282a]">
+      <DialogContent className="rounded-xl max-w-[380px] bg-background text-foreground border-border border">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold text-white">
+          <DialogTitle className="text-lg font-semibold text-foreground">
             Search Filters
           </DialogTitle>
         </DialogHeader>
@@ -63,11 +63,11 @@ export default function FilterDialog({
                   onCheckedChange={(checked) => 
                     handleFilterChange(filter.id, checked as boolean)
                   }
-                  className="border-[#444] bg-[#232324] data-[state=checked]:bg-[#03bd4d] data-[state=checked]:border-[#03bd4d]"
+                  className="border-border bg-background data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
                 <label
                   htmlFor={filter.id}
-                  className="text-sm text-white cursor-pointer flex-1"
+                  className="text-sm text-foreground cursor-pointer flex-1"
                 >
                   {filter.label}
                 </label>
@@ -75,19 +75,19 @@ export default function FilterDialog({
             ))}
           </div>
           
-          <div className="flex gap-2 pt-4 border-t border-[#28282a]">
+          <div className="flex gap-2 pt-4 border-t border-border">
             <Button
               variant="outline"
               size="sm"
               onClick={handleClearAll}
-              className="flex-1 bg-transparent border-[#444] text-[#bbb] hover:bg-[#232324] hover:text-white"
+              className="flex-1 bg-transparent border-border text-muted-foreground hover:bg-secondary hover:text-foreground"
             >
               Clear All
             </Button>
             <Button
               size="sm"
               onClick={handleApplyFilters}
-              className="flex-1 bg-[#03bd4d] hover:bg-[#02a043] text-white"
+              className="flex-1 bg-brand hover:bg-brand/90 text-white dark:text-white"
             >
               Apply Filters
             </Button>

@@ -78,7 +78,7 @@ export default function SearchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[500px] p-0 border border-zinc-800 bg-background">
+      <DialogContent className="max-w-[500px] p-0 border border-border bg-background">
         <div className="p-6">
           {/* Search Mode Selection */}
           <div className="mb-6">
@@ -90,7 +90,7 @@ export default function SearchDialog({
               <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="normal"
-                  className="border-zinc-600 data-[state=checked]:bg-brand data-[state=checked]:border-brand"
+                  className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
                 <span className={`text-sm font-medium ${
                   mode === "normal" ? "text-foreground" : "text-muted-foreground"
@@ -101,7 +101,7 @@ export default function SearchDialog({
               <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="advanced"
-                  className="border-zinc-600 data-[state=checked]:bg-brand data-[state=checked]:border-brand"
+                  className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
                 <span className={`text-sm font-medium ${
                   mode === "advanced" ? "text-foreground" : "text-muted-foreground"
@@ -115,13 +115,13 @@ export default function SearchDialog({
           {/* Search Input */}
           <form onSubmit={handleSubmit} className="mb-6">
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground pointer-events-none" />
               <Input
                 autoFocus
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
                 placeholder="Enter search term..."
-                className="pl-10 pr-10 h-12 bg-secondary border-zinc-700 text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0"
+                className="pl-10 pr-10 h-12 bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0"
               />
               {searchValue && (
                 <Button
@@ -129,7 +129,8 @@ export default function SearchDialog({
                   variant="ghost"
                   size="icon"
                   onClick={clearSearchInput}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground hover:text-foreground"
+                  // Fix vertical alignment for close button
+                  className="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6 text-muted-foreground hover:text-foreground flex items-center justify-center"
                 >
                   <X className="h-4 w-4" />
                 </Button>
@@ -149,8 +150,8 @@ export default function SearchDialog({
                     key={`${searchTerm}-${index}`}
                     className={`group flex items-center justify-between px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
                       searchValue.trim() === "" && index === 0
-                        ? "bg-zinc-800 text-foreground"
-                        : "text-muted-foreground hover:bg-zinc-800 hover:text-foreground"
+                        ? "bg-secondary text-foreground"
+                        : "text-muted-foreground hover:bg-secondary hover:text-foreground"
                     }`}
                   >
                     <span 
@@ -166,7 +167,7 @@ export default function SearchDialog({
                         e.stopPropagation();
                         removeFromRecentSearches(searchTerm);
                       }}
-                      className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-400 transition-opacity"
+                      className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-destructive transition-opacity"
                     >
                       <Trash className="h-3 w-3" />
                     </Button>
