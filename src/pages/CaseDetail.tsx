@@ -38,31 +38,28 @@ const CaseDetail = () => {
     fileName: "system_logs_2024.tar.gz",
     clusterStatus: "Active",
     totalProcessingTime: "45 minutes",
-    timezone: "UTC-5 (EST)"
+    timezone: "UTC-5 (EST)",
+    debugLogInterval: "2024-07-18 02:22:20 - 2024-07-18 02:22:20",
+    ptopLogInterval: "2024-07-18 02:22:20 - 2024-07-18 02:22:20",
+    sysLogInterval: "2024-07-18 02:22:20 - 2024-07-18 02:22:20",
   };
 
   return (
-    <main className="container mx-auto px-4 py-8 h-full">
-      <div className="max-w-7xl mx-auto h-full">
-        {/* Header */}
-        <div className="flex items-center gap-3 mb-6">
-          <FileText size={32} className="text-primary" />
-          <h1 className="text-3xl font-bold">Case {caseData.caseNumber}</h1>
-        </div>
-        
+    // <main className="h-full">
+      <div className="h-full">
         {/* Main Content - Two Column Layout */}
-        <div className="flex gap-6 h-[calc(100vh-200px)]">
+        <div className="flex gap-0 h-[calc(100vh-130px)]">
           {/* Left Section - Basic Details */}
-          <div className="w-80 flex-shrink-0">
-            <div className="bg-card rounded-lg border p-6 h-full">
-              <h2 className="text-lg font-semibold mb-6 text-foreground">Case Details</h2>
+          <div className="w-80 flex-shrink-0 p-4 overflow-auto break-words">
+            {/* <div className="bg-card rounded-lg border p-6 h-full"> */}
+              <h2 className="text-lg font-semibold mb-4 text-foreground">Case Details</h2>
               
-              <div className="space-y-6">
+              <div className="space-y-2">
                 <div className="flex items-start gap-3">
                   <FileText size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-muted-foreground mb-1">Case Number</div>
-                    <div className="text-base font-mono break-all">{caseData.caseNumber}</div>
+                    <div className="text-sm font-mono break-all">{caseData.caseNumber}</div>
                   </div>
                 </div>
 
@@ -70,7 +67,7 @@ const CaseDetail = () => {
                   <Server size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-muted-foreground mb-1">Host Name</div>
-                    <div className="text-base break-all">{caseData.hostName}</div>
+                    <div className="text-sm break-all">{caseData.hostName}</div>
                   </div>
                 </div>
 
@@ -78,7 +75,7 @@ const CaseDetail = () => {
                   <HardDrive size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-muted-foreground mb-1">File Name</div>
-                    <div className="text-base break-all">{caseData.fileName}</div>
+                    <div className="text-sm break-all">{caseData.fileName}</div>
                   </div>
                 </div>
 
@@ -88,7 +85,7 @@ const CaseDetail = () => {
                     <div className="text-sm font-medium text-muted-foreground mb-1">Cluster Status</div>
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <span className="text-base">{caseData.clusterStatus}</span>
+                      <span className="text-sm">{caseData.clusterStatus}</span>
                     </div>
                   </div>
                 </div>
@@ -97,7 +94,7 @@ const CaseDetail = () => {
                   <Clock size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-muted-foreground mb-1">Total Processing Time</div>
-                    <div className="text-base">{caseData.totalProcessingTime}</div>
+                    <div className="text-sm">{caseData.totalProcessingTime}</div>
                   </div>
                 </div>
 
@@ -105,20 +102,40 @@ const CaseDetail = () => {
                   <Globe size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
                   <div className="min-w-0 flex-1">
                     <div className="text-sm font-medium text-muted-foreground mb-1">Timezone</div>
-                    <div className="text-base">{caseData.timezone}</div>
+                    <div className="text-sm">{caseData.timezone}</div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <h2 className="text-lg font-semibold my-4 text-foreground">Log intervals</h2>
+
+              <div className="space-y-2">
+                <div className="flex items-start gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Debug Log Interval</div>
+                    <div className="text-sm break-all tracking-tight">{caseData.debugLogInterval}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Syslog Interval</div>
+                    <div className="text-sm break-all tracking-tight">{caseData.sysLogInterval}</div>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Ptop Log interval</div>
+                    <div className="text-sm break-all tracking-tight">{caseData.ptopLogInterval}</div>
+                  </div>
+                </div>
+              </div>
+            {/* </div> */}
           </div>
 
-          {/* Vertical Separator */}
-          <Separator orientation="vertical" className="h-full" />
-
           {/* Right Section - Tabs and Content */}
-          <div className="flex-1 flex flex-col min-w-0">
+          <div className="flex-1 flex flex-col min-w-0 py-4 pr-4">
             {/* Top Flexbox - Tabs and Buttons */}
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-2">
               <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
                 <TabsList>
                   <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -268,7 +285,7 @@ const CaseDetail = () => {
           </div>
         </div>
       </div>
-    </main>
+    // </main>
   );
 };
 

@@ -64,7 +64,7 @@ const Header = () => {
             <img
               src="/logo.svg"
               alt="Logo"
-              className="h-8 w-8 rounded"
+              className="h-8 w-8 rounded cursor-pointer"
               draggable={false}
               onClick={() => navigate('/')}
             />

@@ -31,7 +31,7 @@ function generateDemoCases(): Case[] {
     .map((_, idx) => ({
       id: idx + 1,
       uuid: crypto.randomUUID(),
-      caseNumber: ("000000" + (Math.floor(100000 + Math.random() * 900000))).slice(-6),
+      caseNumber: ("00000000" + (Math.floor(100000 + Math.random() * 900000))).slice(-8),
       status: randStatus(),
       serialNumber: "SN-" + Math.floor(10000000 + Math.random() * 90000000),
       hostName: `host${idx + 1}.example.com`,
