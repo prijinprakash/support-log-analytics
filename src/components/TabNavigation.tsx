@@ -1,8 +1,8 @@
-
 import { X, Plus } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useLocation } from "react-router-dom";
 
 type Tab = {
   id: string;
@@ -20,6 +20,22 @@ const TABS_HEIGHT = 44; // px to match header
 const TabNavigation = () => {
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTab, setActiveTab] = useState(initialTabs[0].id);
+  const location = useLocation();
+
+  // Check if we're on a page where tabs should be disabled
+  const isTabsDisabled = location.pathname === "/statistics" || location.pathname === "/settings";
+
+  // Get page title based on current route
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case "/settings":
+        return "Settings";
+      case "/statistics":
+        return "User Statistics";
+      default:
+        return "Cases";
+    }
+  };
 
   const addTab = () => {
     const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
@@ -67,7 +83,11 @@ const TabNavigation = () => {
             height: TABS_HEIGHT,
           }}
         >
-          {tabs.length === 0 ? (
+          {isTabsDisabled ? (
+            <div className="flex items-center h-full text-zinc-400 text-sm px-4 w-full">
+              {getPageTitle()}
+            </div>
+          ) : tabs.length === 0 ? (
             <div className="flex items-center h-full text-zinc-400 text-sm px-4 w-full">
               No cases open.
             </div>
@@ -111,19 +131,21 @@ const TabNavigation = () => {
             ))
           )}
         </div>
-        {/* New case button right-aligned */}
-        <div className="flex flex-0 items-center h-full min-w-[110px] justify-end pl-4">
-          <Button
-            onClick={addTab}
-            variant="outline"
-            className="border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
-            aria-label="Open new tab"
-            style={{ alignSelf: 'center' }}
-          >
-            <Plus size={16} />
-            <span className="ml-1 text-xs">New case</span>
-          </Button>
-        </div>
+        {/* New case button right-aligned - only show if tabs are not disabled */}
+        {!isTabsDisabled && (
+          <div className="flex flex-0 items-center h-full min-w-[110px] justify-end pl-4">
+            <Button
+              onClick={addTab}
+              variant="outline"
+              className="border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+              aria-label="Open new tab"
+              style={{ alignSelf: 'center' }}
+            >
+              <Plus size={16} />
+              <span className="ml-1 text-xs">New case</span>
+            </Button>
+          </div>
+        )}
       </div>
     </div>
   );
