@@ -2,25 +2,27 @@
 import { TableCell, TableRow } from "@/components/ui/table";
 import { CaseStatusBadge } from "./CaseStatusBadge";
 import { useState } from "react";
-import PageLoader from "./PageLoader";
+import moment from "moment-timezone";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
 
 interface Case {
-  id: string;
+  id: number;
+  uuid: string;
   caseNumber: string;
+  status: CaseStatus;
   serialNumber: string;
   hostName: string;
-  status: CaseStatus;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: string; // ISO string
+  syslogEndTime: string; // ISO string
 }
 
 interface CasesTableRowProps {
   case: Case;
+  timezone: string;
 }
 
-const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem }) => {
+const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone }) => {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCaseNumberClick = async () => {
@@ -37,8 +39,13 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem }) => {
     setIsLoading(false);
   };
 
+  const formatDateTime = (isoString: string) => {
+    return moment(isoString).tz(timezone).format('YYYY-MM-DD HH:mm:ss');
+  };
+
   return (
     <TableRow className="hover:bg-muted/50 dark:hover:bg-muted/50">
+      <TableCell className="px-3 py-2 font-mono">{caseItem.id}</TableCell>
       <TableCell className="px-3 py-2 font-mono">
         <button
           onClick={handleCaseNumberClick}
@@ -55,13 +62,13 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem }) => {
           )}
         </button>
       </TableCell>
-      <TableCell className="px-3 py-2 font-mono">{caseItem.serialNumber}</TableCell>
-      <TableCell className="px-3 py-2">{caseItem.hostName}</TableCell>
       <TableCell className="px-3 py-2">
         <CaseStatusBadge status={caseItem.status} />
       </TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground">{caseItem.createdAt}</TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground">{caseItem.updatedAt}</TableCell>
+      <TableCell className="px-3 py-2 font-mono">{caseItem.serialNumber}</TableCell>
+      <TableCell className="px-3 py-2">{caseItem.hostName}</TableCell>
+      <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.createdAt)}</TableCell>
+      <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
     </TableRow>
   );
 };
