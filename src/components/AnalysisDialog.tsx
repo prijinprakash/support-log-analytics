@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
@@ -182,7 +181,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
               <button
                 type="button"
                 onClick={clearSearch}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-sm"
+                className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-muted rounded-sm"
                 tabIndex={-1}
                 aria-label="Clear search"
               >
@@ -198,10 +197,10 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                     <Badge
                       key={analysisKey}
                       variant="secondary"
-                      className={`flex items-center gap-1 text-xs border shadow
+                      className={`flex items-center gap-1 text-xs shadow
                         ${isAlert
                           ? "bg-red-100 border-red-500 text-red-800"
-                          : "bg-secondary border-primary text-primary-foreground"
+                          : "bg-primary/10 border-primary text-primary border"
                         }`}
                       style={
                         isAlert
@@ -210,11 +209,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                             border: "1px solid var(--chip-border-danger, #ef4444)",
                             color: "var(--chip-fg-danger, #991b1b)",
                           }
-                          : {
-                            background: "var(--chip-bg, theme(colors.secondary))",
-                            border: "1px solid var(--chip-border, theme(colors.primary))",
-                            color: "var(--chip-fg, theme(colors.primary))"
-                          }
+                          : undefined
                       }
                     >
                       {getAnalysisName(analysisKey)}
@@ -274,7 +269,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                               : isAlert
                                 ? "bg-red-50"
                                 : isSelected
-                                  ? "bg-primary/10"
+                                  ? "bg-primary/10 border border-primary"
                                   : "hover:bg-muted"}
                           `}
                           tabIndex={0}
