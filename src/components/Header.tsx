@@ -21,7 +21,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-[#09090b] border-b border-[#27272a]">
+    <header className="w-full bg-zinc-950 border-b border-zinc-800">
       <div
         className="flex flex-row items-center justify-between px-4 gap-2"
         style={{ minHeight: 44, height: 44 }}
@@ -29,7 +29,7 @@ const Header = () => {
         {/* Left: Logo and title */}
         <div className="flex items-center min-w-[150px] h-full">
           <Logo />
-          <span className="ml-2 text-base font-semibold hidden sm:block leading-none text-white">
+          <span className="ml-2 text-base font-semibold hidden sm:block leading-none text-zinc-50">
             Dashboard
           </span>
         </div>
@@ -44,15 +44,15 @@ const Header = () => {
             <TooltipTrigger asChild>
               <button
                 aria-label="Toggle dark mode"
-                className="rounded p-2 bg-transparent hover:bg-[#18181b] transition-colors h-9 w-9 flex items-center justify-center"
+                className="rounded p-2 bg-transparent hover:bg-zinc-800 transition-colors h-9 w-9 flex items-center justify-center"
                 onClick={handleThemeToggle}
                 data-testid="dark-toggle"
                 type="button"
               >
                 {dark ? (
-                  <Moon size={18} className="text-[#a1a1aa]" />
+                  <Moon size={18} className="text-zinc-400" />
                 ) : (
-                  <Sun size={18} className="text-[#a1a1aa]" />
+                  <Sun size={18} className="text-zinc-400" />
                 )}
               </button>
             </TooltipTrigger>
