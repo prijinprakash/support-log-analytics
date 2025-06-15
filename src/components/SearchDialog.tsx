@@ -5,14 +5,13 @@ import {
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
-import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useState, useEffect } from "react";
+import { Search, X } from "lucide-react";
+import { Trash } from "lucide-react";
 
-const RECENT_SEARCHES = [
-  "React Tailwind",
-  "Shadcn UI",
-  "Algolia Search Clone",
-];
+const STORAGE_KEY = "searchDialog_recentSearches";
+const MAX_RECENT_SEARCHES = 5;
 
 export default function SearchDialog({
   open,
@@ -23,6 +22,59 @@ export default function SearchDialog({
 }) {
   const [mode, setMode] = useState("normal");
   const [searchValue, setSearchValue] = useState("");
+  const [recentSearches, setRecentSearches] = useState<string[]>([]);
+
+  // Load recent searches from localStorage on component mount
+  useEffect(() => {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed)) {
+          setRecentSearches(parsed.slice(0, MAX_RECENT_SEARCHES));
+        }
+      } catch (error) {
+        console.error("Failed to parse recent searches from localStorage:", error);
+      }
+    }
+  }, []);
+
+  // Save recent searches to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(recentSearches));
+  }, [recentSearches]);
+
+  const addToRecentSearches = (searchTerm: string) => {
+    if (!searchTerm.trim()) return;
+    
+    setRecentSearches(prev => {
+      const filtered = prev.filter(item => item !== searchTerm);
+      const updated = [searchTerm, ...filtered].slice(0, MAX_RECENT_SEARCHES);
+      return updated;
+    });
+  };
+
+  const removeFromRecentSearches = (searchTerm: string) => {
+    setRecentSearches(prev => prev.filter(item => item !== searchTerm));
+  };
+
+  const clearSearchInput = () => {
+    setSearchValue("");
+  };
+
+  const handleRecentSearchClick = (searchTerm: string) => {
+    setSearchValue(searchTerm);
+    addToRecentSearches(searchTerm);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (searchValue.trim()) {
+      addToRecentSearches(searchValue.trim());
+      // Handle search submission here
+      console.log("Searching for:", searchValue.trim());
+    }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -61,38 +113,68 @@ export default function SearchDialog({
           </div>
 
           {/* Search Input */}
-          <div className="relative mb-6">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input
-              autoFocus
-              value={searchValue}
-              onChange={e => setSearchValue(e.target.value)}
-              placeholder="Enter search term..."
-              className="pl-10 h-12 bg-secondary border-zinc-700 text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand"
-            />
-          </div>
+          <form onSubmit={handleSubmit} className="mb-6">
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                autoFocus
+                value={searchValue}
+                onChange={e => setSearchValue(e.target.value)}
+                placeholder="Enter search term..."
+                className="pl-10 pr-10 h-12 bg-secondary border-zinc-700 text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0"
+              />
+              {searchValue && (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="icon"
+                  onClick={clearSearchInput}
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground hover:text-foreground"
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              )}
+            </div>
+          </form>
 
           {/* Recent Searches */}
-          <div className="space-y-3">
-            <h3 className="text-sm font-medium text-muted-foreground">
-              Recent Searches
-            </h3>
-            <div className="space-y-1">
-              {RECENT_SEARCHES.map((searchTerm, index) => (
-                <div
-                  key={searchTerm}
-                  className={`px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
-                    searchValue.trim() === "" && index === 0
-                      ? "bg-zinc-800 text-foreground"
-                      : "text-muted-foreground hover:bg-zinc-800 hover:text-foreground"
-                  }`}
-                  onClick={() => setSearchValue(searchTerm)}
-                >
-                  <span className="text-sm">{searchTerm}</span>
-                </div>
-              ))}
+          {recentSearches.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-medium text-muted-foreground">
+                Recent Searches
+              </h3>
+              <div className="space-y-1">
+                {recentSearches.map((searchTerm, index) => (
+                  <div
+                    key={`${searchTerm}-${index}`}
+                    className={`group flex items-center justify-between px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
+                      searchValue.trim() === "" && index === 0
+                        ? "bg-zinc-800 text-foreground"
+                        : "text-muted-foreground hover:bg-zinc-800 hover:text-foreground"
+                    }`}
+                  >
+                    <span 
+                      className="text-sm flex-1"
+                      onClick={() => handleRecentSearchClick(searchTerm)}
+                    >
+                      {searchTerm}
+                    </span>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        removeFromRecentSearches(searchTerm);
+                      }}
+                      className="h-6 w-6 opacity-0 group-hover:opacity-100 text-muted-foreground hover:text-red-400 transition-opacity"
+                    >
+                      <Trash className="h-3 w-3" />
+                    </Button>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </DialogContent>
     </Dialog>
