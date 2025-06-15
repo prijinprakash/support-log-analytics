@@ -7,10 +7,12 @@ import { Settings as SettingsIcon, User, Bell, Shield, Palette } from "lucide-re
 const Settings = () => {
   return (
     <div className="relative min-h-screen bg-background text-foreground flex flex-col">
-      <Header />
-      <div className="flex flex-col flex-1">
+      <div className="sticky top-0 z-50">
+        <Header />
         <TabNavigation />
-        <main className="flex-1 container mx-auto px-4 py-8" style={{ minHeight: "calc(100vh - 44px - 60px - 33px)" }}>
+      </div>
+      <div className="flex flex-col flex-1">
+        <main className="flex-1 container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             <div className="flex items-center gap-3 mb-8">
               <SettingsIcon size={32} className="text-primary" />
