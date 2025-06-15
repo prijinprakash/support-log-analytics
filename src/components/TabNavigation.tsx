@@ -47,14 +47,22 @@ const TabNavigation = () => {
   const activeTab = getActiveTabFromRoute();
 
   const addTab = () => {
-    const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
+    // Navigate to index page when "New case" is clicked
+    navigate('/');
+  };
+
+  // Function to handle opening a specific case (called from other components)
+  const openCase = (caseNumber: string) => {
     const newCaseId = generateCaseId();
     const newId = Date.now().toString();
-    const newTab = { id: newId, label: newLabel, caseId: newCaseId };
+    const newTab = { id: newId, label: caseNumber, caseId: newCaseId };
     
     setTabs([...tabs, newTab]);
     navigate(`/cases/${newCaseId}`);
   };
+
+  // Make openCase available globally
+  (window as any).openCase = openCase;
 
   const closeTab = (id: string) => {
     const tabToClose = tabs.find(t => t.id === id);

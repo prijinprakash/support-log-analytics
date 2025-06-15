@@ -1,9 +1,31 @@
 
 import { useParams } from "react-router-dom";
 import { FileText, Clock, User, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import PageLoader from "@/components/PageLoader";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulate loading time for the case details
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 800);
+
+    return () => clearTimeout(timer);
+  }, [caseId]);
+
+  if (isLoading) {
+    return (
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <PageLoader />
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="container mx-auto px-4 py-8">
