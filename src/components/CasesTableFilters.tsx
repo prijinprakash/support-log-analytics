@@ -31,25 +31,25 @@ export const CasesTableFilters: React.FC<CasesTableFiltersProps> = ({
             placeholder="Search case number, serial, or host…"
             value={search}
             onChange={e => onSearchChange(e.target.value)}
-            className="w-full pl-10 bg-lightbackground border-brand/30 text-white placeholder:text-gray-400 focus:border-brand h-10"
+            className="w-full pl-10 bg-background border-border text-foreground placeholder:text-muted-foreground focus:border-primary h-10"
           />
-          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+          <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground w-4 h-4" />
         </div>
         <Select value={statusFilter} onValueChange={onStatusFilterChange}>
-          <SelectTrigger className="sm:min-w-[180px] bg-lightbackground border-brand/30 text-white focus:border-brand h-10">
+          <SelectTrigger className="sm:min-w-[180px] bg-background border-border text-foreground focus:border-primary h-10">
             <SelectValue placeholder="Filter by status" />
           </SelectTrigger>
-          <SelectContent className="bg-[#191a1b] border-brand/30">
-            <SelectItem value="all" className="text-white hover:bg-brand/20">All statuses</SelectItem>
+          <SelectContent className="bg-background border-border">
+            <SelectItem value="all" className="text-foreground hover:bg-accent hover:text-accent-foreground">All statuses</SelectItem>
             {statusOptions.map((status) => (
-              <SelectItem value={status} key={status} className="text-white hover:bg-brand/20">
+              <SelectItem value={status} key={status} className="text-foreground hover:bg-accent hover:text-accent-foreground">
                 {status.charAt(0).toUpperCase() + status.slice(1)}
               </SelectItem>
             ))}
           </SelectContent>
         </Select>
       </div>
-      <div className="text-sm text-gray-400 mt-1 sm:mt-0">
+      <div className="text-sm text-muted-foreground mt-1 sm:mt-0">
         Showing {resultCount} results{search && ` for '${search}'`}
       </div>
     </div>

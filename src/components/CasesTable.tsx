@@ -40,8 +40,6 @@ function generateDemoCases(): Case[] {
     }));
 }
 
-const PAGE_SIZE = 10;
-
 const CasesTable: React.FC = () => {
   // Table state
   const [data] = useState<Case[]>(generateDemoCases());
@@ -50,6 +48,7 @@ const CasesTable: React.FC = () => {
   const [sortBy, setSortBy] = useState<"id" | "createdAt" | "status">("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   // Timezone from localStorage or default (sync to changes)
   const [timezone, setTimezone] = useState<string>(moment.tz.guess());
@@ -103,11 +102,11 @@ const CasesTable: React.FC = () => {
   }, [data, search, statusFilter, sortBy, sortDir]);
 
   const paginated = useMemo(() => {
-    const start = (page - 1) * PAGE_SIZE;
-    return filteredData.slice(start, start + PAGE_SIZE);
-  }, [filteredData, page]);
+    const start = (page - 1) * pageSize;
+    return filteredData.slice(start, start + pageSize);
+  }, [filteredData, page, pageSize]);
 
-  const pageCount = Math.ceil(filteredData.length / PAGE_SIZE);
+  const pageCount = Math.ceil(filteredData.length / pageSize);
 
   function handleSort(column: "id" | "createdAt" | "status") {
     if (sortBy === column) setSortDir(sortDir === "asc" ? "desc" : "asc");
@@ -127,6 +126,11 @@ const CasesTable: React.FC = () => {
     setPage(1);
   };
 
+  const handlePageSizeChange = (newPageSize: number) => {
+    setPageSize(newPageSize);
+    setPage(1);
+  };
+
   return (
     <section className="mx-auto px-4 max-w-7xl py-8 w-full">
       <CasesTableFilters
@@ -137,38 +141,38 @@ const CasesTable: React.FC = () => {
         resultCount={filteredData.length}
       />
       
-      <div className="bg-lightbackground rounded-lg border border-brand/20 overflow-hidden">
+      <div className="bg-card rounded-lg border border-border overflow-hidden">
         <Table>
           <TableHeader>
-            <TableRow className="border-b border-brand/20 hover:bg-transparent">
-              <TableHead className="h-14 px-6 cursor-pointer select-none text-gray-300 font-semibold" onClick={() => handleSort("id")}>
+            <TableRow className="border-b border-border hover:bg-transparent">
+              <TableHead className="h-12 px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
                 <span className="inline-flex items-center">
                   ID
-                  {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-brand" /> : <ChevronDown className="ml-1 w-4 h-4 text-brand" />)}
+                  {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[140px] px-6 text-gray-300 font-semibold">Case Number</TableHead>
-              <TableHead className="min-w-[130px] px-6 cursor-pointer select-none text-gray-300 font-semibold" onClick={() => handleSort("status")}>
+              <TableHead className="min-w-[140px] px-3 text-muted-foreground font-semibold">Case Number</TableHead>
+              <TableHead className="min-w-[130px] px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
                 <span className="inline-flex items-center">
                   Status
-                  {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-brand" /> : <ChevronDown className="ml-1 w-4 h-4 text-brand" />)}
+                  {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="px-6 text-gray-300 font-semibold">Serial Number</TableHead>
-              <TableHead className="px-6 text-gray-300 font-semibold">Host Name</TableHead>
-              <TableHead className="min-w-[160px] px-6 cursor-pointer select-none text-gray-300 font-semibold" onClick={() => handleSort("createdAt")}>
+              <TableHead className="px-3 text-muted-foreground font-semibold">Serial Number</TableHead>
+              <TableHead className="px-3 text-muted-foreground font-semibold">Host Name</TableHead>
+              <TableHead className="min-w-[160px] px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
                 <span className="inline-flex items-center">
                   Created At
-                  {sortBy === "createdAt" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-brand" /> : <ChevronDown className="ml-1 w-4 h-4 text-brand" />)}
+                  {sortBy === "createdAt" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[160px] px-6 text-gray-300 font-semibold">Syslog End Time</TableHead>
+              <TableHead className="min-w-[160px] px-3 text-muted-foreground font-semibold">Syslog End Time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {paginated.length === 0 ? (
-              <TableRow className="border-b border-brand/10 hover:bg-brand/5">
-                <TableCell colSpan={7} className="text-center text-gray-400 py-12 px-6">
+              <TableRow className="border-b border-border hover:bg-muted/50">
+                <TableCell colSpan={7} className="text-center text-muted-foreground py-12 px-3">
                   No results found.
                 </TableCell>
               </TableRow>
@@ -185,6 +189,9 @@ const CasesTable: React.FC = () => {
         currentPage={page}
         totalPages={pageCount}
         onPageChange={setPage}
+        pageSize={pageSize}
+        onPageSizeChange={handlePageSizeChange}
+        totalItems={filteredData.length}
       />
     </section>
   );
