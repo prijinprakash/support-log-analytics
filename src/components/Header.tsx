@@ -61,14 +61,13 @@ const Header = () => {
         >
           {/* Left: Logo and title */}
           <div className="flex justify-between items-center gap-10 h-full">
-            <button className="flex items-center" aria-label="Home" onClick={() => navigate('/')}>
-              <img
-                src="logo.svg"
-                alt="Logo"
-                className="h-8 w-8 rounded"
-                draggable={false}
-              />
-            </button>
+            <img
+              src="/logo.svg"
+              alt="Logo"
+              className="h-8 w-8 rounded"
+              draggable={false}
+              onClick={() => navigate('/')}
+            />
             <SearchBar />
           </div>
           
