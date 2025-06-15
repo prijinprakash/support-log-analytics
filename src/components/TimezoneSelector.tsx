@@ -1,6 +1,6 @@
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ChevronDown, Globe } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import moment from "moment-timezone";
@@ -18,7 +18,20 @@ function formatTimezoneWithOffset(timezone: string): string {
 const TimezoneSelector = () => {
   const [open, setOpen] = useState(false);
   const [search, setSearch] = useState("");
-  const [tz, setTz] = useState(moment.tz.guess());
+  const [tz, setTz] = useState("");
+
+  useEffect(() => {
+    // Load timezone from localStorage or default to user's local timezone
+    const savedTimezone = localStorage.getItem('selectedTimezone');
+    const defaultTimezone = savedTimezone || moment.tz.guess();
+    setTz(defaultTimezone);
+  }, []);
+
+  const handleTimezoneChange = (newTimezone: string) => {
+    setTz(newTimezone);
+    localStorage.setItem('selectedTimezone', newTimezone);
+    setOpen(false);
+  };
 
   const zones = getTimezones().filter(z =>
     z.toLowerCase().includes(search.toLowerCase())
@@ -39,7 +52,7 @@ const TimezoneSelector = () => {
                 {tz.replace(/_/g, ' ')}
               </span>
               <span className="ml-2 text-xs text-[#aaa] flex-shrink-0">
-                {moment.tz(tz).format('Z')}
+                {tz && moment.tz(tz).format('Z')}
               </span>
               <ChevronDown size={14} className="ml-1 flex-shrink-0" />
             </button>
@@ -59,10 +72,7 @@ const TimezoneSelector = () => {
                 <div
                   key={zone}
                   className={`px-2 py-2 rounded-md cursor-pointer hover:bg-[#03bd4d30] text-white text-sm ${tz === zone ? "bg-[#03bd4d60] font-medium" : ""}`}
-                  onClick={() => {
-                    setTz(zone);
-                    setOpen(false);
-                  }}
+                  onClick={() => handleTimezoneChange(zone)}
                 >
                   <div className="flex justify-between items-center">
                     <span className="truncate">{zone.replace(/_/g, ' ')}</span>
