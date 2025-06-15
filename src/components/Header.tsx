@@ -61,14 +61,14 @@ const Header = () => {
         >
           {/* Left: Logo and title */}
           <div className="flex justify-between items-center gap-10 h-full">
-            <a href="/" className="flex items-center" aria-label="Home">
+            <button className="flex items-center" aria-label="Home" onClick={() => navigate('/')}>
               <img
                 src="logo.svg"
                 alt="Logo"
                 className="h-8 w-8 rounded"
                 draggable={false}
               />
-            </a>
+            </button>
             <SearchBar />
           </div>
           

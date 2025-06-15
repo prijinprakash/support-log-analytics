@@ -1,6 +1,6 @@
 
 import { X, Plus } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -33,9 +33,6 @@ const TabNavigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Check if we're on a page where tabs should be disabled
-  const isTabsDisabled = location.pathname === "/statistics" || location.pathname === "/settings";
-
   // Determine active tab based on current route
   const getActiveTabFromRoute = () => {
     const caseMatch = location.pathname.match(/^\/cases\/(.+)$/);
@@ -48,26 +45,6 @@ const TabNavigation = () => {
   };
 
   const activeTab = getActiveTabFromRoute();
-
-  // Get page title based on current route
-  const getPageTitle = () => {
-    switch (location.pathname) {
-      case "/settings":
-        return "Settings";
-      case "/statistics":
-        return "User Statistics";
-      default:
-        if (location.pathname.startsWith("/cases/")) {
-          const caseMatch = location.pathname.match(/^\/cases\/(.+)$/);
-          if (caseMatch) {
-            const caseId = caseMatch[1];
-            const tab = tabs.find(t => t.caseId === caseId);
-            return tab ? `Case ${tab.label}` : "Case Details";
-          }
-        }
-        return "Cases";
-    }
-  };
 
   const addTab = () => {
     const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
@@ -130,11 +107,7 @@ const TabNavigation = () => {
             height: TABS_HEIGHT,
           }}
         >
-          {isTabsDisabled ? (
-            <div className="flex items-center h-full text-zinc-400 text-sm px-4 w-full">
-              {getPageTitle()}
-            </div>
-          ) : tabs.length === 0 ? (
+          {tabs.length === 0 ? (
             <div className="flex items-center h-full text-zinc-400 text-sm px-4 w-full">
               No cases open.
             </div>
@@ -178,21 +151,18 @@ const TabNavigation = () => {
             ))
           )}
         </div>
-        {/* New case button right-aligned - only show if tabs are not disabled */}
-        {!isTabsDisabled && (
-          <div className="flex flex-0 items-center h-full min-w-[110px] justify-end pl-4">
-            <Button
-              onClick={addTab}
-              variant="outline"
-              className="border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
-              aria-label="Open new tab"
-              style={{ alignSelf: 'center' }}
-            >
-              <Plus size={16} />
-              <span className="ml-1 text-xs">New case</span>
-            </Button>
-          </div>
-        )}
+        <div className="flex flex-0 items-center h-full min-w-[110px] justify-end pl-4">
+          <Button
+            onClick={addTab}
+            variant="outline"
+            className="bg-headerbackground border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            aria-label="Open new tab"
+            style={{ alignSelf: 'center' }}
+          >
+            <Plus size={16} />
+            <span className="ml-1 text-xs">New case</span>
+          </Button>
+        </div>
       </div>
     </div>
   );
