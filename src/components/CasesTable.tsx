@@ -47,8 +47,17 @@ const CasesTable: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"id" | "createdAt" | "status">("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  const [page, setPage] = useState(1);
-  const [pageSize, setPageSize] = useState(10);
+  
+  // Initialize pagination from localStorage
+  const [page, setPage] = useState(() => {
+    const savedPage = localStorage.getItem("casesTableCurrentPage");
+    return savedPage ? parseInt(savedPage, 10) : 1;
+  });
+  
+  const [pageSize, setPageSize] = useState(() => {
+    const savedPageSize = localStorage.getItem("casesTablePageSize");
+    return savedPageSize ? parseInt(savedPageSize, 10) : 10;
+  });
 
   // Timezone from localStorage or default (sync to changes)
   const [timezone, setTimezone] = useState<string>(moment.tz.guess());
@@ -65,6 +74,15 @@ const CasesTable: React.FC = () => {
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
+
+  // Save pagination settings to localStorage
+  useEffect(() => {
+    localStorage.setItem("casesTableCurrentPage", page.toString());
+  }, [page]);
+
+  useEffect(() => {
+    localStorage.setItem("casesTablePageSize", pageSize.toString());
+  }, [pageSize]);
 
   // Filtering, Searching, Sorting, Pagination
   const filteredData = useMemo(() => {
