@@ -1,7 +1,7 @@
-
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
 import UploadDialog from "./UploadDialog";
+import HelpDialog from "./HelpDialog";
 import { HelpCircle, Moon, Sun } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 const Header = () => {
   const [dark, setDark] = useState(true);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
+  const [helpDialogOpen, setHelpDialogOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -106,6 +107,7 @@ const Header = () => {
                   aria-label="help"
                   className="navicon"
                   type="button"
+                  onClick={() => setHelpDialogOpen(true)}
                 >
                   <HelpCircle size={18} className="text-zinc-400"/>
                 </button>
@@ -149,6 +151,7 @@ const Header = () => {
         </div>
       </header>
       <UploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
+      <HelpDialog open={helpDialogOpen} onOpenChange={setHelpDialogOpen} />
     </>
   );
 };
