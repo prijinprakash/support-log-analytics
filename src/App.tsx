@@ -25,7 +25,7 @@ const App = () => (
           <Header />
           <TabNavigation />
         </div>
-        <div className="relative dark:bg-background bg-[#f8f8f8] text-foreground flex flex-col overflow-hidden h-screen">
+        <div className="relative dark:bg-background bg-[#f8f8f8] text-foreground flex flex-col overflow-hidden min-h-[calc(100vh-130px)]">
           {/* <div className="flex flex-col flex-1 min-h-0"> */}
             {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
@@ -38,8 +38,8 @@ const App = () => (
               </Routes>
             {/* </ScrollArea> */}
           {/* </div> */}
-          <Footer />
         </div>
+        <Footer />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

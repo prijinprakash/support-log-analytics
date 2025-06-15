@@ -24,7 +24,7 @@ export const CasesTableFilters: React.FC<CasesTableFiltersProps> = ({
   resultCount,
 }) => {
   return (
-    <div className="mb-6 flex flex-col sm:flex-row gap-4 sm:items-end justify-between">
+    <div className="mb-6 flex flex-col sm:flex-row gap-4 sm:items-center justify-between">
       <div className="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
         <div className="relative flex-1 min-w-[300px]">
           <Input
