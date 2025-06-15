@@ -2,12 +2,8 @@
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogClose,
 } from "@/components/ui/dialog";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { X } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
 
@@ -73,15 +69,6 @@ export default function SearchDialog({
                 </span>
               </label>
             </RadioGroup>
-            {/* Close button, just in case */}
-            <DialogClose asChild>
-              <button
-                className="text-[#888] hover:text-white p-2 rounded transition-colors -mr-2"
-                aria-label="Close search dialog"
-              >
-                <X size={20} />
-              </button>
-            </DialogClose>
           </div>
           {/* Search bar inside dialog */}
           <Input

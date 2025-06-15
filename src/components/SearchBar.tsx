@@ -46,13 +46,13 @@ const SearchBar = () => {
         </span>
         {/* Label */}
         <span className="truncate text-left text-[#bbb] pr-2 flex-1">Search ...</span>
-        {/* Filter icon, inline */}
-        <span className="ml-2 flex items-center text-[#6bd17b]">
-          <ListFilter size={16} className="align-middle" />
-        </span>
         {/* Keyboard shortcut */}
         <span className="ml-2 px-1.5 py-0.5 text-xs rounded bg-[#232324] text-[#bbb] border border-[#28282a] font-mono tracking-tight">
           {getShortcutLabel()}
+        </span>
+        {/* Filter icon, inline after shortcut */}
+        <span className="ml-2 flex items-center text-[#6bd17b]">
+          <ListFilter size={16} className="align-middle" />
         </span>
       </button>
       <SearchDialog open={open} onOpenChange={setOpen} />
@@ -61,4 +61,3 @@ const SearchBar = () => {
 };
 
 export default SearchBar;
-

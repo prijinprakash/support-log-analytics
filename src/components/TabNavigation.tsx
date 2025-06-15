@@ -41,6 +41,14 @@ const TabNavigation = () => {
     if (newActive) setActiveTab(newActive);
   };
 
+  // Calculate dynamic tab width based on number of tabs
+  const getTabWidth = () => {
+    if (tabs.length <= 4) return "min-w-[90px] max-w-[180px]";
+    if (tabs.length <= 6) return "min-w-[70px] max-w-[140px]";
+    if (tabs.length <= 8) return "min-w-[60px] max-w-[120px]";
+    return "min-w-[50px] max-w-[100px]";
+  };
+
   return (
     <div className="w-full bg-[#09090b] border-b border-[#18191b]">
       <div
@@ -59,7 +67,7 @@ const TabNavigation = () => {
         {/* Tabs */}
         <div
           className={cn(
-            "flex items-center gap-0 overflow-x-auto scrollbar-thin scrollbar-thumb-[#23282d] scrollbar-track-transparent flex-1 min-w-0 h-full"
+            "flex items-center gap-0 flex-1 min-w-0 h-full overflow-hidden"
           )}
           style={{
             minHeight: TABS_HEIGHT,
@@ -81,11 +89,10 @@ const TabNavigation = () => {
                     : "bg-transparent text-[#aaa] hover:bg-[#16191d]",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
-                  // Only minimum width to prevent over-expansion for few tabs
-                  "min-w-[90px] max-w-[180px]"
+                  getTabWidth()
                 )}
                 style={{
-                  flex: "0 0 auto", // No grow!
+                  flex: tabs.length > 4 ? "1 1 0px" : "0 0 auto",
                   overflow: "hidden",
                   textOverflow: "ellipsis",
                   whiteSpace: "nowrap"
