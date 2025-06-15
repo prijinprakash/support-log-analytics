@@ -88,7 +88,6 @@ export default function SearchDialog({
               <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="normal"
-                  className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
                 <span className={`text-sm font-medium transition-colors ${
                   mode === "normal"
@@ -101,7 +100,6 @@ export default function SearchDialog({
               <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="advanced"
-                  className="border-border data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
                 <span className={`text-sm font-medium transition-colors ${
                   mode === "advanced"
@@ -123,7 +121,7 @@ export default function SearchDialog({
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
                 placeholder="Enter search term..."
-                className="pl-11 pr-11 h-12 bg-secondary/70 dark:bg-secondary border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0 transition-colors"
+                className="pl-11 pr-11 h-12 bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0 transition-colors"
                 style={{ boxShadow: "none" }} // Ensure no forced box-shadow in input
               />
               {searchValue && (
@@ -151,11 +149,7 @@ export default function SearchDialog({
                 {recentSearches.map((searchTerm, index) => (
                   <div
                     key={`${searchTerm}-${index}`}
-                    className={`group flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors
-                      ${searchValue.trim() === "" && index === 0
-                        ? "bg-secondary/80 dark:bg-secondary/60 border border-border text-foreground"
-                        : "hover:bg-accent/50 hover:text-foreground bg-transparent text-muted-foreground"
-                      }`}
+                    className="group flex items-center justify-between px-3 py-2 rounded-md cursor-pointer transition-colors hover:bg-accent/50 hover:text-foreground bg-transparent text-muted-foreground"
                   >
                     <span 
                       className="text-sm flex-1 truncate"
