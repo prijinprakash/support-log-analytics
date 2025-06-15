@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react";
 import {
   Dialog,
@@ -21,12 +20,14 @@ const ANALYSIS_OPTIONS = [
       {
         key: "cpu-utilization",
         name: "CPU Utilization",
-        description: "Inspect CPU consumption spikes that may indicate problems."
+        description: "Inspect CPU consumption spikes that may indicate problems.",
+        alert: true, // marked as alert
       },
       {
         key: "ptop-memory",
         name: "Ptop Memory",
-        description: "Analyze memory utilization recorded by ptop logs."
+        description: "Analyze memory utilization recorded by ptop logs.",
+        alert: false,
       }
     ]
   },
@@ -37,12 +38,14 @@ const ANALYSIS_OPTIONS = [
       {
         key: "disk-io",
         name: "Disk IO Patterns",
-        description: "View disk I/O usage and bottlenecks."
+        description: "View disk I/O usage and bottlenecks.",
+        alert: true, // marked as alert
       },
       {
         key: "network-latency",
         name: "Network Latency",
-        description: "Analyze network request delays."
+        description: "Analyze network request delays.",
+        alert: false,
       }
     ]
   }
@@ -73,6 +76,14 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
       setTimeout(() => {
         searchInputRef.current?.focus();
       }, 150);
+
+      // Random select one alert analysis if not already in selectedAnalyses
+      const allAnalyses = getAllAnalyses();
+      const alertAnalyses = allAnalyses.filter(a => a.alert);
+      if (alertAnalyses.length && selectedAnalyses.length === 0) {
+        const random = alertAnalyses[Math.floor(Math.random() * alertAnalyses.length)];
+        setSelectedAnalyses([random.key]);
+      }
     } else {
       setSearchTerm("");
       // Not clearing selection here (only search)
@@ -145,9 +156,13 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
     return allAnalyses.find(analysis => analysis.key === key)?.description || "";
   };
 
+  const getAnalysisObject = (key: string) => {
+    return getAllAnalyses().find(analysis => analysis.key === key);
+  };
+
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-3xl w-full max-h-[90vh] flex flex-col p-8">
+      <DialogContent className="max-w-5xl w-full max-h-[95vh] flex flex-col p-10">
         <DialogHeader>
           <DialogTitle>Select Analyses</DialogTitle>
         </DialogHeader>
@@ -175,29 +190,44 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
             )}
             {(selectedAnalyses.length > 0) && (
               <div className="flex flex-wrap gap-1 mt-2">
-                {selectedAnalyses.map(analysisKey => (
-                  <Badge
-                    key={analysisKey}
-                    variant="secondary"
-                    className="flex items-center gap-1 text-xs bg-secondary border border-primary text-primary-foreground shadow"
-                    style={{
-                      background:
-                        "var(--chip-bg, theme(colors.secondary))",
-                      border: "1px solid var(--chip-border, theme(colors.primary))",
-                      color: "var(--chip-fg, theme(colors.primary))",
-                    }}
-                  >
-                    {getAnalysisName(analysisKey)}
-                    <button
-                      onClick={() => removeSelectedAnalysis(analysisKey)}
-                      className="hover:bg-primary/10 ml-1 rounded-full p-0.5 focus:outline-none"
-                      tabIndex={-1}
-                      aria-label="Remove selected analysis"
+                {selectedAnalyses.map(analysisKey => {
+                  const analysisObj = getAnalysisObject(analysisKey);
+                  const isAlert = analysisObj?.alert;
+                  return (
+                    <Badge
+                      key={analysisKey}
+                      variant="secondary"
+                      className={`flex items-center gap-1 text-xs border shadow
+                        ${isAlert
+                          ? "bg-red-100 border-red-500 text-red-800"
+                          : "bg-secondary border-primary text-primary-foreground"
+                        }`}
+                      style={
+                        isAlert
+                          ? {
+                            background: "var(--chip-bg-danger, #fee2e2)",
+                            border: "1px solid var(--chip-border-danger, #ef4444)",
+                            color: "var(--chip-fg-danger, #991b1b)",
+                          }
+                          : {
+                            background: "var(--chip-bg, theme(colors.secondary))",
+                            border: "1px solid var(--chip-border, theme(colors.primary))",
+                            color: "var(--chip-fg, theme(colors.primary))"
+                          }
+                      }
                     >
-                      <X size={12} />
-                    </button>
-                  </Badge>
-                ))}
+                      {getAnalysisName(analysisKey)}
+                      <button
+                        onClick={() => removeSelectedAnalysis(analysisKey)}
+                        className="hover:bg-primary/10 ml-1 rounded-full p-0.5 focus:outline-none"
+                        tabIndex={-1}
+                        aria-label="Remove selected analysis"
+                      >
+                        <X size={12} />
+                      </button>
+                    </Badge>
+                  );
+                })}
                 <button
                   type="button"
                   onClick={clearAllSelectedAnalyses}
@@ -229,28 +259,39 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
               >
                 <div className="flex flex-col gap-1">
                   {getFilteredAnalyses(tab.key).length > 0 &&
-                    getFilteredAnalyses(tab.key).map(analysis => (
-                      <div
-                        key={analysis.key}
-                        onClick={() => handleAnalysisClick(analysis.key)}
-                        className={`
-                          flex items-center gap-2 p-2 rounded cursor-pointer transition-colors border
-                          ${selectedAnalyses.includes(analysis.key)
-                            ? "bg-primary/10 border-primary"
-                            : "hover:bg-muted border-transparent"}
-                        `}
-                        tabIndex={0}
-                        role="button"
-                        aria-pressed={selectedAnalyses.includes(analysis.key)}
-                      >
-                        <span className={`font-medium ${selectedAnalyses.includes(analysis.key) ? "text-primary" : ""}`}>
-                          {analysis.name}
-                        </span>
-                        <span className="text-xs text-muted-foreground ml-1">
-                          {analysis.description}
-                        </span>
-                      </div>
-                    ))}
+                    getFilteredAnalyses(tab.key).map(analysis => {
+                      const isSelected = selectedAnalyses.includes(analysis.key);
+                      const isAlert = analysis.alert;
+                      return (
+                        <div
+                          key={analysis.key}
+                          onClick={() => handleAnalysisClick(analysis.key)}
+                          className={`
+                            flex items-center gap-2 p-2 rounded cursor-pointer transition-colors border
+                            ${isSelected && isAlert
+                              ? "bg-red-100 border-red-500"
+                              : isAlert
+                                ? "bg-red-50 border-red-300"
+                                : isSelected
+                                  ? "bg-primary/10 border-primary"
+                                  : "hover:bg-muted border-transparent"}
+                          `}
+                          tabIndex={0}
+                          role="button"
+                          aria-pressed={isSelected}
+                        >
+                          <span className={`font-medium ${isSelected || isAlert ? (isAlert ? "text-red-800" : "text-primary") : ""}`}>
+                            {analysis.name}
+                          </span>
+                          <span className="text-xs text-muted-foreground ml-1">
+                            {analysis.description}
+                          </span>
+                          {isAlert && (
+                            <span className="ml-2 text-xs font-semibold text-red-700 bg-red-200 rounded px-1 py-0.5">Alert</span>
+                          )}
+                        </div>
+                      );
+                    })}
                   {getFilteredAnalyses(tab.key).length === 0 && (
                     <div className="text-center text-muted-foreground py-8">
                       No analyses found matching your search.
