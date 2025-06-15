@@ -2,6 +2,7 @@
 import { Search, ListFilter } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
 import SearchDialog from "./SearchDialog";
+import FilterDialog from "./FilterDialog";
 
 // Platform-specific shortcut display
 function getShortcutLabel() {
@@ -9,7 +10,8 @@ function getShortcutLabel() {
 }
 
 const SearchBar = () => {
-  const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [filterOpen, setFilterOpen] = useState(false);
 
   // Keyboard shortcut handler (Cmd+K or Ctrl+K)
   const handleKeydown = useCallback((event: KeyboardEvent) => {
@@ -20,7 +22,7 @@ const SearchBar = () => {
       (event.key === "k" || event.key === "K")
     ) {
       event.preventDefault();
-      setOpen(true);
+      setSearchOpen(true);
     }
   }, []);
 
@@ -28,6 +30,15 @@ const SearchBar = () => {
     window.addEventListener("keydown", handleKeydown);
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [handleKeydown]);
+
+  const handleSearchClick = () => {
+    setSearchOpen(true);
+  };
+
+  const handleFilterClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    setFilterOpen(true);
+  };
 
   return (
     <>
@@ -37,7 +48,7 @@ const SearchBar = () => {
         aria-label="Open search"
         className="w-full max-w-[220px] h-9 bg-[#222324] text-white rounded-md text-sm flex items-center outline-none border-none shadow-none pl-9 pr-3 py-1.5 relative cursor-pointer hover:bg-[#232324] focus:ring-2 ring-[#03bd4d60] transition-colors min-w-0"
         style={{ minWidth: 0 }}
-        onClick={() => setOpen(true)}
+        onClick={handleSearchClick}
         tabIndex={0}
       >
         {/* Search icon, absolute position */}
@@ -51,11 +62,17 @@ const SearchBar = () => {
           {getShortcutLabel()}
         </span>
         {/* Filter icon, inline after shortcut */}
-        <span className="ml-2 flex items-center text-[#6bd17b]">
+        <button
+          type="button"
+          aria-label="Open filters"
+          className="ml-2 flex items-center text-[#6bd17b] hover:text-[#03bd4d] transition-colors p-1 rounded hover:bg-[#232324]"
+          onClick={handleFilterClick}
+        >
           <ListFilter size={16} className="align-middle" />
-        </span>
+        </button>
       </button>
-      <SearchDialog open={open} onOpenChange={setOpen} />
+      <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
+      <FilterDialog open={filterOpen} onOpenChange={setFilterOpen} />
     </>
   );
 };
