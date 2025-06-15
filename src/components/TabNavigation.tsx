@@ -50,17 +50,17 @@ const TabNavigation = () => {
   };
 
   return (
-    <div className="w-full bg-[#09090b] border-b border-[#18191b]">
+    <div className="w-full bg-card border-b border-border">
       <div
         className={cn(
           "w-full flex items-center px-4",
-          "bg-[#09090b] border-t border-[#18191b]"
+          "bg-card border-t border-border"
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
         {/* Title */}
         <div className="flex items-center min-w-[70px] h-full pr-4">
-          <span className="text-lg font-semibold text-white tracking-tight">
+          <span className="text-lg font-semibold text-card-foreground tracking-tight">
             Cases
           </span>
         </div>
@@ -75,7 +75,7 @@ const TabNavigation = () => {
           }}
         >
           {tabs.length === 0 ? (
-            <div className="flex items-center h-full text-[#fff4] text-sm px-4 w-full">
+            <div className="flex items-center h-full text-muted-foreground text-sm px-4 w-full">
               No cases open.
             </div>
           ) : (
@@ -85,8 +85,8 @@ const TabNavigation = () => {
                 className={cn(
                   "group flex items-center px-3 py-0",
                   activeTab === tab.id
-                    ? "bg-[#212223] text-[#03bd4d] border-b-2 border-[#03bd4d] z-10"
-                    : "bg-transparent text-[#aaa] hover:bg-[#16191d]",
+                    ? "bg-accent text-primary border-b-2 border-primary z-10"
+                    : "bg-transparent text-muted-foreground hover:bg-muted",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
                   getTabWidth()
@@ -106,7 +106,7 @@ const TabNavigation = () => {
                   variant="ghost"
                   size="icon"
                   tabIndex={-1}
-                  className="ml-2 p-0 h-5 w-5 opacity-70 hover:opacity-100 text-[#888] hover:text-[#fc7a7a] cursor-pointer transition rounded focus:outline-none focus:ring-0"
+                  className="ml-2 p-0 h-5 w-5 opacity-70 hover:opacity-100 text-muted-foreground hover:text-destructive cursor-pointer transition rounded focus:outline-none focus:ring-0"
                   onClick={e => {
                     e.stopPropagation();
                     closeTab(tab.id);
@@ -123,7 +123,7 @@ const TabNavigation = () => {
           <Button
             onClick={addTab}
             variant="outline"
-            className="bg-[#191a1d] border border-[#03bd4d70] text-[#03bd4d] hover:bg-[#03bd4d20] transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            className="bg-card border border-primary/70 text-primary hover:bg-primary/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
             aria-label="Open new tab"
             style={{ alignSelf: 'center' }}
           >
