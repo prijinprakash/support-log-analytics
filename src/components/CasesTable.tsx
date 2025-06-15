@@ -132,7 +132,7 @@ const CasesTable: React.FC = () => {
   };
 
   return (
-    <section className="mx-auto px-4 max-w-7xl py-8 w-full">
+    <section className="px-4 w-full">
       <CasesTableFilters
         search={search}
         statusFilter={statusFilter}
@@ -145,28 +145,28 @@ const CasesTable: React.FC = () => {
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border hover:bg-transparent">
-              <TableHead className="h-12 px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
+              <TableHead className="h-12 px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
                 <span className="inline-flex items-center">
                   ID
                   {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[140px] px-3 text-muted-foreground font-semibold">Case Number</TableHead>
-              <TableHead className="min-w-[130px] px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
+              <TableHead className="min-w-[140px] px-2 text-muted-foreground font-semibold">Case Number</TableHead>
+              <TableHead className="min-w-[130px] px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
                 <span className="inline-flex items-center">
                   Status
                   {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="px-3 text-muted-foreground font-semibold">Serial Number</TableHead>
-              <TableHead className="px-3 text-muted-foreground font-semibold">Host Name</TableHead>
-              <TableHead className="min-w-[160px] px-3 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
+              <TableHead className="px-2 text-muted-foreground font-semibold">Serial Number</TableHead>
+              <TableHead className="px-2 text-muted-foreground font-semibold">Host Name</TableHead>
+              <TableHead className="min-w-[160px] px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
                 <span className="inline-flex items-center">
                   Created At
                   {sortBy === "createdAt" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[160px] px-3 text-muted-foreground font-semibold">Syslog End Time</TableHead>
+              <TableHead className="min-w-[160px] px-2 text-muted-foreground font-semibold">Syslog End Time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>

@@ -25,8 +25,8 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
   return (
-    <div className="mt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div className="flex items-center gap-4">
+    <div className="mt-6 flex items-center justify-between gap-4">
+      <div className="flex items-center gap-4 w-full">
         <div className="flex items-center gap-2">
           <span className="text-sm text-muted-foreground">Rows per page:</span>
           <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
@@ -46,7 +46,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
         </div>
       </div>
       
-      <Pagination>
+      <Pagination className="justify-end">
         <PaginationContent className="gap-1">
           <PaginationItem>
             <PaginationLink

@@ -28,8 +28,8 @@ export const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseData, ti
 
   return (
     <TableRow className="border-b border-brand/10 hover:bg-brand/5 transition-colors dark:hover:bg-brand/5">
-      <TableCell className="px-3 py-2 text-foreground font-medium">{caseData.id}</TableCell>
-      <TableCell className="px-3 py-2">
+      <TableCell className="px-2 py-1 text-foreground font-medium">{caseData.id}</TableCell>
+      <TableCell className="px-2 py-1">
         <button
           onClick={() => navigate(`/cases/${caseData.uuid}`)}
           className="text-brand font-mono underline-offset-2 hover:underline hover:text-brand/80 transition-colors px-1 py-1 font-semibold"
@@ -37,15 +37,15 @@ export const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseData, ti
           {caseData.caseNumber}
         </button>
       </TableCell>
-      <TableCell className="px-3 py-2">
+      <TableCell className="px-2 py-1">
         <CaseStatusBadge status={caseData.status} />
       </TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground font-mono text-sm">{caseData.serialNumber}</TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground">{caseData.hostName}</TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground font-mono text-sm">
+      <TableCell className="px-2 py-1 text-muted-foreground font-mono text-sm">{caseData.serialNumber}</TableCell>
+      <TableCell className="px-2 py-1 text-muted-foreground">{caseData.hostName}</TableCell>
+      <TableCell className="px-2 py-1 text-muted-foreground font-mono text-sm">
         {moment(caseData.createdAt).tz(timezone).format("YYYY-MM-DD HH:mm")}
       </TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground font-mono text-sm">
+      <TableCell className="px-2 py-1 text-muted-foreground font-mono text-sm">
         {moment(caseData.syslogEndTime).tz(timezone).format("YYYY-MM-DD HH:mm")}
       </TableCell>
     </TableRow>
