@@ -13,21 +13,17 @@ const Index = () => {
       <Header />
       <div className="flex flex-col flex-1">
         <TabNavigation />
-        <main className="flex-1" style={{ minHeight: "400px" }}>
+        <main className="flex-1 flex items-center justify-center" style={{ minHeight: "calc(100vh - 44px - 60px - 33px)" }}>
           {/* Page content: loader demo */}
           {loading ? (
-            <div className="flex flex-1 justify-center items-center h-full">
-              <Spinner />
-            </div>
+            <Spinner />
           ) : (
-            <div className="flex flex-1 justify-center items-center min-h-[400px]">
-              <button
-                onClick={() => setLoading(true)}
-                className="px-4 py-2 rounded bg-primary text-primary-foreground text-sm hover:scale-105 transition-transform"
-              >
-                Simulate loading
-              </button>
-            </div>
+            <button
+              onClick={() => setLoading(true)}
+              className="px-4 py-2 rounded bg-primary text-primary-foreground text-sm hover:scale-105 transition-transform"
+            >
+              Simulate loading
+            </button>
           )}
         </main>
       </div>
