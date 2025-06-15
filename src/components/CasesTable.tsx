@@ -1,4 +1,3 @@
-
 import React, { useEffect, useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import moment from "moment-timezone";
@@ -16,6 +15,7 @@ interface Case {
   status: CaseStatus;
   serialNumber: string;
   hostName: string;
+  fileName: string;
   createdAt: string; // ISO string
   syslogEndTime: string; // ISO string
 }
@@ -80,7 +80,8 @@ const CasesTable: React.FC = () => {
         (d) =>
           d.caseNumber.includes(s) ||
           d.hostName.toLowerCase().includes(s) ||
-          d.serialNumber.toLowerCase().includes(s)
+          d.serialNumber.toLowerCase().includes(s) ||
+          d.fileName.toLowerCase().includes(s)
       );
     }
     if (statusFilter !== "all") {
@@ -176,6 +177,7 @@ const CasesTable: React.FC = () => {
               </TableHead>
               <TableHead className="px-2 text-muted-foreground font-semibold">Serial Number</TableHead>
               <TableHead className="px-2 text-muted-foreground font-semibold">Host Name</TableHead>
+              <TableHead className="px-2 text-muted-foreground font-semibold">File Name</TableHead>
               <TableHead className="min-w-[160px] px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
                 <span className="inline-flex items-center">
                   Created At
@@ -188,7 +190,7 @@ const CasesTable: React.FC = () => {
           <TableBody>
             {paginated.length === 0 ? (
               <TableRow className="border-b border-border hover:bg-muted/50">
-                <TableCell colSpan={7} className="text-center text-muted-foreground py-12 px-3">
+                <TableCell colSpan={8} className="text-center text-muted-foreground py-12 px-3">
                   No results found.
                 </TableCell>
               </TableRow>

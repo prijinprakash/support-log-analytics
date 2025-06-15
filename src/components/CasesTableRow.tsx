@@ -13,6 +13,7 @@ interface Case {
   status: CaseStatus;
   serialNumber: string;
   hostName: string;
+  fileName: string;
   createdAt: string; // ISO string
   syslogEndTime: string; // ISO string
 }
@@ -67,6 +68,7 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
       </TableCell>
       <TableCell className="px-3 py-2 font-mono">{caseItem.serialNumber}</TableCell>
       <TableCell className="px-3 py-2">{caseItem.hostName}</TableCell>
+      <TableCell className="px-3 py-2 font-mono">{caseItem.fileName}</TableCell>
       <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.createdAt)}</TableCell>
       <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
     </TableRow>

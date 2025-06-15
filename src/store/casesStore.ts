@@ -10,6 +10,7 @@ interface Case {
   status: CaseStatus;
   serialNumber: string;
   hostName: string;
+  fileName: string;
   createdAt: string; // ISO string
   syslogEndTime: string; // ISO string
 }
@@ -27,6 +28,15 @@ function generateMockCases(): Case[] {
     return statuses[Math.floor(Math.random() * statuses.length)];
   }
   
+  function randFileName(): string {
+    const prefixes = ["log", "data", "report", "analysis", "dump", "trace", "debug", "system", "error", "info"];
+    const suffixes = ["txt", "log", "csv", "json", "xml", "dat"];
+    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+    const number = Math.floor(1000 + Math.random() * 9000);
+    return `${prefix}_${number}.${suffix}`;
+  }
+  
   const now = Date.now();
   return Array(50)
     .fill(null)
@@ -37,6 +47,7 @@ function generateMockCases(): Case[] {
       status: randStatus(),
       serialNumber: "SN-" + Math.floor(10000000 + Math.random() * 90000000),
       hostName: `host${idx + 1}.example.com`,
+      fileName: randFileName(),
       createdAt: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
       syslogEndTime: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
     }));
