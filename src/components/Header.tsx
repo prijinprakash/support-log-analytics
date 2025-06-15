@@ -1,13 +1,14 @@
-
 import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
 import { HelpCircle, Moon, Sun } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 import { FileUp, ChartLine, Settings } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [dark, setDark] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Check localStorage first, then fall back to system preference
@@ -74,8 +75,6 @@ const Header = () => {
               <button
                 aria-label="upload-file"
                 className="navicon"
-                // onClick={handleThemeToggle}
-                // data-testid="dark-toggle"
                 type="button"
               >
                 <FileUp size={18} className="text-zinc-400"/>
@@ -88,8 +87,7 @@ const Header = () => {
               <button
                 aria-label="user-statistics"
                 className="navicon"
-                // onClick={handleThemeToggle}
-                // data-testid="dark-toggle"
+                onClick={() => navigate('/statistics')}
                 type="button"
               >
                 <ChartLine size={18} className="text-zinc-400"/>
@@ -102,8 +100,6 @@ const Header = () => {
               <button
                 aria-label="help"
                 className="navicon"
-                // onClick={handleThemeToggle}
-                // data-testid="dark-toggle"
                 type="button"
               >
                 <HelpCircle size={18} className="text-zinc-400"/>
@@ -116,8 +112,7 @@ const Header = () => {
               <button
                 aria-label="settings"
                 className="navicon"
-                // onClick={handleThemeToggle}
-                // data-testid="dark-toggle"
+                onClick={() => navigate('/settings')}
                 type="button"
               >
                 <Settings size={18} className="text-zinc-400"/>
