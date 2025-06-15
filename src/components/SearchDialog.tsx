@@ -6,6 +6,7 @@ import {
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import { Search } from "lucide-react";
 
 const RECENT_SEARCHES = [
   "React Tailwind",
@@ -25,88 +26,72 @@ export default function SearchDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent
-        className="rounded-xl p-0 border-0 max-w-[430px] bg-[#161617] text-white shadow-xl"
-        style={{ overflow: "visible" }}
-      >
-        <div className="p-6 pt-4">
-          <div className="flex items-center justify-between mb-4">
+      <DialogContent className="max-w-[500px] p-0 border border-zinc-800 bg-background">
+        <div className="p-6">
+          {/* Search Mode Selection */}
+          <div className="mb-6">
             <RadioGroup
               value={mode}
               onValueChange={setMode}
-              className="flex flex-row gap-6"
+              className="flex flex-row gap-8"
             >
-              <label className="flex items-center gap-2 cursor-pointer text-base">
+              <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="normal"
-                  id="normal-search"
-                  className="border-[#222] bg-[#232324] checked:bg-green-500 checked:border-green-500"
+                  className="border-zinc-600 data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
-                <span
-                  className={
-                    mode === "normal"
-                      ? "font-semibold text-white"
-                      : "text-[#bbb]"
-                  }
-                >
+                <span className={`text-sm font-medium ${
+                  mode === "normal" ? "text-foreground" : "text-muted-foreground"
+                }`}>
                   Normal Search
                 </span>
               </label>
-              <label className="flex items-center gap-2 cursor-pointer text-base">
+              <label className="flex items-center gap-3 cursor-pointer">
                 <RadioGroupItem
                   value="advanced"
-                  id="advanced-search"
-                  className="border-[#222] bg-[#232324] checked:bg-green-500 checked:border-green-500"
+                  className="border-zinc-600 data-[state=checked]:bg-brand data-[state=checked]:border-brand"
                 />
-                <span
-                  className={
-                    mode === "advanced"
-                      ? "font-semibold text-white"
-                      : "text-[#bbb]"
-                  }
-                >
+                <span className={`text-sm font-medium ${
+                  mode === "advanced" ? "text-foreground" : "text-muted-foreground"
+                }`}>
                   Advanced Search
                 </span>
               </label>
             </RadioGroup>
           </div>
-          {/* Search bar inside dialog */}
-          <Input
-            autoFocus
-            value={searchValue}
-            onChange={e => setSearchValue(e.target.value)}
-            placeholder="Enter search term..."
-            className="w-full h-12 rounded-lg bg-[#232324] border border-[#28282a] text-white text-base px-4 mb-6 ring-0 placeholder:text-[#888] focus:outline-none focus:ring-0 shadow-none"
-          />
 
-          <div className="text-[#bbb] text-sm font-semibold mb-2 mt-4">
-            Recent Searches
+          {/* Search Input */}
+          <div className="relative mb-6">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input
+              autoFocus
+              value={searchValue}
+              onChange={e => setSearchValue(e.target.value)}
+              placeholder="Enter search term..."
+              className="pl-10 h-12 bg-secondary border-zinc-700 text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand"
+            />
           </div>
-          <div className="flex flex-col rounded-lg overflow-hidden bg-[#1a1a1c]">
-            {RECENT_SEARCHES.map(r => (
-              <div
-                key={r}
-                className="px-4 py-3 text-base cursor-pointer hover:bg-[#232324] first:rounded-t-lg last:rounded-b-lg transition select-none"
-                style={{
-                  background:
-                    searchValue.trim() === "" && r === RECENT_SEARCHES[0]
-                      ? "#232324"
-                      : "transparent",
-                  color:
-                    searchValue.trim() === "" && r === RECENT_SEARCHES[0]
-                      ? "#fff"
-                      : "#fff",
-                  fontWeight:
-                    searchValue.trim() === "" && r === RECENT_SEARCHES[0]
-                      ? 600
-                      : 400,
-                }}
-                tabIndex={0}
-                onClick={() => setSearchValue(r)}
-              >
-                {r}
-              </div>
-            ))}
+
+          {/* Recent Searches */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-medium text-muted-foreground">
+              Recent Searches
+            </h3>
+            <div className="space-y-1">
+              {RECENT_SEARCHES.map((searchTerm, index) => (
+                <div
+                  key={searchTerm}
+                  className={`px-3 py-2.5 rounded-md cursor-pointer transition-colors ${
+                    searchValue.trim() === "" && index === 0
+                      ? "bg-zinc-800 text-foreground"
+                      : "text-muted-foreground hover:bg-zinc-800 hover:text-foreground"
+                  }`}
+                  onClick={() => setSearchValue(searchTerm)}
+                >
+                  <span className="text-sm">{searchTerm}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </DialogContent>
