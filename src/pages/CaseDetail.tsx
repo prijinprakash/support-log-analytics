@@ -1,12 +1,16 @@
 
 import { useParams } from "react-router-dom";
-import { FileText, Clock, User, AlertCircle } from "lucide-react";
+import { FileText, Clock, User, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
+  const [activeTab, setActiveTab] = useState("overview");
 
   useEffect(() => {
     // Simulate loading time for the case details
@@ -27,114 +31,239 @@ const CaseDetail = () => {
     );
   }
 
+  // Mock case data - in real app this would come from API
+  const caseData = {
+    caseNumber: "00123456",
+    hostName: "server-prod-01.example.com",
+    fileName: "system_logs_2024.tar.gz",
+    clusterStatus: "Active",
+    totalProcessingTime: "45 minutes",
+    timezone: "UTC-5 (EST)"
+  };
+
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
+    <main className="container mx-auto px-4 py-8 h-full">
+      <div className="max-w-7xl mx-auto h-full">
+        {/* Header */}
+        <div className="flex items-center gap-3 mb-6">
           <FileText size={32} className="text-primary" />
-          <h1 className="text-3xl font-bold">Case {caseId}</h1>
+          <h1 className="text-3xl font-bold">Case {caseData.caseNumber}</h1>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Case Overview */}
-          <div className="lg:col-span-2 space-y-6">
-            <div className="bg-card rounded-lg border p-6">
-              <h2 className="text-xl font-semibold mb-4">Case Overview</h2>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Case Number</label>
-                    <div className="text-lg font-mono">{caseId}</div>
+        {/* Main Content - Two Column Layout */}
+        <div className="flex gap-6 h-[calc(100vh-200px)]">
+          {/* Left Section - Basic Details */}
+          <div className="w-80 flex-shrink-0">
+            <div className="bg-card rounded-lg border p-6 h-full">
+              <h2 className="text-lg font-semibold mb-6 text-foreground">Case Details</h2>
+              
+              <div className="space-y-6">
+                <div className="flex items-start gap-3">
+                  <FileText size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Case Number</div>
+                    <div className="text-base font-mono break-all">{caseData.caseNumber}</div>
                   </div>
-                  <div>
-                    <label className="text-sm font-medium text-muted-foreground">Status</label>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <Server size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Host Name</div>
+                    <div className="text-base break-all">{caseData.hostName}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <HardDrive size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">File Name</div>
+                    <div className="text-base break-all">{caseData.fileName}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-start gap-3">
+                  <AlertCircle size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Cluster Status</div>
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                      <span>In Progress</span>
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      <span className="text-base">{caseData.clusterStatus}</span>
                     </div>
                   </div>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground">Description</label>
-                  <p className="mt-1 text-sm">
-                    This is a placeholder description for case {caseId}. In a real application, 
-                    this would contain detailed information about the case, including relevant 
-                    documents, timeline, and current status.
-                  </p>
-                </div>
-              </div>
-            </div>
 
-            <div className="bg-card rounded-lg border p-6">
-              <h2 className="text-xl font-semibold mb-4">Case Timeline</h2>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3 p-3 rounded border">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <div className="font-medium">Case created</div>
-                    <div className="text-sm text-muted-foreground">2 days ago</div>
+                <div className="flex items-start gap-3">
+                  <Clock size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Total Processing Time</div>
+                    <div className="text-base">{caseData.totalProcessingTime}</div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3 p-3 rounded border">
-                  <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <div className="font-medium">Initial review completed</div>
-                    <div className="text-sm text-muted-foreground">1 day ago</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 p-3 rounded border">
-                  <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                  <div className="flex-1">
-                    <div className="font-medium">Under investigation</div>
-                    <div className="text-sm text-muted-foreground">6 hours ago</div>
+
+                <div className="flex items-start gap-3">
+                  <Globe size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+                  <div className="min-w-0 flex-1">
+                    <div className="text-sm font-medium text-muted-foreground mb-1">Timezone</div>
+                    <div className="text-base">{caseData.timezone}</div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Case Details Sidebar */}
-          <div className="space-y-6">
-            <div className="bg-card rounded-lg border p-6">
-              <h3 className="text-lg font-semibold mb-4">Case Details</h3>
-              <div className="space-y-3">
-                <div className="flex items-center gap-3">
-                  <Clock size={16} className="text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium">Created</div>
-                    <div className="text-sm text-muted-foreground">Dec 13, 2024</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <User size={16} className="text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium">Assigned to</div>
-                    <div className="text-sm text-muted-foreground">John Doe</div>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <AlertCircle size={16} className="text-muted-foreground" />
-                  <div>
-                    <div className="text-sm font-medium">Priority</div>
-                    <div className="text-sm text-muted-foreground">Medium</div>
-                  </div>
-                </div>
+          {/* Vertical Separator */}
+          <Separator orientation="vertical" className="h-full" />
+
+          {/* Right Section - Tabs and Content */}
+          <div className="flex-1 flex flex-col min-w-0">
+            {/* Top Flexbox - Tabs and Buttons */}
+            <div className="flex items-center justify-between mb-6">
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
+                <TabsList>
+                  <TabsTrigger value="overview">Overview</TabsTrigger>
+                  <TabsTrigger value="timeline">Timeline</TabsTrigger>
+                  <TabsTrigger value="documents">Documents</TabsTrigger>
+                  <TabsTrigger value="analysis">Analysis</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              
+              <div className="flex items-center gap-2 ml-4">
+                <Button variant="outline" size="sm">
+                  Export
+                </Button>
+                <Button variant="outline" size="sm">
+                  Share
+                </Button>
+                <Button size="sm">
+                  Actions
+                </Button>
               </div>
             </div>
 
-            <div className="bg-card rounded-lg border p-6">
-              <h3 className="text-lg font-semibold mb-4">Related Documents</h3>
-              <div className="space-y-2">
-                <div className="text-sm p-2 rounded border hover:bg-muted/50 cursor-pointer">
-                  Initial Report.pdf
-                </div>
-                <div className="text-sm p-2 rounded border hover:bg-muted/50 cursor-pointer">
-                  Evidence Photos.zip
-                </div>
-                <div className="text-sm p-2 rounded border hover:bg-muted/50 cursor-pointer">
-                  Witness Statement.docx
-                </div>
-              </div>
+            {/* Content Area */}
+            <div className="flex-1 bg-card rounded-lg border p-6 min-h-0 overflow-auto">
+              <Tabs value={activeTab} className="h-full">
+                <TabsContent value="overview" className="mt-0 h-full">
+                  <div className="space-y-6">
+                    <div>
+                      <h3 className="text-lg font-semibold mb-3">Case Overview</h3>
+                      <p className="text-muted-foreground">
+                        This is a detailed overview of case {caseData.caseNumber}. The case involves analysis of system logs 
+                        from {caseData.hostName}. Current processing status shows the cluster is active and analysis 
+                        is progressing normally.
+                      </p>
+                    </div>
+                    
+                    <div>
+                      <h4 className="font-medium mb-2">Key Metrics</h4>
+                      <div className="grid grid-cols-2 gap-4">
+                        <div className="p-3 bg-muted rounded-lg">
+                          <div className="text-2xl font-bold text-primary">24</div>
+                          <div className="text-sm text-muted-foreground">Issues Found</div>
+                        </div>
+                        <div className="p-3 bg-muted rounded-lg">
+                          <div className="text-2xl font-bold text-primary">12GB</div>
+                          <div className="text-sm text-muted-foreground">Data Processed</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="timeline" className="mt-0 h-full">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Case Timeline</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center gap-3 p-3 rounded border">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <div className="font-medium">Case created</div>
+                          <div className="text-sm text-muted-foreground">2 days ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded border">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <div className="font-medium">Initial processing started</div>
+                          <div className="text-sm text-muted-foreground">1 day ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded border">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <div className="font-medium">Analysis in progress</div>
+                          <div className="text-sm text-muted-foreground">Currently active</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="documents" className="mt-0 h-full">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Related Documents</h3>
+                    <div className="space-y-2">
+                      <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                        <FileText size={16} />
+                        <div className="flex-1">
+                          <div className="font-medium">{caseData.fileName}</div>
+                          <div className="text-sm text-muted-foreground">12.4 GB • Uploaded 2 days ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                        <FileText size={16} />
+                        <div className="flex-1">
+                          <div className="font-medium">Analysis Report.pdf</div>
+                          <div className="text-sm text-muted-foreground">2.1 MB • Generated 1 day ago</div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                        <FileText size={16} />
+                        <div className="flex-1">
+                          <div className="font-medium">Configuration Export.json</div>
+                          <div className="text-sm text-muted-foreground">145 KB • Exported 6 hours ago</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+                
+                <TabsContent value="analysis" className="mt-0 h-full">
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Analysis Results</h3>
+                    <div className="grid gap-4">
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <span className="font-medium">Critical Issues: 3</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Security vulnerabilities detected in system configuration
+                        </p>
+                      </div>
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <span className="font-medium">Warnings: 15</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          Performance optimizations recommended
+                        </p>
+                      </div>
+                      <div className="p-4 border rounded-lg">
+                        <div className="flex items-center gap-2 mb-2">
+                          <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                          <span className="font-medium">Information: 6</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">
+                          System status and configuration details
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           </div>
         </div>
