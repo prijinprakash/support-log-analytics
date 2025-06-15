@@ -135,8 +135,8 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
                   <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + U</kbd>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-800">
-                  <span className="text-sm text-foreground">Toggle Theme</span>
-                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + Shift + T</kbd>
+                  <span className="text-sm text-foreground">Load analysis</span>
+                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + Shift + A</kbd>
                 </div>
                 <div className="flex justify-between items-center py-2 border-b border-zinc-800">
                   <span className="text-sm text-foreground">Settings</span>

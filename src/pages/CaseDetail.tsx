@@ -167,7 +167,7 @@ const CaseDetail = () => {
                 Share
               </Button>
               <Button size="sm" onClick={() => setDialogOpen(true)}>
-                Actions
+                View Analysis
               </Button>
             </div>
           </div>

@@ -263,28 +263,22 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                           key={analysis.key}
                           onClick={() => handleAnalysisClick(analysis.key)}
                           className={`
-                            flex items-center gap-2 p-2 rounded cursor-pointer transition-colors mb-1 last:mb-0
-                            ${isSelected && isAlert
-                              ? "bg-red-100"
-                              : isAlert
-                                ? "bg-red-50"
-                                : isSelected
-                                  ? "bg-primary/10 border border-primary"
-                                  : "hover:bg-muted"}
+                            flex items-center px-2 py-1 cursor-pointer transition-colors last:mb-0 justify-between
+                            ${isSelected && 'bg-brand/10'}
                           `}
                           tabIndex={0}
                           role="button"
                           aria-pressed={isSelected}
                         >
-                          <span className={`font-medium ${isSelected || isAlert ? (isAlert ? "text-red-800" : "text-primary") : ""}`}>
+                          <span className="font-normal text-foreground text-sm">
                             {analysis.name}
                           </span>
                           <span className="text-xs text-muted-foreground ml-1">
                             {analysis.description}
                           </span>
-                          {isAlert && (
-                            <span className="ml-2 text-xs font-semibold text-red-700 bg-red-200 rounded px-1 py-0.5">Alert</span>
-                          )}
+                          {isAlert ? (
+                            <span className="ml-2 text-xs font-semibold text-red-700 bg-red-200 rounded px-1 py-0.5">! Alert</span>
+                          ):<span></span>}
                         </div>
                       );
                     })}
@@ -304,13 +298,13 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
           <Button
             variant="outline"
             onClick={() => onOpenChange(false)}
-            className="flex-1 h-12"
+            className="flex-1 h-9"
           >
             Cancel
           </Button>
           <Button
             onClick={() => onOpenChange(false)}
-            className="flex-1 h-12"
+            className="flex-1 h-9"
           >
             View Analyses
           </Button>
