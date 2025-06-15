@@ -1,4 +1,3 @@
-
 import { useParams } from "react-router-dom";
 import { FileText, Clock, User, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -6,14 +5,14 @@ import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import AnalysisSheet from "@/components/AnalysisSheet";
+import AnalysisDialog from "@/components/AnalysisDialog";
 import { useCallback } from "react";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   // Simulate loading and then set loading to false
   useEffect(() => {
@@ -26,15 +25,15 @@ const CaseDetail = () => {
 
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A for Mac)
   useEffect(() => {
-    const toggleSheet = (e: KeyboardEvent) => {
+    const toggleDialog = (e: KeyboardEvent) => {
       // ctrlKey or metaKey (cmd), shiftKey, and letter A (65 or 'a')
       if ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === "A" || e.key === "a")) {
         e.preventDefault();
-        setSheetOpen(v => !v);
+        setDialogOpen(v => !v);
       }
     };
-    window.addEventListener("keydown", toggleSheet);
-    return () => window.removeEventListener("keydown", toggleSheet);
+    window.addEventListener("keydown", toggleDialog);
+    return () => window.removeEventListener("keydown", toggleDialog);
   }, []);
 
   if (isLoading) {
@@ -167,7 +166,7 @@ const CaseDetail = () => {
               <Button variant="outline" size="sm">
                 Share
               </Button>
-              <Button size="sm" onClick={() => setSheetOpen(true)}>
+              <Button size="sm" onClick={() => setDialogOpen(true)}>
                 Actions
               </Button>
             </div>
@@ -299,8 +298,8 @@ const CaseDetail = () => {
           </div>
         </div>
       </div>
-      {/* Sheet for selecting analyses */}
-      <AnalysisSheet open={sheetOpen} onOpenChange={setSheetOpen} />
+      {/* Dialog for selecting analyses */}
+      <AnalysisDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
   );
 };
