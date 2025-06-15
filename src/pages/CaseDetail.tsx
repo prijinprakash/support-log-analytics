@@ -1,3 +1,4 @@
+
 import { useParams } from "react-router-dom";
 import { FileText, Clock, User, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -7,6 +8,9 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import AnalysisDialog from "@/components/AnalysisDialog";
 import { useCallback } from "react";
+import TimeseriesChart from "@/components/TimeseriesChart";
+import DataTable from "@/components/DataTable";
+import LogEntries from "@/components/LogEntries";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
@@ -176,27 +180,34 @@ const CaseDetail = () => {
           <div className="flex-1 bg-card rounded-lg border p-6 min-h-0 overflow-auto">
             <Tabs value={activeTab} className="h-full">
               <TabsContent value="overview" className="mt-0 h-full">
-                <div className="space-y-6">
+                <div className="space-y-6 h-full">
                   <div>
                     <h3 className="text-lg font-semibold mb-3">Case Overview</h3>
-                    <p className="text-muted-foreground">
+                    <p className="text-muted-foreground mb-6">
                       This is a detailed overview of case {caseData.caseNumber}. The case involves analysis of system logs 
                       from {caseData.hostName}. Current processing status shows the cluster is active and analysis 
                       is progressing normally.
                     </p>
                   </div>
                   
-                  <div>
-                    <h4 className="font-medium mb-2">Key Metrics</h4>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div className="p-3 bg-muted rounded-lg">
-                        <div className="text-2xl font-bold text-primary">24</div>
-                        <div className="text-sm text-muted-foreground">Issues Found</div>
-                      </div>
-                      <div className="p-3 bg-muted rounded-lg">
-                        <div className="text-2xl font-bold text-primary">12GB</div>
-                        <div className="text-sm text-muted-foreground">Data Processed</div>
-                      </div>
+                  {/* Visualizations Grid */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+                    {/* Timeseries Chart */}
+                    <div className="bg-muted/30 rounded-lg p-4">
+                      <h4 className="font-medium mb-3">System Performance Metrics</h4>
+                      <TimeseriesChart />
+                    </div>
+                    
+                    {/* Data Table */}
+                    <div className="bg-muted/30 rounded-lg p-4">
+                      <h4 className="font-medium mb-3">System Statistics</h4>
+                      <DataTable />
+                    </div>
+                    
+                    {/* Log Entries - spans both columns */}
+                    <div className="lg:col-span-2 bg-muted/30 rounded-lg p-4">
+                      <h4 className="font-medium mb-3">Recent Log Entries</h4>
+                      <LogEntries />
                     </div>
                   </div>
                 </div>
