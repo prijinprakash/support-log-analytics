@@ -1,6 +1,7 @@
 
 import { X, Plus } from "lucide-react";
 import { useState } from "react";
+import { useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -18,8 +19,21 @@ const initialTabs: Tab[] = [
 const TABS_HEIGHT = 44; // px to match header
 
 const TabNavigation = () => {
+  const location = useLocation();
   const [tabs, setTabs] = useState(initialTabs);
   const [activeTab, setActiveTab] = useState(initialTabs[0].id);
+
+  // Get dynamic title based on current route
+  const getPageTitle = () => {
+    switch (location.pathname) {
+      case '/settings':
+        return 'Settings';
+      case '/statistics':
+        return 'User Statistics';
+      default:
+        return 'Cases';
+    }
+  };
 
   const addTab = () => {
     const newLabel = String(Math.floor(10000000 + Math.random() * 90000000));
@@ -58,10 +72,10 @@ const TabNavigation = () => {
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
-        {/* Title */}
+        {/* Dynamic Title */}
         <div className="flex items-center min-w-[70px] h-full pr-4">
           <span className="text-lg font-semibold text-zinc-50 tracking-tight">
-            Cases
+            {getPageTitle()}
           </span>
         </div>
         {/* Tabs */}
