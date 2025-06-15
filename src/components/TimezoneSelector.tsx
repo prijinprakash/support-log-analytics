@@ -31,7 +31,7 @@ const TimezoneSelector = () => {
           <PopoverTrigger asChild>
             <button
               type="button"
-              className="flex items-center bg-lightbackground text-white border border-brand px-3 py-1.5 text-sm rounded-md w-[300px] h-9 hover:bg-[#232324] transition-colors font-medium"
+              className="flex items-center bg-lightbackground text-white border border-brand/70 px-3 py-1.5 text-sm rounded-md w-[300px] h-9 hover:bg-[#232324] transition-colors font-medium"
               aria-label="Select Timezone"
             >
               <Globe className="w-4 h-4 mr-2" />

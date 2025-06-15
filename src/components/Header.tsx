@@ -49,24 +49,28 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full bg-headerbackground border-zinc-800">
+    <header className="w-full border-zinc-800">
       <div
         className="flex flex-row items-center justify-between px-4 gap-2"
         style={{ minHeight: 44, height: 44 }}
       >
         {/* Left: Logo and title */}
-        <a href="/" className="flex items-center" aria-label="Home">
-          <img
-            src="logo.svg"
-            alt="Logo"
-            className="h-8 w-8 rounded"
-            draggable={false}
-          />
-        </a>
-        {/* Center: SearchBar */}
-        <div className="flex flex-1 justify-center items-center h-full max-w-xs px-2">
+        <div className="flex justify-between items-center gap-10 h-full">
+          <a href="/" className="flex items-center" aria-label="Home">
+            <img
+              src="logo.svg"
+              alt="Logo"
+              className="h-8 w-8 rounded"
+              draggable={false}
+            />
+          </a>
           <SearchBar />
         </div>
+        
+        {/* Center: SearchBar */}
+        {/* <div className="flex flex-1 justify-center items-center h-full max-w-xs px-2">
+          <SearchBar />
+        </div> */}
         {/* Right: Timezone selector and icon buttons */}
         <div className="flex items-center justify-end min-w-[320px] gap-2 h-full">
           <TimezoneSelector />

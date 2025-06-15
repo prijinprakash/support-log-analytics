@@ -21,13 +21,13 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="relative min-h-screen bg-background text-foreground flex flex-col overflow-hidden">
-          <div className="sticky top-0 z-50">
-            <Header />
-            <TabNavigation />
-          </div>
+        <div className="sticky top-0 z-50 bg-headerbackground">
+          <Header />
+          <TabNavigation />
+        </div>
+        <div className="relative bg-background text-foreground flex flex-col overflow-hidden">
           <div className="flex flex-col flex-1 min-h-0">
-            <ScrollArea className="flex-1 h-full">
+            {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/settings" element={<Settings />} />
@@ -35,7 +35,7 @@ const App = () => (
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />
               </Routes>
-            </ScrollArea>
+            {/* </ScrollArea> */}
           </div>
           <Footer />
         </div>
