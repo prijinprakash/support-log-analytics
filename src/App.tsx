@@ -25,8 +25,8 @@ const App = () => (
           <Header />
           <TabNavigation />
         </div>
-        <div className="relative bg-background text-foreground flex flex-col overflow-hidden">
-          <div className="flex flex-col flex-1 min-h-0">
+        <div className="relative dark:bg-background bg-[#f8f8f8] text-foreground flex flex-col overflow-hidden h-screen">
+          {/* <div className="flex flex-col flex-1 min-h-0"> */}
             {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
                 <Route path="/" element={<Index />} />
@@ -37,7 +37,7 @@ const App = () => (
                 <Route path="*" element={<NotFound />} />
               </Routes>
             {/* </ScrollArea> */}
-          </div>
+          {/* </div> */}
           <Footer />
         </div>
       </BrowserRouter>

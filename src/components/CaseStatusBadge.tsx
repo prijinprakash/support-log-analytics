@@ -24,7 +24,7 @@ export const CaseStatusBadge: React.FC<CaseStatusBadgeProps> = ({ status }) => {
   }
 
   return (
-    <span className={`px-3 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wider ${statusColor(status)}`}>
+    <span className={`px-2 py-0.5 rounded-full text-xs font-semibold tracking-wider ${statusColor(status)}`}>
       {status}
     </span>
   );
