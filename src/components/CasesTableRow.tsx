@@ -63,14 +63,14 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
           )}
         </button>
       </TableCell>
-      <TableCell className="px-3 py-2">
+      <TableCell className="px-3 py-2 font-mono">
         <CaseStatusBadge status={caseItem.status} />
       </TableCell>
       <TableCell className="px-3 py-2 font-mono">{caseItem.serialNumber}</TableCell>
-      <TableCell className="px-3 py-2">{caseItem.hostName}</TableCell>
+      <TableCell className="px-3 py-2 font-mono">{caseItem.hostName}</TableCell>
       <TableCell className="px-3 py-2 font-mono">{caseItem.fileName}</TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.createdAt)}</TableCell>
-      <TableCell className="px-3 py-2 text-muted-foreground">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
+      <TableCell className="px-3 py-2 font-mono">{formatDateTime(caseItem.createdAt)}</TableCell>
+      <TableCell className="px-3 py-2 font-mono">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
     </TableRow>
   );
 };

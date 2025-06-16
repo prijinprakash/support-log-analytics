@@ -11,6 +11,9 @@ import { useCallback } from "react";
 import TimeseriesChart from "@/components/TimeseriesChart";
 import DataTable from "@/components/DataTable";
 import LogEntries from "@/components/LogEntries";
+// import { AreaChart } from "@/components/AreaChart";
+import { ChartAreaInteractive } from "@/components/ChartAreaInteractive";
+import { ChartAreaInteractiveEnhanced } from "@/components/ChartAreaInteractiveEnhanced";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
@@ -191,21 +194,23 @@ const CaseDetail = () => {
                   </div>
                   
                   {/* Visualizations Grid */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 flex-1">
+                  <div className="grid grid-cols-1 gap-6 flex-1">
                     {/* Timeseries Chart */}
-                    <div className="bg-muted/30 rounded-lg p-4">
-                      <h4 className="font-medium mb-3">System Performance Metrics</h4>
-                      <TimeseriesChart />
-                    </div>
+                    {/* <div className="bg-muted/30 rounded-lg p-4 border"> */}
+                      {/* <h4 className="font-medium mb-3">System Performance Metrics</h4> */}
+                      {/* <TimeseriesChart /> */}
+                      <ChartAreaInteractive />
+                      {/* <ChartAreaInteractiveEnhanced /> */}
+                    {/* </div> */}
                     
                     {/* Data Table */}
-                    <div className="bg-muted/30 rounded-lg p-4">
+                    <div className="bg-muted/30 rounded-lg p-4 border">
                       <h4 className="font-medium mb-3">System Statistics</h4>
                       <DataTable />
                     </div>
                     
                     {/* Log Entries - spans both columns */}
-                    <div className="lg:col-span-2 bg-muted/30 rounded-lg p-4">
+                    <div className="bg-muted/30 rounded-lg p-4 border">
                       <h4 className="font-medium mb-3">Recent Log Entries</h4>
                       <LogEntries />
                     </div>

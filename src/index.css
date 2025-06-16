@@ -42,6 +42,12 @@ body {
     --ring: 142 76% 36%;
 
     --radius: 0.5rem;
+
+    --chart-1: oklch(0.646 0.222 41.116);
+    --chart-2: oklch(0.6 0.118 184.704);
+    --chart-3: oklch(0.398 0.07 227.392);
+    --chart-4: oklch(0.828 0.189 84.429);
+    --chart-5: oklch(0.769 0.188 70.08);
   }
 
   .dark {
@@ -72,6 +78,12 @@ body {
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
     --ring: 142 76% 36%;
+
+    --chart-1: oklch(0.488 0.243 264.376);
+    --chart-2: oklch(0.696 0.17 162.48);
+    --chart-3: oklch(0.769 0.188 70.08);
+    --chart-4: oklch(0.627 0.265 303.9);
+    --chart-5: oklch(0.645 0.246 16.439);
   }
 
   * {
@@ -84,14 +96,6 @@ body {
   .navicon {
     @apply rounded p-2 bg-lightbackground hover:bg-zinc-800 transition-colors h-9 w-9 flex items-center justify-center;
   }
-
-/* Remove focus outlines for all inputs */
-input:focus,
-textarea:focus,
-select:focus,
-button:focus {
-    outline: none !important;
-  }
 }
 
 ::-webkit-scrollbar {
@@ -103,3 +107,10 @@ button:focus {
 ::-webkit-scrollbar-thumb:hover {
   display: none;
 }
+/* Remove focus outlines for all inputs */
+input:focus,
+textarea:focus,
+select:focus,
+button:focus {
+    outline: none !important;
+  }
