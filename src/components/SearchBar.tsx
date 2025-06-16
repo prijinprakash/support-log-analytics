@@ -47,7 +47,7 @@ const SearchBar = () => {
       <button
         type="button"
         aria-label="Open search"
-        className="w-[250px] h-9 bg-lightbackground text-white rounded-md text-sm flex items-center border-brand/70 border pl-9 pr-3 py-1.5 relative cursor-pointer hover:bg-[#232324] transition-colors min-w-0"
+        className="w-[250px] h-9 bg-lightbackground text-white rounded-md text-sm flex items-center border-headerborder border pl-9 pr-3 py-1.5 relative cursor-pointer hover:bg-headerborder transition-colors min-w-0"
         style={{ minWidth: 0 }}
         onClick={handleSearchClick}
         tabIndex={0}

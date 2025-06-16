@@ -1,5 +1,5 @@
 
-import CasesTable from "@/components/CasesTable";
+import CasesTable from "@/components/case/CasesTable";
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
 

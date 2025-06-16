@@ -1,9 +1,8 @@
 
 import { TableCell, TableRow } from "@/components/ui/table";
-import { CaseStatusBadge } from "./CaseStatusBadge";
 import { useState } from "react";
 import moment from "moment-timezone";
-
+import { CaseStatusBadge } from "./CaseStatusBadge";
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
 
 interface Case {

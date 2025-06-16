@@ -30,6 +30,7 @@ const App = () => (
             {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
                 <Route path="/" element={<Index />} />
+                <Route path="/cases" element={<Index />} />
                 <Route path="/cases/:caseId" element={<CaseDetail />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/statistics" element={<UserStatistics />} />

@@ -11,15 +11,26 @@ import { useCallback } from "react";
 import TimeseriesChart from "@/components/TimeseriesChart";
 import DataTable from "@/components/DataTable";
 import LogEntries from "@/components/LogEntries";
-// import { AreaChart } from "@/components/AreaChart";
-import { ChartAreaInteractive } from "@/components/ChartAreaInteractive";
-import { ChartAreaInteractiveEnhanced } from "@/components/ChartAreaInteractiveEnhanced";
+import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
+import { Textarea } from "@/components/ui/textarea";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [dialogOpen, setDialogOpen] = useState(false);
+
+  const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
+192.168.1.15 - - [16/Jun/2025:11:00:10 +0530] "POST /submit_form HTTP/1.1" 200 123 "-" "curl/7.68.0"
+192.168.1.20 - - [16/Jun/2025:11:00:15 +0530] "GET /images/logo.png HTTP/1.1" 200 15789 "-" "Mozilla/5.0
+2025-06-16 10:30:45 INFO: User 'john.doe' logged in.
+2025-06-16 10:31:12 WARNING: Low disk space on /dev/sda1.
+2025-06-16 10:32:00 ERROR: Database connection failed.
+2025-06-16 10:33:30 INFO: User 'jane.doe' logged out.
+2025-06-16 10:30:45 INFO: User 'john.doe' logged in.
+2025-06-16 10:31:12 WARNING: Low disk space on /dev/sda1.
+2025-06-16 10:32:00 ERROR: Database connection failed.
+2025-06-16 10:33:30 INFO: User 'jane.doe' logged out.`
 
   // Simulate loading and then set loading to false
   useEffect(() => {
@@ -154,7 +165,7 @@ const CaseDetail = () => {
         </div>
 
         {/* Right Section - Tabs and Content */}
-        <div className="flex-1 flex flex-col min-w-0 py-4 pr-4">
+        <div className="flex-1 flex flex-col min-w-0 py-2 pr-4">
           {/* Top Flexbox - Tabs and Buttons */}
           <div className="flex items-center justify-between mb-2">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
@@ -181,9 +192,9 @@ const CaseDetail = () => {
 
           {/* Content Area */}
           <div className="flex-1 bg-card rounded-lg border p-6 min-h-0 overflow-auto">
-            <Tabs value={activeTab} className="h-full">
-              <TabsContent value="overview" className="mt-0 h-full">
-                <div className="space-y-6 h-full">
+            <Tabs value={activeTab}>
+              <TabsContent value="overview" className="m-0">
+                {/* <div className="space-y-6"> */}
                   <div>
                     <h3 className="text-lg font-semibold mb-3">Case Overview</h3>
                     <p className="text-muted-foreground mb-6">
@@ -194,28 +205,22 @@ const CaseDetail = () => {
                   </div>
                   
                   {/* Visualizations Grid */}
-                  <div className="grid grid-cols-1 gap-6 flex-1">
+                  <div className="grid grid-cols-2 gap-6">
                     {/* Timeseries Chart */}
-                    {/* <div className="bg-muted/30 rounded-lg p-4 border"> */}
-                      {/* <h4 className="font-medium mb-3">System Performance Metrics</h4> */}
-                      {/* <TimeseriesChart /> */}
-                      <ChartAreaInteractive />
-                      {/* <ChartAreaInteractiveEnhanced /> */}
-                    {/* </div> */}
-                    
+                    <InteractiveAreaChart />
                     {/* Data Table */}
                     <div className="bg-muted/30 rounded-lg p-4 border">
-                      <h4 className="font-medium mb-3">System Statistics</h4>
+                      <h4 className="font-medium mb-3 text-lg">System Statistics</h4>
                       <DataTable />
                     </div>
                     
                     {/* Log Entries - spans both columns */}
                     <div className="bg-muted/30 rounded-lg p-4 border">
-                      <h4 className="font-medium mb-3">Recent Log Entries</h4>
-                      <LogEntries />
+                      <h4 className="font-medium mb-3 text-lg">Recent Log Entries</h4>
+                      {/* <LogEntries /> */}
+                      <Textarea value={logs} readOnly className="font-mono h-64 resize-none text-sm focus-visible:ring-0 text-muted-foreground"/>
                     </div>
                   </div>
-                </div>
               </TabsContent>
               
               <TabsContent value="timeline" className="mt-0 h-full">

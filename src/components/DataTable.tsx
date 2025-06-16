@@ -40,23 +40,23 @@ const DataTable = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead className="w-[140px]">Metric</TableHead>
-            <TableHead>Value</TableHead>
-            <TableHead>Status</TableHead>
-            <TableHead className="text-right">Last Updated</TableHead>
+            <TableHead className="p-1 h-auto border border-r text-center">Metric</TableHead>
+            <TableHead className="p-1 h-auto border border-r text-center">Value</TableHead>
+            <TableHead className="p-1 h-auto border border-r text-center">Status</TableHead>
+            <TableHead className="p-1 h-auto border border-r text-center">Last Updated</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((row, index) => (
             <TableRow key={index}>
-              <TableCell className="font-medium text-sm">{row.metric}</TableCell>
-              <TableCell className="font-mono text-sm">{row.value}</TableCell>
-              <TableCell>
+              <TableCell className="font-medium text-sm p-1 border border-r text-center">{row.metric}</TableCell>
+              <TableCell className="font-mono text-sm p-1 border border-r text-center">{row.value}</TableCell>
+              <TableCell className="p-1 border border-r text-center">
                 <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.status)}`}>
                   {row.status}
                 </span>
               </TableCell>
-              <TableCell className="text-right text-xs text-muted-foreground">{row.lastUpdated}</TableCell>
+              <TableCell className="text-xs text-muted-foreground p-1 border border-r text-center">{row.lastUpdated}</TableCell>
             </TableRow>
           ))}
         </TableBody>

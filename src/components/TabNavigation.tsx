@@ -20,16 +20,10 @@ const generateCaseId = () => {
   });
 };
 
-const initialTabs: Tab[] = [
-  { id: "1", label: "00123456", caseId: generateCaseId() },
-  { id: "2", label: "00987654", caseId: generateCaseId() },
-  { id: "3", label: "00345621", caseId: generateCaseId() },
-];
-
 const TABS_HEIGHT = 44; // px to match header
 
 const TabNavigation = () => {
-  const [tabs, setTabs] = useState(initialTabs);
+  const [tabs, setTabs] = useState([]);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -45,11 +39,6 @@ const TabNavigation = () => {
   };
 
   const activeTab = getActiveTabFromRoute();
-
-  const addTab = () => {
-    // Navigate to index page when "New case" is clicked
-    navigate('/');
-  };
 
   // Function to handle opening a specific case (called from other components)
   const openCase = (caseNumber: string) => {
@@ -98,11 +87,11 @@ const TabNavigation = () => {
   };
 
   return (
-    <div className="w-full border-b border-zinc-800">
+    <div className="w-full border-b border-headerborder">
       <div
         className={cn(
           "w-full flex items-center px-4",
-          "border-t border-zinc-800"
+          "border-t border-headerborder"
         )}
         style={{ minHeight: TABS_HEIGHT, height: TABS_HEIGHT }}
       >
@@ -126,8 +115,8 @@ const TabNavigation = () => {
                 className={cn(
                   "group flex items-center px-3 py-0",
                   activeTab === tab.id
-                    ? "bg-zinc-800 text-brand border-b-2 border-brand z-10"
-                    : "bg-transparent text-zinc-400 hover:bg-zinc-800",
+                    ? "bg-headerborder text-brand border-b-2 border-brand z-10"
+                    : "bg-transparent text-zinc-400 hover:bg-headerborder",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
                   getTabWidth()
@@ -161,7 +150,7 @@ const TabNavigation = () => {
         </div>
         <div className="flex flex-0 items-center h-full min-w-[110px] justify-end pl-4">
           <Button
-            onClick={addTab}
+            onClick={() => navigate('/cases')}
             variant="outline"
             className="bg-headerbackground border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
             aria-label="Open new tab"
