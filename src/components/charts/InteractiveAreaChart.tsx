@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, ReferenceLine, Dot, ResponsiveContainer } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, ReferenceLine, Dot, ResponsiveContainer, Tooltip } from "recharts"
 
 import {
   Card,
@@ -231,28 +231,6 @@ export function InteractiveAreaChart() {
     }
   }
 
-  // Generate vertical guide lines
-  // const generateGuideLines = () => {
-  //   const lines = []
-  //   const dataLength = filteredData.length
-  //   const step = Math.max(1, Math.floor(dataLength / 8)) // Show ~8 guide lines
-    
-  //   for (let i = 0; i < dataLength; i += step) {
-  //     if (i < dataLength) {
-  //       lines.push(
-  //         <ReferenceLine
-  //           key={`guide-${i}`}
-  //           x={filteredData[i].date}
-  //           stroke="#e5e7eb"
-  //           strokeDasharray="3 3"
-  //           strokeOpacity={0.5}
-  //         />
-  //       )
-  //     }
-  //   }
-  //   return lines
-  // }
-
   return (
     <Card className="pt-0 col-span-2">
       <CardHeader className="flex items-center gap-2 space-y-0 border-b py-1 sm:flex-row px-2">
@@ -275,8 +253,8 @@ export function InteractiveAreaChart() {
         </div>
       </CardHeader>
 
-      <CardContent className="grid grid-cols-4 gap-2 p-0">
-        <div className="col-span-3 p-2 relative">
+      <CardContent className="grid grid-cols-3 gap-2 p-0">
+        <div className="col-span-2 p-2 relative">
           {/* Selection overlay */}
           {isSelecting && selectionStart && selectionEnd && (
             <div className="absolute inset-0 pointer-events-none z-10">
@@ -306,7 +284,6 @@ export function InteractiveAreaChart() {
             <ResponsiveContainer minHeight={"300px"}>
               <AreaChart
                 data={filteredData}
-                // margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
                 onMouseUp={handleMouseUp}
@@ -323,10 +300,7 @@ export function InteractiveAreaChart() {
                 </linearGradient>
               </defs>
               <CartesianGrid vertical={false} />
-              
-              {/* Vertical guide lines */}
-              {/* {generateGuideLines()} */}
-              
+              <Tooltip content={<></>}/>
               <XAxis
                 dataKey="date"
                 tickLine={false}
@@ -348,6 +322,7 @@ export function InteractiveAreaChart() {
                   stroke="#3b82f6" 
                   stackId="a"
                   activeDot={<Dot fill="#3b82f6" />}
+                  isAnimationActive={false}
                 />
               )}
               {loadedKeys.includes("mobile") && (
@@ -358,6 +333,7 @@ export function InteractiveAreaChart() {
                   stroke="#10b981" 
                   stackId="a"
                   activeDot={<Dot fill="#10b981" />}
+                  isAnimationActive={false}
                 />
               )}
               </AreaChart>
@@ -388,7 +364,7 @@ export function InteractiveAreaChart() {
                 const value = hoverData?.[key]
                 return (
                   <label key={key} className="flex items-center justify-between transition-colors p-1 rounded">
-                    <div className="flex items-center space-x-2">
+                    <div className="flex items-center space-x-2 cursor-pointer">
                       <Checkbox
                         checked={checked}
                         onCheckedChange={(checked) => {
@@ -397,7 +373,7 @@ export function InteractiveAreaChart() {
                           )
                         }}
                       />
-                      <span className="font-normal text-sm lowercase" style={{ color }}>{label}</span>
+                      <span className="font-normal text-sm lowercase break-words" style={{ color }}>{label}</span>
                     </div>
                     {checked && isLoaded && hoverData && (
                       <span className="text-xs font-normal text-muted-foreground">{value}</span>
@@ -420,7 +396,7 @@ export function InteractiveAreaChart() {
             
             <button
               onClick={() => setLoadedKeys([...selectedKeys])}
-              disabled={JSON.stringify(loadedKeys) === JSON.stringify(selectedKeys)}
+              disabled={JSON.stringify(loadedKeys) === JSON.stringify(selectedKeys) || !selectedKeys.length}
               className="w-full rounded bg-primary text-white px-4 py-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
             >
               Load
