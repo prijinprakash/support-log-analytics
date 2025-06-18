@@ -44,7 +44,7 @@ const ANALYSIS_OPTIONS = [
       {
         key: "network-latency",
         name: "Network Latency",
-        description: "Analyze network request delays.",
+        description: "",
         alert: false,
       }
     ]
@@ -263,22 +263,24 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                           key={analysis.key}
                           onClick={() => handleAnalysisClick(analysis.key)}
                           className={`
-                            flex items-center px-2 py-1 cursor-pointer transition-colors last:mb-0 justify-between
+                            flex items-center px-2 py-1.5 cursor-pointer transition-colors last:mb-0 justify-between
                             ${isSelected && 'bg-brand/10'}
                           `}
                           tabIndex={0}
                           role="button"
                           aria-pressed={isSelected}
                         >
-                          <span className="font-normal text-foreground text-sm">
-                            {analysis.name}
-                          </span>
+                          <div className="flex justify-start items-center">
+                            <span className="font-normal text-foreground text-sm">
+                              {analysis.name}
+                            </span>
+                            {isAlert ? (
+                              <span className="ml-3 text-xs font-semibold text-red-700 bg-red-200 rounded-lg px-2 py-0.25">! Alert</span>
+                            ):<span></span>}
+                          </div>
                           <span className="text-xs text-muted-foreground ml-1">
                             {analysis.description}
                           </span>
-                          {isAlert ? (
-                            <span className="ml-2 text-xs font-semibold text-red-700 bg-red-200 rounded px-1 py-0.5">! Alert</span>
-                          ):<span></span>}
                         </div>
                       );
                     })}

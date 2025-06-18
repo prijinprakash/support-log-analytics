@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import {
   Sheet,
-  SheetTrigger,
   SheetContent,
   SheetHeader,
   SheetTitle,

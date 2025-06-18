@@ -25,29 +25,26 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
   const endItem = Math.min(currentPage * pageSize, totalItems);
 
   return (
-    <div className="mt-6 flex items-center justify-between gap-4">
-      <div className="flex items-center gap-4 w-full">
-        <div className="flex items-center gap-2">
-          {/* <span className="text-sm text-muted-foreground">Rows per page:</span> */}
-          <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
-            <SelectTrigger className="w-20 h-8 bg-background border-border">
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent className="bg-background border-border">
-              <SelectItem value="5" className="hover:bg-accent">5</SelectItem>
-              <SelectItem value="10" className="hover:bg-accent">10</SelectItem>
-              <SelectItem value="20" className="hover:bg-accent">20</SelectItem>
-              <SelectItem value="50" className="hover:bg-accent">50</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
+    <div className="mt-0 flex items-center justify-end w-[30%]">
+      <div className="flex items-center gap-2 w-1/2">
+        <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
+          <SelectTrigger className="w-20 h-8 bg-background border-border">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent className="bg-background border-border">
+            <SelectItem value="5" className="hover:bg-accent">5</SelectItem>
+            <SelectItem value="10" className="hover:bg-accent">10</SelectItem>
+            <SelectItem value="20" className="hover:bg-accent">20</SelectItem>
+            <SelectItem value="50" className="hover:bg-accent">50</SelectItem>
+          </SelectContent>
+        </Select>
         <div className="text-sm text-muted-foreground">
           {startItem}-{endItem} of {totalItems}
         </div>
       </div>
       
-      <Pagination className="justify-end">
-        <PaginationContent className="gap-1">
+      <Pagination className="justify-end mx-0 w-1/2">
+        <PaginationContent className="gap-0">
           <PaginationItem>
             <PaginationLink
               onClick={e => {
@@ -76,7 +73,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             />
           </PaginationItem>
           
-          {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
+          {/* {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
             let pageNum;
             if (totalPages <= 5) {
               pageNum = i + 1;
@@ -107,7 +104,22 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
                 </PaginationLink>
               </PaginationItem>
             );
-          })}
+          })} */}
+          <PaginationItem>
+            <PaginationLink
+              isActive={true}
+              href="#"
+              tabIndex={0}
+              // onClick={e => {
+              //   e.preventDefault();
+              //   onPageChange(pageNum);
+              // }}
+              // className="border-none"
+              size="sm"
+            >
+              {currentPage}
+            </PaginationLink>
+          </PaginationItem>
           
           <PaginationItem>
             <PaginationNext

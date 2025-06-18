@@ -4,8 +4,6 @@ import {
   Card,
   CardContent,
   CardHeader,
-  CardTitle,
-  CardFooter,
 } from "@/components/ui/card"
 import moment from "moment-timezone";
 import { ChevronUp, ChevronDown } from "lucide-react";
@@ -158,7 +156,7 @@ const CasesTable: React.FC = () => {
   return (
     <section className="px-4 w-full">
       <Card>
-        <CardHeader className="py-2 px-4 flex flex-row justify-between items-center">
+        <CardHeader className="py-2 px-4 flex flex-row justify-between items-center space-y-0">
           <CasesTableFilters
             search={search}
             statusFilter={statusFilter}

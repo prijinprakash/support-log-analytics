@@ -115,7 +115,7 @@ const TabNavigation = () => {
                 className={cn(
                   "group flex items-center px-3 py-0",
                   activeTab === tab.id
-                    ? "bg-headerborder text-brand border-b-2 border-brand z-10"
+                    ? "bg-lightbackground text-brand border-b-2 border-brand z-10"
                     : "bg-transparent text-zinc-400 hover:bg-headerborder",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",

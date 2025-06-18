@@ -5,8 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import TabNavigation from "./components/TabNavigation";
-import Footer from "./components/Footer";
-import { ScrollArea } from "@/components/ui/scroll-area";
+// import { ScrollArea } from "@/components/ui/scroll-area";
 import Index from "./pages/Index";
 import Settings from "./pages/Settings";
 import UserStatistics from "./pages/UserStatistics";
@@ -40,7 +39,11 @@ const App = () => (
             {/* </ScrollArea> */}
           {/* </div> */}
         </div>
-        <Footer />
+        <footer className="fixed left-0 bottom-0 w-full bg-background text-muted-foreground text-center py-2 z-50 border-t border-border">
+          <span className="text-xs select-none">
+            &copy; 2025 company name. All rights reserved.
+          </span>
+        </footer>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

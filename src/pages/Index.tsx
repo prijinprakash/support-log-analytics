@@ -1,7 +1,7 @@
 
 import CasesTable from "@/components/case/CasesTable";
-import { useState, useEffect } from "react";
-import PageLoader from "@/components/PageLoader";
+// import { useState, useEffect } from "react";
+// import PageLoader from "@/components/PageLoader";
 
 const Index = () => {
   // const [isLoading, setIsLoading] = useState(true);

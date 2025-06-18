@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, ReferenceLine, Dot, ResponsiveContainer, Tooltip } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip } from "recharts"
 
 import {
   Card,
@@ -118,11 +118,6 @@ const chartData = [
 const chartConfig = {
   desktop: { label: "Desktop", color: "#3b82f6" },
   mobile: { label: "Mobile", color: "#10b981" },
-}
-
-// Custom dot component for hover points
-const CustomActiveDot = ({ fill }: { fill: any }) => {
-  return <Dot r={4} fill={fill} stroke="#fff" strokeWidth={2} />
 }
 
 export function InteractiveAreaChart() {

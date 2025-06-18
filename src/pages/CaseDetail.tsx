@@ -1,16 +1,12 @@
 
 import { useParams } from "react-router-dom";
-import { FileText, Clock, User, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
+import { FileText, Clock, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import AnalysisDialog from "@/components/AnalysisDialog";
-import { useCallback } from "react";
-import TimeseriesChart from "@/components/TimeseriesChart";
 import DataTable from "@/components/DataTable";
-import LogEntries from "@/components/LogEntries";
 import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
 import { Textarea } from "@/components/ui/textarea";
 
