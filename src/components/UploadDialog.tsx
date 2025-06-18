@@ -114,7 +114,7 @@ const UploadDialog = ({ open, onOpenChange }: UploadDialogProps) => {
           <div className="space-y-2">
             <Label>File</Label>
             <div
-              className={`border-2 border-dashed rounded-lg p-6 text-center transition-colors ${
+              className={`border border-dashed rounded-lg p-6 text-center transition-colors ${
                 isDragOver
                   ? "border-brand bg-brand/5"
                   : "border-gray-300 hover:border-brand"

@@ -45,8 +45,8 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
 
   return (
     <TableRow className="hover:bg-muted/50 dark:hover:bg-muted/50">
-      <TableCell className="px-3 py-2 font-mono">{caseItem.id}</TableCell>
-      <TableCell className="px-3 py-2 font-mono">
+      <TableCell className="py-1 font-mono">{caseItem.id}</TableCell>
+      <TableCell className="py-1 font-mono">
         <button
           onClick={handleCaseNumberClick}
           className="text-primary hover:text-primary/80 hover:underline transition-colors cursor-pointer font-mono"
@@ -62,14 +62,14 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
           )}
         </button>
       </TableCell>
-      <TableCell className="px-3 py-2 font-mono">
+      <TableCell className="py-1 font-mono">
         <CaseStatusBadge status={caseItem.status} />
       </TableCell>
-      <TableCell className="px-3 py-2 font-mono">{caseItem.serialNumber}</TableCell>
-      <TableCell className="px-3 py-2 font-mono">{caseItem.hostName}</TableCell>
-      <TableCell className="px-3 py-2 font-mono">{caseItem.fileName}</TableCell>
-      <TableCell className="px-3 py-2 font-mono">{formatDateTime(caseItem.createdAt)}</TableCell>
-      <TableCell className="px-3 py-2 font-mono">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.serialNumber}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.hostName}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.fileName}</TableCell>
+      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.createdAt)}</TableCell>
+      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
     </TableRow>
   );
 };

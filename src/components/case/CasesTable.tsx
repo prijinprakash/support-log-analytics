@@ -1,5 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardFooter,
+} from "@/components/ui/card"
 import moment from "moment-timezone";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { CasesTableFilters } from "./CasesTableFilters";
@@ -150,41 +157,52 @@ const CasesTable: React.FC = () => {
 
   return (
     <section className="px-4 w-full">
-      <CasesTableFilters
-        search={search}
-        statusFilter={statusFilter}
-        onSearchChange={handleSearchChange}
-        onStatusFilterChange={handleStatusFilterChange}
-        resultCount={filteredData.length}
-      />
-      
-      <div className="bg-card rounded-lg border border-border overflow-hidden">
+      <Card>
+        <CardHeader className="py-2 px-4 flex flex-row justify-between items-center">
+          <CasesTableFilters
+            search={search}
+            statusFilter={statusFilter}
+            onSearchChange={handleSearchChange}
+            onStatusFilterChange={handleStatusFilterChange}
+            resultCount={filteredData.length}
+          />
+          <CasesTablePagination
+            currentPage={page}
+            totalPages={pageCount}
+            onPageChange={setPage}
+            pageSize={pageSize}
+            onPageSizeChange={handlePageSizeChange}
+            totalItems={filteredData.length}
+          />
+        </CardHeader>
+        <CardContent className="p-0 border-t">
+          {/* <div className="bg-card rounded-lg border border-border overflow-hidden"> */}
         <Table>
           <TableHeader>
             <TableRow className="border-b border-border hover:bg-transparent">
-              <TableHead className="h-12 px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
+              <TableHead className="h-8 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
                 <span className="inline-flex items-center">
                   ID
                   {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[140px] px-2 text-muted-foreground font-semibold">Case Number</TableHead>
-              <TableHead className="min-w-[130px] px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
+              <TableHead className="h-8 min-w-[140px] text-muted-foreground font-semibold">Case Number</TableHead>
+              <TableHead className="h-8 min-w-[130px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
                 <span className="inline-flex items-center">
                   Status
                   {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="px-2 text-muted-foreground font-semibold">Serial Number</TableHead>
-              <TableHead className="px-2 text-muted-foreground font-semibold">Host Name</TableHead>
-              <TableHead className="px-2 text-muted-foreground font-semibold">File Name</TableHead>
-              <TableHead className="min-w-[160px] px-2 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
+              <TableHead className="h-8 text-muted-foreground font-semibold">Serial Number</TableHead>
+              <TableHead className="h-8 text-muted-foreground font-semibold">Host Name</TableHead>
+              <TableHead className="h-8 text-muted-foreground font-semibold">File Name</TableHead>
+              <TableHead className="h-8 min-w-[160px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
                 <span className="inline-flex items-center">
                   Created At
                   {sortBy === "createdAt" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
-              <TableHead className="min-w-[160px] px-2 text-muted-foreground font-semibold">Syslog End Time</TableHead>
+              <TableHead className="h-8 min-w-[160px] text-muted-foreground font-semibold">Syslog End Time</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -201,16 +219,11 @@ const CasesTable: React.FC = () => {
             )}
           </TableBody>
         </Table>
-      </div>
-      
-      <CasesTablePagination
-        currentPage={page}
-        totalPages={pageCount}
-        onPageChange={setPage}
-        pageSize={pageSize}
-        onPageSizeChange={handlePageSizeChange}
-        totalItems={filteredData.length}
-      />
+      {/* </div> */}
+
+
+        </CardContent>
+      </Card>
     </section>
   );
 };

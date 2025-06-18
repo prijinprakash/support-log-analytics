@@ -195,14 +195,14 @@ const CaseDetail = () => {
             <Tabs value={activeTab}>
               <TabsContent value="overview" className="m-0">
                 {/* <div className="space-y-6"> */}
-                  <div>
+                  {/* <div>
                     <h3 className="text-lg font-semibold mb-3">Case Overview</h3>
                     <p className="text-muted-foreground mb-6">
                       This is a detailed overview of case {caseData.caseNumber}. The case involves analysis of system logs 
                       from {caseData.hostName}. Current processing status shows the cluster is active and analysis 
                       is progressing normally.
                     </p>
-                  </div>
+                  </div> */}
                   
                   {/* Visualizations Grid */}
                   <div className="grid grid-cols-2 gap-6">

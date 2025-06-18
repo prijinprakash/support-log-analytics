@@ -4,6 +4,7 @@ import UploadDialog from "./UploadDialog";
 import HelpDialog from "./HelpDialog";
 import { HelpCircle, Moon, Sun } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
+import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { FileUp, ChartLine, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
@@ -76,71 +77,71 @@ const Header = () => {
             <TimezoneSelector />
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="upload-file"
-                  className="navicon"
-                  type="button"
+                  variant="outline"
                   onClick={() => setUploadDialogOpen(true)}
                 >
-                  <FileUp size={18} className="text-zinc-400"/>
-                </button>
+                  <FileUp/>
+                </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">upload file</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="user-statistics"
-                  className="navicon"
                   onClick={() => navigate('/statistics')}
-                  type="button"
+                  variant="outline"
                 >
-                  <ChartLine size={18} className="text-zinc-400"/>
-                </button>
+                  <ChartLine/>
+                </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">user statistics</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="help"
-                  className="navicon"
-                  type="button"
+                  variant="outline"
                   onClick={() => setHelpDialogOpen(true)}
                 >
-                  <HelpCircle size={18} className="text-zinc-400"/>
-                </button>
+                  <HelpCircle/>
+                </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">help</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="settings"
-                  className="navicon"
                   onClick={() => navigate('/settings')}
-                  type="button"
+                  variant="outline"
                 >
-                  <Settings size={18} className="text-zinc-400"/>
-                </button>
+                  <Settings/>
+                </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">settings</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="Toggle dark mode"
-                  className="navicon"
                   onClick={handleThemeToggle}
                   data-testid="dark-toggle"
-                  type="button"
+                  variant="outline"
                 >
                   {dark ? (
-                    <Moon size={18} className="text-zinc-400" />
+                    <Moon/>
                   ) : (
-                    <Sun size={18} className="text-zinc-400" />
+                    <Sun/>
                   )}
-                </button>
+                </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">
                   Switch to {dark ? "light" : "dark"} theme

@@ -94,7 +94,7 @@ body {
     font-size: 16px;
   }
   .navicon {
-    @apply rounded p-2 bg-lightbackground hover:bg-zinc-800 transition-colors h-9 w-9 flex items-center justify-center;
+    @apply rounded p-2 bg-lightbackground hover:bg-headerborder transition-colors h-9 w-9 flex items-center justify-center;
   }
 }
 

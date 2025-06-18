@@ -38,7 +38,7 @@ function generateMockCases(): Case[] {
   }
   
   const now = Date.now();
-  return Array(50)
+  return Array(5000)
     .fill(null)
     .map((_, idx) => ({
       id: idx + 1,
