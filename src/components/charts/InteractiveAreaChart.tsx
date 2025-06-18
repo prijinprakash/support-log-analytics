@@ -1,7 +1,11 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip, YAxis } from "recharts"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { BarChart3, Table as TableIcon } from "lucide-react"
 
 import {
   Card,
@@ -20,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
+import { Button } from "@/components/ui/button"
 
 const chartData = [
   { date: "2024-04-01", desktop: 222, mobile: 150 },
@@ -125,6 +130,8 @@ export function InteractiveAreaChart() {
   const [selectedKeys, setSelectedKeys] = React.useState(["desktop", "mobile"])
   const [loadedKeys, setLoadedKeys] = React.useState(["desktop", "mobile"])
   const [hoverData, setHoverData] = React.useState(null)
+  const [yAxisMax, setYAxisMax] = React.useState<number | undefined>(undefined)
+  const [viewMode, setViewMode] = React.useState<'chart' | 'table'>('chart')
   
   // Zoom functionality state
   const [zoomDomain, setZoomDomain] = React.useState(null)
@@ -234,7 +241,36 @@ export function InteractiveAreaChart() {
             Area Chart - Interactive {zoomDomain && "(Zoomed)"}
           </CardTitle>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
+          <div className="flex items-center gap-2">
+            <Label htmlFor="yaxis-max" className="text-sm">Y-axis max</Label>
+            <Input
+              id="yaxis-max"
+              type="number"
+              placeholder="Auto"
+              value={yAxisMax || ''}
+              onChange={(e) => setYAxisMax(e.target.value ? Number(e.target.value) : undefined)}
+              className="w-20 h-8"
+            />
+          </div>
+          <div className="flex rounded-md border">
+            <Button
+              variant={viewMode === 'chart' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('chart')}
+              className="rounded-r-none h-8"
+            >
+              <BarChart3 size={16} />
+            </Button>
+            <Button
+              variant={viewMode === 'table' ? 'default' : 'ghost'}
+              size="sm"
+              onClick={() => setViewMode('table')}
+              className="rounded-l-none h-8"
+            >
+              <TableIcon size={16} />
+            </Button>
+          </div>
           <Select value={timeRange} onValueChange={setTimeRange}>
             <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex">
               <SelectValue placeholder="Last 3 months" />
@@ -249,155 +285,187 @@ export function InteractiveAreaChart() {
       </CardHeader>
 
       <CardContent className="grid grid-cols-3 gap-2 p-0">
-        <div className="col-span-2 p-2 relative">
-          {/* Selection overlay */}
-          {isSelecting && selectionStart && selectionEnd && (
-            <div className="absolute inset-0 pointer-events-none z-10">
-              <div 
-                className="absolute bg-blue-200 bg-opacity-30 border border-blue-400 border-dashed"
-                style={{
-                  left: `${Math.min(
-                    (filteredData.findIndex(d => d.date === selectionStart) / (filteredData.length - 1)) * 100,
-                    (filteredData.findIndex(d => d.date === selectionEnd) / (filteredData.length - 1)) * 100
-                  )}%`,
-                  width: `${Math.abs(
-                    (filteredData.findIndex(d => d.date === selectionEnd) / (filteredData.length - 1)) * 100 -
-                    (filteredData.findIndex(d => d.date === selectionStart) / (filteredData.length - 1)) * 100
-                  )}%`,
-                  top: '0',
-                  bottom: '0'
-                }}
-              />
-            </div>
-          )}
-          
-          <ChartContainer 
-            config={chartConfig} 
-            className="aspect-auto min-h-[300px] w-full cursor-crosshair"
-            ref={chartRef}
-          >
-            <ResponsiveContainer minHeight={"300px"}>
-              <AreaChart
-                data={filteredData}
-                onMouseDown={handleMouseDown}
-                onMouseMove={handleMouseMove}
-                onMouseUp={handleMouseUp}
-                onMouseLeave={handleMouseLeave}
+        {viewMode === 'chart' ? (
+          <>
+            <div className="col-span-2 p-2 relative">
+              {/* Selection overlay */}
+              {isSelecting && selectionStart && selectionEnd && (
+                <div className="absolute inset-0 pointer-events-none z-10">
+                  <div 
+                    className="absolute bg-blue-200 bg-opacity-30 border border-blue-400 border-dashed"
+                    style={{
+                      left: `${Math.min(
+                        (filteredData.findIndex(d => d.date === selectionStart) / (filteredData.length - 1)) * 100,
+                        (filteredData.findIndex(d => d.date === selectionEnd) / (filteredData.length - 1)) * 100
+                      )}%`,
+                      width: `${Math.abs(
+                        (filteredData.findIndex(d => d.date === selectionEnd) / (filteredData.length - 1)) * 100 -
+                        (filteredData.findIndex(d => d.date === selectionStart) / (filteredData.length - 1)) * 100
+                      )}%`,
+                      top: '0',
+                      bottom: '0'
+                    }}
+                  />
+                </div>
+              )}
+              
+              <ChartContainer 
+                config={chartConfig} 
+                className="aspect-auto min-h-[300px] w-full cursor-crosshair"
+                ref={chartRef}
               >
-              <defs>
-                <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
-                </linearGradient>
-                <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
-                </linearGradient>
-              </defs>
-              <CartesianGrid vertical={false} />
-              <Tooltip content={<></>}/>
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) =>
-                  new Date(value).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                }
-              />
-              {loadedKeys.includes("desktop") && (
-                <Area 
-                  dataKey="desktop" 
-                  type="natural" 
-                  fill="url(#fillDesktop)" 
-                  stroke="#3b82f6" 
-                  stackId="a"
-                  activeDot={<Dot fill="#3b82f6" />}
-                  isAnimationActive={false}
-                />
-              )}
-              {loadedKeys.includes("mobile") && (
-                <Area 
-                  dataKey="mobile" 
-                  type="natural" 
-                  fill="url(#fillMobile)" 
-                  stroke="#10b981" 
-                  stackId="a"
-                  activeDot={<Dot fill="#10b981" />}
-                  isAnimationActive={false}
-                />
-              )}
-              </AreaChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-          <div className="mt-2">
-            <div className="text-xs text-muted-foreground">
-              💡 Click and drag to zoom • Double-click to reset zoom
-            </div>
-          </div>
-        </div>
-
-        <div className="col-span-1 flex flex-col justify-between border-l p-2">
-          <div className="space-y-4">
-            <div className="text-sm text-muted-foreground text-left font-medium">
-              {hoverData?.date
-                ? new Date(hoverData.date).toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric",
-                  })
-                : "timestamp"}
+                <ResponsiveContainer minHeight={"300px"}>
+                  <AreaChart
+                    data={filteredData}
+                    onMouseDown={handleMouseDown}
+                    onMouseMove={handleMouseMove}
+                    onMouseUp={handleMouseUp}
+                    onMouseLeave={handleMouseLeave}
+                  >
+                  <defs>
+                    <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
+                    </linearGradient>
+                    <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
+                    </linearGradient>
+                  </defs>
+                  <CartesianGrid vertical={false} />
+                  <Tooltip content={<></>}/>
+                  <XAxis
+                    dataKey="date"
+                    tickLine={false}
+                    axisLine={false}
+                    tickMargin={8}
+                    minTickGap={32}
+                    tickFormatter={(value) =>
+                      new Date(value).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })
+                    }
+                  />
+                  <YAxis 
+                    domain={yAxisMax ? [0, yAxisMax] : ['auto', 'auto']}
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  {loadedKeys.includes("desktop") && (
+                    <Area 
+                      dataKey="desktop" 
+                      type="natural" 
+                      fill="url(#fillDesktop)" 
+                      stroke="#3b82f6" 
+                      stackId="a"
+                      activeDot={<Dot fill="#3b82f6" />}
+                      isAnimationActive={false}
+                    />
+                  )}
+                  {loadedKeys.includes("mobile") && (
+                    <Area 
+                      dataKey="mobile" 
+                      type="natural" 
+                      fill="url(#fillMobile)" 
+                      stroke="#10b981" 
+                      stackId="a"
+                      activeDot={<Dot fill="#10b981" />}
+                      isAnimationActive={false}
+                    />
+                  )}
+                </AreaChart>
+              </ResponsiveContainer>
             </div>
 
-            <div>
-              {Object.entries(chartConfig).map(([key, { label, color }]) => {
-                const checked = selectedKeys.includes(key)
-                const isLoaded = loadedKeys.includes(key)
-                const value = hoverData?.[key]
-                return (
-                  <label key={key} className="flex items-center justify-between transition-colors p-1 rounded">
-                    <div className="flex items-center space-x-2 cursor-pointer">
-                      <Checkbox
-                        checked={checked}
-                        onCheckedChange={(checked) => {
-                          setSelectedKeys((prev) =>
-                            checked ? [...prev, key] : prev.filter((k) => k !== key)
-                          )
-                        }}
-                      />
-                      <span className="font-normal text-sm lowercase break-words" style={{ color }}>{label}</span>
-                    </div>
-                    {checked && isLoaded && hoverData && (
-                      <span className="text-xs font-normal text-muted-foreground">{value}</span>
-                    )}
-                  </label>
-                )
-              })}
-            </div>
-          </div>
+            <div className="col-span-1 flex flex-col justify-between border-l p-2">
+              <div className="space-y-4">
+                <div className="text-sm text-muted-foreground text-left font-medium">
+                  {hoverData?.date
+                    ? new Date(hoverData.date).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                      })
+                    : "timestamp"}
+                </div>
 
-          <div className="space-y-2">
-            {zoomDomain && (
-              <div className="text-xs text-muted-foreground">
-                <div>Zoomed Range:</div>
-                <div>{zoomDomain.startDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
-                <div>to</div>
-                <div>{zoomDomain.endDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                <div>
+                  {Object.entries(chartConfig).map(([key, { label, color }]) => {
+                    const checked = selectedKeys.includes(key)
+                    const isLoaded = loadedKeys.includes(key)
+                    const value = hoverData?.[key]
+                    return (
+                      <label key={key} className="flex items-center justify-between transition-colors p-1 rounded">
+                        <div className="flex items-center space-x-2 cursor-pointer">
+                          <Checkbox
+                            checked={checked}
+                            onCheckedChange={(checked) => {
+                              setSelectedKeys((prev) =>
+                                checked ? [...prev, key] : prev.filter((k) => k !== key)
+                              )
+                            }}
+                          />
+                          <span className="font-normal text-sm lowercase break-words" style={{ color }}>{label}</span>
+                        </div>
+                        {checked && isLoaded && hoverData && (
+                          <span className="text-xs font-normal text-muted-foreground">{value}</span>
+                        )}
+                      </label>
+                    )
+                  })}
+                </div>
               </div>
-            )}
-            
-            <button
-              onClick={() => setLoadedKeys([...selectedKeys])}
-              disabled={JSON.stringify(loadedKeys) === JSON.stringify(selectedKeys) || !selectedKeys.length}
-              className="w-full rounded bg-primary text-white px-4 py-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
-            >
-              Load
-            </button>
+
+              <div className="space-y-2">
+                {zoomDomain && (
+                  <div className="text-xs text-muted-foreground">
+                    <div>Zoomed Range:</div>
+                    <div>{zoomDomain.startDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                    <div>to</div>
+                    <div>{zoomDomain.endDate.toLocaleDateString("en-US", { month: "short", day: "numeric" })}</div>
+                  </div>
+                )}
+                
+                <button
+                  onClick={() => setLoadedKeys([...selectedKeys])}
+                  disabled={JSON.stringify(loadedKeys) === JSON.stringify(selectedKeys) || !selectedKeys.length}
+                  className="w-full rounded bg-primary text-white px-4 py-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                >
+                  Load
+                </button>
+              </div>
+            </div>
+          </>
+        ) : (
+          <div className="col-span-3 p-2">
+            <div className="h-[350px] overflow-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Date</TableHead>
+                    <TableHead className="text-right">Desktop</TableHead>
+                    <TableHead className="text-right">Mobile</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredData.map((row, index) => (
+                    <TableRow key={index}>
+                      <TableCell className="font-mono text-sm">
+                        {new Date(row.date).toLocaleDateString("en-US", {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric"
+                        })}
+                      </TableCell>
+                      <TableCell className="text-right font-mono">{row.desktop}</TableCell>
+                      <TableCell className="text-right font-mono">{row.mobile}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
           </div>
-        </div>
+        )}
       </CardContent>
     </Card>
   )

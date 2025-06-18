@@ -1,6 +1,5 @@
-
 import { useParams } from "react-router-dom";
-import { FileText, Clock, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
+import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Maximize, Trash, ChevronDown, ChevronUp } from "lucide-react";
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -9,12 +8,21 @@ import AnalysisDialog from "@/components/AnalysisDialog";
 import DataTable from "@/components/DataTable";
 import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
 import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 const CaseDetail = () => {
   const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
+  const [gridElements, setGridElements] = useState([
+    { id: 'chart', title: 'Interactive Area Chart', collapsed: false },
+    { id: 'table', title: 'System Statistics', collapsed: false },
+    { id: 'logs', title: 'Recent Log Entries', collapsed: false }
+  ]);
 
   const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
 192.168.1.15 - - [16/Jun/2025:11:00:10 +0530] "POST /submit_form HTTP/1.1" 200 123 "-" "curl/7.68.0"
@@ -49,6 +57,70 @@ const CaseDetail = () => {
     window.addEventListener("keydown", toggleDialog);
     return () => window.removeEventListener("keydown", toggleDialog);
   }, []);
+
+  const toggleCollapse = (id: string) => {
+    setGridElements(prev => prev.map(el => 
+      el.id === id ? { ...el, collapsed: !el.collapsed } : el
+    ));
+  };
+
+  const removeElement = (id: string) => {
+    setGridElements(prev => prev.filter(el => el.id !== id));
+  };
+
+  const openFullscreen = (title: string, content: React.ReactNode) => {
+    setFullscreenContent({ title, content });
+  };
+
+  const renderGridElement = (id: string, title: string, content: React.ReactNode, className: string = "") => {
+    const element = gridElements.find(el => el.id === id);
+    if (!element) return null;
+
+    return (
+      <Collapsible 
+        key={id}
+        open={!element.collapsed} 
+        onOpenChange={() => toggleCollapse(id)}
+        className={className}
+      >
+        <Card className="h-full">
+          <CardHeader className="py-2 px-4">
+            <div className="flex items-center justify-between">
+              <CardTitle className="text-lg">{title}</CardTitle>
+              <div className="flex items-center gap-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => openFullscreen(title, content)}
+                  className="h-8 w-8 p-0"
+                >
+                  <Maximize size={14} />
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => removeElement(id)}
+                  className="h-8 w-8 p-0 hover:bg-red-100 hover:text-red-600"
+                >
+                  <Trash size={14} />
+                </Button>
+                <CollapsibleTrigger asChild>
+                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                    {element.collapsed ? <ChevronDown size={14} /> : <ChevronUp size={14} />}
+                  </Button>
+                </CollapsibleTrigger>
+              </div>
+            </div>
+          </CardHeader>
+          <CollapsibleContent>
+            <CardContent className="p-4 pt-0">
+              {content}
+            </CardContent>
+          </CollapsibleContent>
+        </Card>
+      </Collapsible>
+    );
+  };
 
   if (isLoading) {
     return (
@@ -190,33 +262,34 @@ const CaseDetail = () => {
           <div className="flex-1 bg-card rounded-lg border p-6 min-h-0 overflow-auto">
             <Tabs value={activeTab}>
               <TabsContent value="overview" className="m-0">
-                {/* <div className="space-y-6"> */}
-                  {/* <div>
-                    <h3 className="text-lg font-semibold mb-3">Case Overview</h3>
-                    <p className="text-muted-foreground mb-6">
-                      This is a detailed overview of case {caseData.caseNumber}. The case involves analysis of system logs 
-                      from {caseData.hostName}. Current processing status shows the cluster is active and analysis 
-                      is progressing normally.
-                    </p>
-                  </div> */}
+                {/* Visualizations Grid */}
+                <div className="grid grid-cols-2 gap-6">
+                  {/* Timeseries Chart */}
+                  {renderGridElement(
+                    'chart',
+                    'Interactive Area Chart',
+                    <InteractiveAreaChart />,
+                    "col-span-2"
+                  )}
                   
-                  {/* Visualizations Grid */}
-                  <div className="grid grid-cols-2 gap-6">
-                    {/* Timeseries Chart */}
-                    <InteractiveAreaChart />
-                    {/* Data Table */}
+                  {/* Data Table */}
+                  {renderGridElement(
+                    'table',
+                    'System Statistics',
                     <div className="bg-muted/30 rounded-lg p-4 border">
-                      <h4 className="font-medium mb-3 text-lg">System Statistics</h4>
                       <DataTable />
                     </div>
-                    
-                    {/* Log Entries - spans both columns */}
+                  )}
+                  
+                  {/* Log Entries */}
+                  {renderGridElement(
+                    'logs',
+                    'Recent Log Entries',
                     <div className="bg-muted/30 rounded-lg p-4 border">
-                      <h4 className="font-medium mb-3 text-lg">Recent Log Entries</h4>
-                      {/* <LogEntries /> */}
                       <Textarea value={logs} readOnly className="font-mono h-64 resize-none text-sm focus-visible:ring-0 text-muted-foreground"/>
                     </div>
-                  </div>
+                  )}
+                </div>
               </TabsContent>
               
               <TabsContent value="timeline" className="mt-0 h-full">
@@ -315,6 +388,19 @@ const CaseDetail = () => {
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Dialog */}
+      <Dialog open={!!fullscreenContent} onOpenChange={() => setFullscreenContent(null)}>
+        <DialogContent className="max-w-[95vw] max-h-[95vh] w-full h-full">
+          <div className="flex flex-col h-full">
+            <h2 className="text-xl font-semibold mb-4">{fullscreenContent?.title}</h2>
+            <div className="flex-1 overflow-auto">
+              {fullscreenContent?.content}
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+
       {/* Dialog for selecting analyses */}
       <AnalysisDialog open={dialogOpen} onOpenChange={setDialogOpen} />
     </div>
