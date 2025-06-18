@@ -287,7 +287,6 @@ export function InteractiveAreaChart() {
 
       <CardContent className="grid grid-cols-3 gap-2 p-0">
         {viewMode === 'chart' ? (
-          <>
             <div className="col-span-2 p-2 relative">
               {/* Selection overlay */}
               {isSelecting && selectionStart && selectionEnd && (
@@ -377,7 +376,7 @@ export function InteractiveAreaChart() {
                   )}
                 </AreaChart>
               </ResponsiveContainer>
-            </div>
+            </ChartContainer>
 
             <div className="col-span-1 flex flex-col justify-between border-l p-2">
               <div className="space-y-4">
@@ -436,7 +435,7 @@ export function InteractiveAreaChart() {
                 </button>
               </div>
             </div>
-          </>
+          </div>
         ) : (
           <div className="col-span-3 p-2">
             <div className="h-[350px] overflow-auto">
