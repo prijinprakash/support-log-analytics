@@ -8,8 +8,11 @@ import AnalysisDialog from "@/components/AnalysisDialog";
 // import DataTable from "@/components/DataTable";
 import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import TabularData from "@/components/TabularData";
+// import TabularData from "@/components/TabularData";
 import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
+import { InteractiveLineChart } from "@/components/charts/InteractiveLineChart";
+import { InteractiveChart } from "@/components/charts/InteractiveChart";
+import VirtualTabularData from "@/components/VirtualTabularData";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -52,10 +55,12 @@ const CaseDetail = () => {
 
   const [gridElements, setGridElements] = useState([
     { id: 'chart', title: 'Interactive Area Chart', el: <InteractiveAreaChart /> },
+    { id: 'chart', title: 'Interactive Line Chart', el: <InteractiveLineChart /> },
+    { id: 'chart', title: 'Interactive Chart', el: <InteractiveChart /> },
     // { id: 'table', title: 'System Statistics', el: <DataTable /> },
     { id: 'logs', title: 'Recent Log Entries', 
       el: <div className="font-mono whitespace-pre-line text-sm focus-visible:ring-0 text-muted-foreground">{logs}</div> },
-    { id: 'tabular_data', title: 'Tabular Data', el: <TabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> }
+    { id: 'tabular_data', title: 'Tabular Data', el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> }
   ]);
   // Simulate loading and then set loading to false
   useEffect(() => {

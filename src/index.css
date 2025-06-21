@@ -187,3 +187,9 @@ button:focus {
     outline: none !important;
   }
 
+.parent-row {
+  z-index: 1 !important;
+}
+.parent-row:has(.child-cell:hover) {
+  z-index: 1000 !important;
+}

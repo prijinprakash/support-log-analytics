@@ -2,7 +2,7 @@
 "use client"
 
 import * as React from "react"
-import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip, YAxis } from "recharts"
+import { Area, AreaChart, Line, LineChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip, YAxis } from "recharts"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BarChart3, Table as TableIcon } from "lucide-react"
@@ -127,7 +127,7 @@ const chartConfig = {
   mobile: { label: "Mobile", color: "#10b981" },
 }
 
-export function InteractiveAreaChart() {
+export function InteractiveLineChart() {
   const [timeRange, setTimeRange] = React.useState("90d")
   const [selectedKeys, setSelectedKeys] = React.useState(["desktop", "mobile"])
   const [loadedKeys, setLoadedKeys] = React.useState(["desktop", "mobile"])
@@ -311,7 +311,7 @@ export function InteractiveAreaChart() {
                 ref={chartRef}
               >
                 <ResponsiveContainer minHeight={"300px"}>
-                  <AreaChart
+                  <LineChart
                     data={filteredData}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
@@ -351,28 +351,28 @@ export function InteractiveAreaChart() {
                     allowDataOverflow
                   />
                   {loadedKeys.includes("desktop") && (
-                    <Area 
+                    <Line 
                       dataKey="desktop" 
                       type="natural" 
                       fill="url(#fillDesktop)" 
                       stroke="#3b82f6" 
                       // stackId="a"
-                      activeDot={<Dot fill="#3b82f6" />}
                       isAnimationActive={false}
+                      dot={false}
                     />
                   )}
                   {loadedKeys.includes("mobile") && (
-                    <Area 
+                    <Line 
                       dataKey="mobile" 
                       type="natural" 
                       fill="url(#fillMobile)" 
                       stroke="#10b981" 
                       // stackId="a"
-                      activeDot={<Dot fill="#10b981" />}
                       isAnimationActive={false}
+                      dot={false}
                     />
                   )}
-                  </AreaChart>
+                  </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
             </div>
