@@ -116,8 +116,8 @@ const UploadDialog = ({ open, onOpenChange }: UploadDialogProps) => {
             <div
               className={`border border-dashed rounded-lg p-6 text-center transition-colors ${
                 isDragOver
-                  ? "border-brand bg-brand/5"
-                  : "border-gray-300 hover:border-brand"
+                  ? "border-primary bg-brand/5"
+                  : "border-gray-300 hover:border-primary"
               }`}
               onDragOver={handleDragOver}
               onDragLeave={handleDragLeave}
@@ -126,7 +126,7 @@ const UploadDialog = ({ open, onOpenChange }: UploadDialogProps) => {
               {selectedFile ? (
                 <div className="flex items-center justify-between bg-gray-50 rounded p-3">
                   <div className="flex items-center space-x-2">
-                    <Upload size={20} className="text-brand" />
+                    <Upload size={20} className="text-primary" />
                     <span className="text-sm font-medium">{selectedFile.name}</span>
                     <span className="text-xs text-gray-500">
                       ({Math.round(selectedFile.size / 1024)} KB)
@@ -156,7 +156,7 @@ const UploadDialog = ({ open, onOpenChange }: UploadDialogProps) => {
                   />
                   <label
                     htmlFor="fileInput"
-                    className="cursor-pointer text-brand hover:text-brand/80 text-sm font-medium"
+                    className="cursor-pointer text-primary hover:text-brand/80 text-sm font-medium"
                   >
                     Browse files
                   </label>

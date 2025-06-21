@@ -36,32 +36,33 @@ const DataTable = () => {
   };
 
   return (
-    <div className="h-64 overflow-auto">
-      <Table>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="p-1 h-auto border border-r text-center">Metric</TableHead>
-            <TableHead className="p-1 h-auto border border-r text-center">Value</TableHead>
-            <TableHead className="p-1 h-auto border border-r text-center">Status</TableHead>
-            <TableHead className="p-1 h-auto border border-r text-center">Last Updated</TableHead>
+    <Table className="border">
+      <TableHeader>
+        <TableRow>
+          <TableHead className="p-1 h-auto text-center">Metric</TableHead>
+          <TableHead className="p-1 h-auto text-center">Value</TableHead>
+          <TableHead className="p-1 h-auto text-center">Status</TableHead>
+          <TableHead className="p-1 h-auto text-center">Last Updated</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {data.map((row, index) => (
+          <TableRow key={index}>
+            {/* {row.map((col, col_index) => 
+              <TableCell className="font-medium text-sm p-1 text-center">{col}</TableCell>
+            )} */}
+            <TableCell className="font-medium text-sm p-1 text-center">{row.metric}</TableCell>
+            <TableCell className="font-mono text-sm p-1 text-center">{row.value}</TableCell>
+            <TableCell className="p-1 text-center">
+              <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.status)}`}>
+                {row.status}
+              </span>
+            </TableCell>
+            <TableCell className="text-xs text-muted-foreground p-1 text-center">{row.lastUpdated}</TableCell>
           </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data.map((row, index) => (
-            <TableRow key={index}>
-              <TableCell className="font-medium text-sm p-1 border border-r text-center">{row.metric}</TableCell>
-              <TableCell className="font-mono text-sm p-1 border border-r text-center">{row.value}</TableCell>
-              <TableCell className="p-1 border border-r text-center">
-                <span className={`inline-flex items-center px-2 py-1 rounded-md text-xs font-medium border ${getStatusColor(row.status)}`}>
-                  {row.status}
-                </span>
-              </TableCell>
-              <TableCell className="text-xs text-muted-foreground p-1 border border-r text-center">{row.lastUpdated}</TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
+        ))}
+      </TableBody>
+    </Table>
   );
 };
 

@@ -3,10 +3,11 @@
 
 import * as React from "react"
 import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip, YAxis } from "recharts"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BarChart3, Table as TableIcon } from "lucide-react"
+
+import TabularData from "../TabularData"
 
 import {
   Card,
@@ -235,13 +236,8 @@ export function InteractiveAreaChart() {
   }
 
   return (
-    <Card className="pt-0 col-span-2">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-1 sm:flex-row px-2">
-        <div className="grid flex-1 gap-1">
-          <CardTitle className="text-lg font-medium">
-            Area Chart - Interactive {zoomDomain && "(Zoomed)"}
-          </CardTitle>
-        </div>
+    <Card className="pt-0 col-span-2 border-none shadow-none">
+      <CardHeader className="flex items-center gap-2 space-y-0 py-1 sm:flex-row px-2">
         <div className="flex gap-2 items-center">
           <div className="flex items-center gap-2">
             <Label htmlFor="yaxis-max" className="text-sm">Y-axis max</Label>
@@ -285,8 +281,9 @@ export function InteractiveAreaChart() {
         </div>
       </CardHeader>
 
-      <CardContent className="grid grid-cols-3 gap-2 p-0">
+      <CardContent className="p-0 h-[350px] overflow-auto">
         {viewMode === 'chart' ? (
+          <div className="grid grid-cols-3 gap-2">
             <div className="col-span-2 p-2 relative">
               {/* Selection overlay */}
               {isSelecting && selectionStart && selectionEnd && (
@@ -308,10 +305,9 @@ export function InteractiveAreaChart() {
                   />
                 </div>
               )}
-              
               <ChartContainer 
                 config={chartConfig} 
-                className="aspect-auto min-h-[300px] w-full cursor-crosshair"
+                className="aspect-auto min-h-[300px] w-full"
                 ref={chartRef}
               >
                 <ResponsiveContainer minHeight={"300px"}>
@@ -332,7 +328,7 @@ export function InteractiveAreaChart() {
                       <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid vertical={false} />
+                  {/* <CartesianGrid horizontal={false} /> */}
                   <Tooltip content={<></>}/>
                   <XAxis
                     dataKey="date"
@@ -349,8 +345,10 @@ export function InteractiveAreaChart() {
                   />
                   <YAxis 
                     domain={yAxisMax ? [0, yAxisMax] : ['auto', 'auto']}
+                    scale={'auto'}
                     tickLine={false}
                     axisLine={false}
+                    allowDataOverflow
                   />
                   {loadedKeys.includes("desktop") && (
                     <Area 
@@ -358,7 +356,7 @@ export function InteractiveAreaChart() {
                       type="natural" 
                       fill="url(#fillDesktop)" 
                       stroke="#3b82f6" 
-                      stackId="a"
+                      // stackId="a"
                       activeDot={<Dot fill="#3b82f6" />}
                       isAnimationActive={false}
                     />
@@ -369,24 +367,19 @@ export function InteractiveAreaChart() {
                       type="natural" 
                       fill="url(#fillMobile)" 
                       stroke="#10b981" 
-                      stackId="a"
+                      // stackId="a"
                       activeDot={<Dot fill="#10b981" />}
                       isAnimationActive={false}
                     />
                   )}
-                </AreaChart>
-              </ResponsiveContainer>
-            </ChartContainer>
-
+                  </AreaChart>
+                </ResponsiveContainer>
+              </ChartContainer>
+            </div>
             <div className="col-span-1 flex flex-col justify-between border-l p-2">
               <div className="space-y-4">
                 <div className="text-sm text-muted-foreground text-left font-medium">
-                  {hoverData?.date
-                    ? new Date(hoverData.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })
-                    : "timestamp"}
+                  {hoverData?.date||"timestamp"}
                 </div>
 
                 <div>
@@ -429,7 +422,7 @@ export function InteractiveAreaChart() {
                 <button
                   onClick={() => setLoadedKeys([...selectedKeys])}
                   disabled={JSON.stringify(loadedKeys) === JSON.stringify(selectedKeys) || !selectedKeys.length}
-                  className="w-full rounded bg-primary text-white px-4 py-2 hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
+                  className="w-full rounded bg-primary text-white px-4 py-2 hover:bg-brand/90 disabled:opacity-50 disabled:cursor-not-allowed text-sm"
                 >
                   Load
                 </button>
@@ -437,34 +430,7 @@ export function InteractiveAreaChart() {
             </div>
           </div>
         ) : (
-          <div className="col-span-3 p-2">
-            <div className="h-[350px] overflow-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="text-right">Desktop</TableHead>
-                    <TableHead className="text-right">Mobile</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredData.map((row, index) => (
-                    <TableRow key={index}>
-                      <TableCell className="font-mono text-sm">
-                        {new Date(row.date).toLocaleDateString("en-US", {
-                          month: "short",
-                          day: "numeric",
-                          year: "numeric"
-                        })}
-                      </TableCell>
-                      <TableCell className="text-right font-mono">{row.desktop}</TableCell>
-                      <TableCell className="text-right font-mono">{row.mobile}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </div>
-          </div>
+          <TabularData headers={["Date", "Desktop", "Mobile"]} data={filteredData}/>
         )}
       </CardContent>
     </Card>

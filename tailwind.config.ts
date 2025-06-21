@@ -24,34 +24,64 @@ export default {
 				headerbackground: 'hsl(224 71.4% 4.1%)',
 				headerborder: 'hsl(215 27.9% 16.9%)',
 				lightbackground: '#0e121c',
-				border: 'hsl(var(--border))',
-				input: 'hsl(var(--input))',
-				ring: 'hsl(var(--ring))',
-				background: 'hsl(var(--background))',
-				foreground: 'hsl(var(--foreground))',
+				// border: 'hsl(var(--border))',
+				// input: 'hsl(var(--input))',
+				// ring: 'hsl(var(--ring))',
+				// background: 'hsl(var(--background))',
+				// foreground: 'hsl(var(--foreground))',
+				// primary: {
+				// 	DEFAULT: 'hsl(var(--primary))',
+				// 	foreground: 'hsl(var(--primary-foreground))'
+				// },
+				// secondary: {
+				// 	DEFAULT: 'hsl(220,12%,16%)',
+				// 	foreground: 'hsl(var(--secondary-foreground))'
+				// },
+				// destructive: {
+				// 	DEFAULT: 'hsl(0, 84.2%, 60.2%)',
+				// 	foreground: 'hsl(var(--destructive-foreground))'
+				// },
+				// muted: {
+				// 	DEFAULT: 'hsl(var(--muted))',
+				// 	foreground: 'hsl(var(--muted-foreground))'
+				// },
+				// accent: {
+				// 	DEFAULT: 'hsl(var(--accent))',
+				// 	foreground: 'hsl(var(--accent-foreground))'
+				// },
+				// card: {
+				// 	DEFAULT: 'hsl(var(--card))',
+				// 	foreground: 'hsl(var(--card-foreground))'
+				// },
+
+				border: 'var(--border)',
+				input: 'var(--input)',
+				ring: 'var(--ring)',
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
 				primary: {
-					DEFAULT: 'hsl(var(--primary))',
-					foreground: 'hsl(var(--primary-foreground))'
+					DEFAULT: 'var(--primary)',
+					foreground: 'var(--primary-foreground)'
 				},
 				secondary: {
 					DEFAULT: 'hsl(220,12%,16%)',
-					foreground: 'hsl(var(--secondary-foreground))'
+					foreground: 'var(--secondary-foreground)'
 				},
 				destructive: {
 					DEFAULT: 'hsl(0, 84.2%, 60.2%)',
-					foreground: 'hsl(var(--destructive-foreground))'
+					foreground: 'var(--destructive-foreground)'
 				},
 				muted: {
-					DEFAULT: 'hsl(var(--muted))',
-					foreground: 'hsl(var(--muted-foreground))'
+					DEFAULT: 'var(--muted)',
+					foreground: 'var(--muted-foreground)'
 				},
 				accent: {
-					DEFAULT: 'hsl(var(--accent))',
-					foreground: 'hsl(var(--accent-foreground))'
+					DEFAULT: 'var(--accent)',
+					foreground: 'var(--accent-foreground)'
 				},
 				card: {
-					DEFAULT: 'hsl(var(--card))',
-					foreground: 'hsl(var(--card-foreground))'
+					DEFAULT: 'var(--card)',
+					foreground: 'var(--card-foreground)'
 				},
 			},
 			borderRadius: {

@@ -63,7 +63,7 @@ export default function FilterDialog({
                   onCheckedChange={(checked) => 
                     handleFilterChange(filter.id, checked as boolean)
                   }
-                  className="border-border bg-background data-[state=checked]:bg-brand data-[state=checked]:border-brand"
+                  className="border-border bg-background data-[state=checked]:bg-primary data-[state=checked]:border-primary"
                 />
                 <label
                   htmlFor={filter.id}
@@ -87,7 +87,7 @@ export default function FilterDialog({
             <Button
               size="sm"
               onClick={handleApplyFilters}
-              className="flex-1 bg-brand hover:bg-brand/90 text-white dark:text-white"
+              className="flex-1 bg-primary hover:bg-brand/90 text-white dark:text-white"
             >
               Apply Filters
             </Button>

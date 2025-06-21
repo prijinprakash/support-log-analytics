@@ -59,7 +59,7 @@ const TimezoneSelector = () => {
           </PopoverTrigger>
           <PopoverContent className="p-2 w-[300px] bg-[#191a1b] border border-[#03bd4d70] rounded-md shadow-lg z-[1000] mt-1">
             <input
-              className="w-full mb-2 px-2 py-1.5 bg-[#202223] text-sm rounded-md border border-brand focus:border-[#03bd4d80] text-white h-9"
+              className="w-full mb-2 px-2 py-1.5 bg-[#202223] text-sm rounded-md border border-primary focus:border-[#03bd4d80] text-white h-9"
               placeholder="Search timezone..."
               value={search}
               onChange={e => setSearch(e.target.value)}

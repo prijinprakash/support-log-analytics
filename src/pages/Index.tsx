@@ -1,5 +1,5 @@
 
-import CasesTable from "@/components/case/CasesTable";
+import CasesTable from "@/components/caselist/CasesTable";
 // import { useState, useEffect } from "react";
 // import PageLoader from "@/components/PageLoader";
 
@@ -24,7 +24,7 @@ const Index = () => {
   // }
 
   return (
-    <main className="flex-1 flex items-start justify-center py-8">
+    <main className="flex-1 flex items-start justify-center py-4">
       <CasesTable />
     </main>
   );

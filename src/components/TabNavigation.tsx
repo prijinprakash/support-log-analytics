@@ -115,7 +115,7 @@ const TabNavigation = () => {
                 className={cn(
                   "group flex items-center px-3 py-0",
                   activeTab === tab.id
-                    ? "bg-lightbackground text-brand border-b-2 border-brand z-10"
+                    ? "bg-lightbackground text-primary border-b-2 border-primary z-10"
                     : "bg-transparent text-zinc-400 hover:bg-headerborder",
                   "rounded-t-md mr-1 transition-all cursor-pointer h-[32px]",
                   "truncate",
@@ -152,7 +152,7 @@ const TabNavigation = () => {
           <Button
             onClick={() => navigate('/cases')}
             variant="outline"
-            className="bg-headerbackground border border-brand/70 text-brand hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            className="bg-headerbackground border border-brand/70 text-primary hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
             aria-label="Open new tab"
             style={{ alignSelf: 'center' }}
           >

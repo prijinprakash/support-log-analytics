@@ -121,7 +121,7 @@ export default function SearchDialog({
                 value={searchValue}
                 onChange={e => setSearchValue(e.target.value)}
                 placeholder="Enter search term..."
-                className="pl-11 pr-11 h-12 bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-brand focus:ring-1 focus:ring-brand focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-brand focus-visible:ring-offset-0 transition-colors"
+                className="pl-11 pr-11 h-12 bg-background border border-border text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-1 focus:ring-primary focus:outline-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-primary focus-visible:ring-offset-0 transition-colors"
                 style={{ boxShadow: "none" }} // Ensure no forced box-shadow in input
               />
               {searchValue && (

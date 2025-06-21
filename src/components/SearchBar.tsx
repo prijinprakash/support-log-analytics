@@ -67,7 +67,7 @@ const SearchBar = () => {
         <button
           type="button"
           aria-label="Open filters"
-          className="ml-2 flex items-center text-[#bbb] hover:text-brand transition-colors p-1 rounded hover:bg-[#232324]"
+          className="ml-2 flex items-center text-[#bbb] hover:text-primary transition-colors p-1 rounded hover:bg-[#232324]"
           onClick={handleFilterClick}
         >
           <ListFilter size={16} className="align-middle" />

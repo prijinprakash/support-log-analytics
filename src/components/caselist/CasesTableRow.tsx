@@ -49,7 +49,7 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
       <TableCell className="py-1 font-mono">
         <button
           onClick={handleCaseNumberClick}
-          className="text-primary hover:text-primary/80 hover:underline transition-colors cursor-pointer font-mono"
+          className="text-primary hover:text-brand/80 hover:underline transition-colors cursor-pointer font-mono"
           disabled={isLoading}
         >
           {isLoading ? (

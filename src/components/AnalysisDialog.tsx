@@ -200,7 +200,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                       className={`flex items-center gap-1 text-xs shadow
                         ${isAlert
                           ? "bg-red-100 border-red-500 text-red-800"
-                          : "bg-primary/10 border-primary text-primary border"
+                          : "bg-brand/10 border-primary text-primary border"
                         }`}
                       style={
                         isAlert
@@ -215,7 +215,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
                       {getAnalysisName(analysisKey)}
                       <button
                         onClick={() => removeSelectedAnalysis(analysisKey)}
-                        className="hover:bg-primary/10 ml-1 rounded-full p-0.5 focus:outline-none"
+                        className="hover:bg-brand/10 ml-1 rounded-full p-0.5 focus:outline-none"
                         tabIndex={-1}
                         aria-label="Remove selected analysis"
                       >
