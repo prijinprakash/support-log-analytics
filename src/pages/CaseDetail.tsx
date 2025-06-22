@@ -5,11 +5,8 @@ import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import AnalysisDialog from "@/components/AnalysisDialog";
-import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
-import { InteractiveLineChart } from "@/components/charts/InteractiveLineChart";
-import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
 const CaseDetail = () => {
@@ -52,10 +49,7 @@ const CaseDetail = () => {
   ];
 
   const [gridElements, setGridElements] = useState([
-    // { id: 'chart', title: 'Interactive Area Chart', el: <InteractiveAreaChart /> },
     { id: 'chart', title: 'Interactive Line Chart', el: <Uplot /> },
-    { id: 'chart', title: 'Interactive Chart', el: <InteractiveChart /> },
-    // { id: 'table', title: 'System Statistics', el: <DataTable /> },
     { id: 'logs', title: 'Recent Log Entries', 
       el: <div className="font-mono whitespace-pre-line text-sm focus-visible:ring-0 text-muted-foreground">{logs}</div> },
     { id: 'tabular_data', title: 'Tabular Data', el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> }
