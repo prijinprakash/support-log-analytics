@@ -1,3 +1,4 @@
+
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 import uPlot from 'uplot';
 import 'uplot/dist/uPlot.min.css';
@@ -133,6 +134,8 @@ export default function Uplot() {
     })
     return filtered
   }
+
+  const filteredData = getFilteredData();
 
   // Memoize the setCursor callback to prevent re-renders from breaking selection
   const setCursorCallback = useCallback((u: uPlot) => {

@@ -211,7 +211,7 @@ export function InteractiveLineChart() {
       const actualEnd = startDate <= endDate ? endDate : startDate
       
       // Only zoom if there's a meaningful selection (more than 1 day difference)
-      if (Math.abs(actualEnd - actualStart) > 24 * 60 * 60 * 1000) {
+      if (Math.abs(actualEnd.getTime() - actualStart.getTime()) > 24 * 60 * 60 * 1000) {
         setZoomDomain({
           startDate: actualStart,
           endDate: actualEnd
