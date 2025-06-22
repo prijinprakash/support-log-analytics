@@ -5,15 +5,13 @@ import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import AnalysisDialog from "@/components/AnalysisDialog";
-// import DataTable from "@/components/DataTable";
 import { InteractiveAreaChart } from "@/components/charts/InteractiveAreaChart";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-// import TabularData from "@/components/TabularData";
 import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
 import { InteractiveLineChart } from "@/components/charts/InteractiveLineChart";
 import { InteractiveChart } from "@/components/charts/InteractiveChart";
 import VirtualTabularData from "@/components/VirtualTabularData";
-
+import Uplot from "@/components/charts/Uplot";
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
@@ -54,8 +52,8 @@ const CaseDetail = () => {
   ];
 
   const [gridElements, setGridElements] = useState([
-    { id: 'chart', title: 'Interactive Area Chart', el: <InteractiveAreaChart /> },
-    { id: 'chart', title: 'Interactive Line Chart', el: <InteractiveLineChart /> },
+    // { id: 'chart', title: 'Interactive Area Chart', el: <InteractiveAreaChart /> },
+    { id: 'chart', title: 'Interactive Line Chart', el: <Uplot /> },
     { id: 'chart', title: 'Interactive Chart', el: <InteractiveChart /> },
     // { id: 'table', title: 'System Statistics', el: <DataTable /> },
     { id: 'logs', title: 'Recent Log Entries', 
