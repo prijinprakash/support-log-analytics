@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useEffect } from "react";
 import {
   Table,
   TableBody,
@@ -32,13 +32,19 @@ const VirtualTabularData = ({
     overscan: 10,
   });
 
+  useEffect(() => {
+    console.log('tabular component mounted')
+
+    return () => console.log('tabular component unmounted');
+  }, [])
+
   return (
     <div
       ref={parentRef}
       className="relative overflow-auto border rounded"
       style={{ maxHeight }}
     >
-      <Table className="border w-full table-fixed">
+      <Table className="w-full table-fixed">
         <TableHeader className="w-full sticky top-0 bg-background z-10">
           <TableRow style={{ height: rowHeight }}>
             {headers.map((header, header_index) => (
@@ -70,7 +76,8 @@ const VirtualTabularData = ({
             const row = data[virtualRow.index];
             return (
               <TableRow
-                key={virtualRow.index}
+                key={virtualRow.key}
+                data-index={virtualRow.index}
                 ref={rowVirtualizer.measureElement}
                 className="absolute parent-row w-full table table-fixed"
                 style={{

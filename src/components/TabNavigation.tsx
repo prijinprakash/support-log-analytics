@@ -152,7 +152,7 @@ const TabNavigation = () => {
           <Button
             onClick={() => navigate('/cases')}
             variant="outline"
-            className="bg-headerbackground border border-brand/70 text-primary hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap"
+            className="bg-headerbackground border border-brand/70 text-primary hover:bg-brand/20 transition h-8 px-3 rounded flex items-center whitespace-nowrap hover:text-white"
             aria-label="Open new tab"
             style={{ alignSelf: 'center' }}
           >

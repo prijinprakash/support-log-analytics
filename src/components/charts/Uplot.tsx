@@ -27787,8 +27787,8 @@ export default function Uplot() {
   }, [])
 
   return (
-    <Card className="pt-0 col-span-2 border-none shadow-none">
-      <CardHeader className="flex items-center gap-2 space-y-0 py-1 sm:flex-row px-2">
+    <Card className="p-0 col-span-2 border-none shadow-none">
+      <CardHeader className="flex items-center gap-2 space-y-0 py-1 sm:flex-row px-2 border-b">
         <div className="flex gap-2 items-center">
           <div className="flex items-center gap-2">
             <Label htmlFor="yaxis-max" className="text-sm">Y-axis max</Label>
@@ -27832,11 +27832,16 @@ export default function Uplot() {
         </div>
       </CardHeader>
 
-      <CardContent className="p-0 h-[350px] overflow-auto">
+      <CardContent className="p-0 overflow-auto">
         {viewMode === 'chart' ? (
           <div className="grid grid-cols-3 gap-2">
             <div className="col-span-2 p-2">
               <div ref={chartRef} className="w-full h-[300px]" />
+              <div className="mt-4">
+                <div className="text-xs text-muted-foreground">
+                  💡 Click and drag to zoom • Double-click to reset zoom
+                </div>
+              </div>
             </div>
             <div className="col-span-1 flex flex-col justify-between border-l p-2">
               <div className="space-y-4">
@@ -27882,7 +27887,9 @@ export default function Uplot() {
             </div>
           </div>
         ) : (
-          <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={filteredData}/>
+        //   <div className="p-2 block" id="table-container">
+            <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={filteredData}/>
+        //   </div>
         )}
       </CardContent>
     </Card>
