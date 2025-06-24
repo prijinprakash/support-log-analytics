@@ -27,7 +27,7 @@ const CollapsibleAnalysis = ({id, title, el, className, openFullscreen, removeEl
       <Card className="h-full">
         <CardHeader className={`p-2 ${open && "border-b"}`}>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg cursor-pointer w-[80%]" onClick={() => setOpen(!open)}>{title}</CardTitle>
+            <CardTitle className="text-lg cursor-pointer flex-1" onClick={() => setOpen(!open)}>{title}</CardTitle>
             <div className="flex items-center gap-1">
               <Button
                   variant="ghost"

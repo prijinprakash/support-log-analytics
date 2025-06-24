@@ -110600,12 +110600,13 @@ export default function Uplot() {
         label: chartConfig[key].label,
         stroke: chartConfig[key].color,
         width: 1,
-        show: true
+        show: true,
       }
     ): null)
 
     return {
       width: chartRef.current?.clientWidth || 600,
+    //   class: "selection:bg-fuchsia-300 selection:text-fuchsia-900",
       height: 300,
       series,
       legend: {
@@ -110624,16 +110625,16 @@ export default function Uplot() {
           stroke: "#64748b",
           grid: {
             show: false,
-            // stroke: "#e2e8f0",
-            // width: 1
+            stroke: "#e2e8f0",
+            width: 1
           }
         },
         {
           stroke: "#64748b",
           grid: {
             show: false,
-            // stroke: "#e2e8f0",
-            // width: 1
+            stroke: "#e2e8f0",
+            width: 1
           }
         }
       ],
@@ -110641,10 +110642,7 @@ export default function Uplot() {
         show: true,
         x: true,
         y: true,
-        lock: true,
-        points: {
-          show: true
-        }
+        lock: false,
       },
       select: {
         show: true,
@@ -110653,13 +110651,11 @@ export default function Uplot() {
         width: 0,
         top: 0,
         height: 0,
-        fill:"rgba(59, 130, 246, 0.1)",
-        stroke: "rgba(34, 197, 94, 0.2)"
       },
       hooks: {
         setCursor: [plot => {
           let idx = plot.cursor.idx;
-          document.getElementById("timestamp").innerHTML = filteredData[idx]?.date || ""
+          document.getElementById("timestamp").innerHTML = filteredData[idx]?.date.toString() || ""
           Object.keys(chartConfig).forEach(key => {
             const elem = document.getElementById(`id-${key}`);
             elem.innerHTML = filteredData[idx]?.[key].toString() || ""

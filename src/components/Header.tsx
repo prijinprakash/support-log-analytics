@@ -79,19 +79,6 @@ const Header = () => {
               <TooltipTrigger asChild>
                 <Button
                   className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
-                  aria-label="upload-file"
-                  variant="outline"
-                  onClick={() => setUploadDialogOpen(true)}
-                >
-                  <FileUp/>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="bg-white text-secondary text-xs">upload file</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="user-statistics"
                   onClick={() => navigate('/statistics')}
                   variant="outline"
@@ -100,19 +87,6 @@ const Header = () => {
                 </Button>
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">user statistics</TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
-                  aria-label="help"
-                  variant="outline"
-                  onClick={() => setHelpDialogOpen(true)}
-                >
-                  <HelpCircle/>
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent className="bg-white text-secondary text-xs">help</TooltipContent>
             </Tooltip>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -127,6 +101,34 @@ const Header = () => {
               </TooltipTrigger>
               <TooltipContent className="bg-white text-secondary text-xs">settings</TooltipContent>
             </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
+                  aria-label="upload-file"
+                  variant="outline"
+                  onClick={() => setUploadDialogOpen(true)}
+                >
+                  <FileUp/>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-white text-secondary text-xs">upload file</TooltipContent>
+            </Tooltip>
+            
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
+                  aria-label="help"
+                  variant="outline"
+                  onClick={() => setHelpDialogOpen(true)}
+                >
+                  <HelpCircle/>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-white text-secondary text-xs">help</TooltipContent>
+            </Tooltip>
+            
             <Tooltip>
               <TooltipTrigger asChild>
                 <Button
