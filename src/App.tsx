@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -5,6 +6,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import TabNavigation from "./components/TabNavigation";
+import NewReleasesDialog from "./components/NewReleasesDialog";
 // import { ScrollArea } from "@/components/ui/scroll-area";
 import Index from "./pages/Index";
 import Settings from "./pages/Settings";
@@ -19,6 +21,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <NewReleasesDialog />
       <BrowserRouter>
         <div className="sticky top-0 z-50 bg-headerbackground">
           <Header />

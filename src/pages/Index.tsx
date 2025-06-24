@@ -1,31 +1,28 @@
 
-import CasesTable from "@/components/caselist/CasesTable";
-// import { useState, useEffect } from "react";
-// import PageLoader from "@/components/PageLoader";
+import AdminDashboard from "@/components/AdminDashboard";
+import { getCurrentUserRole } from "@/utils/userRole";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Index = () => {
-  // const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
+  const userRole = getCurrentUserRole();
 
-  // useEffect(() => {
-  //   // Simulate loading time for the page
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 500);
+  useEffect(() => {
+    // Redirect non-admin users to cases page
+    if (userRole !== 'admin') {
+      navigate('/cases');
+    }
+  }, [userRole, navigate]);
 
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // if (isLoading) {
-  //   return (
-  //     <main className="flex-1 flex items-center justify-center py-8">
-  //       <PageLoader />
-  //     </main>
-  //   );
-  // }
+  // Only render admin dashboard for admin users
+  if (userRole !== 'admin') {
+    return null; // This will briefly show before redirect
+  }
 
   return (
-    <main className="flex-1 flex items-start justify-center py-4">
-      <CasesTable />
+    <main className="flex-1">
+      <AdminDashboard />
     </main>
   );
 };

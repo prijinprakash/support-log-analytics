@@ -10,6 +10,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
 import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
+import BugReportDialog from "@/components/BugReportDialog";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -17,6 +18,7 @@ const CaseDetail = () => {
   const [activeTab, setActiveTab] = useState("overview");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
+  const [bugReportOpen, setBugReportOpen] = useState(false);
   const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
 192.168.1.15 - - [16/Jun/2025:11:00:10 +0530] "POST /submit_form HTTP/1.1" 200 123 "-" "curl/7.68.0"
 192.168.1.20 - - [16/Jun/2025:11:00:15 +0530] "GET /images/logo.png HTTP/1.1" 200 15789 "-" "Mozilla/5.0
@@ -232,7 +234,11 @@ const CaseDetail = () => {
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="destructive" size="icon">
+                  <Button 
+                    variant="destructive" 
+                    size="icon"
+                    onClick={() => setBugReportOpen(true)}
+                  >
                     <Bug />
                   </Button>
                 </TooltipTrigger>
@@ -431,6 +437,9 @@ const CaseDetail = () => {
 
       {/* Dialog for selecting analyses */}
       <AnalysisDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+      
+      {/* Bug Report Dialog */}
+      <BugReportDialog open={bugReportOpen} onOpenChange={setBugReportOpen} />
     </div>
   );
 };
