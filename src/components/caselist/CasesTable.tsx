@@ -13,17 +13,17 @@ import { CasesTablePagination } from "./CasesTablePagination";
 import { useCasesStore } from "@/store/casesStore";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
-interface Case {
-  id: number;
-  uuid: string;
-  caseNumber: string;
-  status: CaseStatus;
-  serialNumber: string;
-  hostName: string;
-  fileName: string;
-  createdAt: string; // ISO string
-  syslogEndTime: string; // ISO string
-}
+// interface Case {
+//   id: number;
+//   uuid: string;
+//   caseNumber: string;
+//   status: CaseStatus;
+//   serialNumber: string;
+//   hostName: string;
+//   fileName: string;
+//   createdAt: string; // ISO string
+//   syslogEndTime: string; // ISO string
+// }
 
 const CasesTable: React.FC = () => {
   // Store state

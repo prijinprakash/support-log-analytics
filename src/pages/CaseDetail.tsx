@@ -1,5 +1,6 @@
 import { useParams } from "react-router-dom";
-import { FileText, Clock, AlertCircle, Server, Globe, HardDrive } from "lucide-react";
+import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2 } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
@@ -9,6 +10,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
 import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
+
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
   const [isLoading, setIsLoading] = useState(true);
@@ -63,6 +65,10 @@ const CaseDetail = () => {
     return () => clearTimeout(timer);
   }, []);
 
+  useEffect(() => {
+    console.log('moounted case details')
+    return () => console.log('unmounted case details')
+  }, [])
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A for Mac)
   useEffect(() => {
     const toggleDialog = (e: KeyboardEvent) => {
@@ -112,86 +118,84 @@ const CaseDetail = () => {
       {/* Main Content - Two Column Layout */}
       <div className="flex gap-0 h-[calc(100vh-130px)]">
         {/* Left Section - Basic Details */}
-        <div className="w-80 flex-shrink-0 p-4 overflow-auto break-words">
-          {/* <div className="bg-card rounded-lg border p-6 h-full"> */}
-            <h2 className="text-lg font-semibold mb-4 text-foreground">Case Details</h2>
-            
-            <div className="space-y-2">
-              <div className="flex items-start gap-3">
-                <FileText size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Case Number</div>
-                  <div className="text-sm font-mono break-all">{caseData.caseNumber}</div>
-                </div>
+        <div className="w-80 flex-shrink-0 p-4 overflow-auto break-words relative">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Case Details</h2>
+          
+          <div className="space-y-2">
+            <div className="flex items-start gap-3">
+              <FileText size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Case Number</div>
+                <div className="text-sm font-mono break-all">{caseData.caseNumber}</div>
               </div>
+            </div>
 
-              <div className="flex items-start gap-3">
-                <Server size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Host Name</div>
-                  <div className="text-sm break-all">{caseData.hostName}</div>
-                </div>
+            <div className="flex items-start gap-3">
+              <Server size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Host Name</div>
+                <div className="text-sm break-all">{caseData.hostName}</div>
               </div>
+            </div>
 
-              <div className="flex items-start gap-3">
-                <HardDrive size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">File Name</div>
-                  <div className="text-sm break-all">{caseData.fileName}</div>
-                </div>
+            <div className="flex items-start gap-3">
+              <HardDrive size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">File Name</div>
+                <div className="text-sm break-all">{caseData.fileName}</div>
               </div>
+            </div>
 
-              <div className="flex items-start gap-3">
-                <AlertCircle size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Cluster Status</div>
-                  <div className="flex items-center gap-2">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    <span className="text-sm">{caseData.clusterStatus}</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Clock size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Total Processing Time</div>
-                  <div className="text-sm">{caseData.totalProcessingTime}</div>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-3">
-                <Globe size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Timezone</div>
-                  <div className="text-sm">{caseData.timezone}</div>
+            <div className="flex items-start gap-3">
+              <AlertCircle size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Cluster Status</div>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                  <span className="text-sm">{caseData.clusterStatus}</span>
                 </div>
               </div>
             </div>
 
-            <h2 className="text-lg font-semibold my-4 text-foreground">Log intervals</h2>
-
-            <div className="space-y-2">
-              <div className="flex items-start gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Debug Log Interval</div>
-                  <div className="text-sm break-all tracking-tight">{caseData.debugLogInterval}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Syslog Interval</div>
-                  <div className="text-sm break-all tracking-tight">{caseData.sysLogInterval}</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="min-w-0 flex-1">
-                  <div className="text-sm font-medium text-muted-foreground mb-1">Ptop Log interval</div>
-                  <div className="text-sm break-all tracking-tight">{caseData.ptopLogInterval}</div>
-                </div>
+            <div className="flex items-start gap-3">
+              <Clock size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Total Processing Time</div>
+                <div className="text-sm">{caseData.totalProcessingTime}</div>
               </div>
             </div>
-          {/* </div> */}
+
+            <div className="flex items-start gap-3">
+              <Globe size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Timezone</div>
+                <div className="text-sm">{caseData.timezone}</div>
+              </div>
+            </div>
+          </div>
+
+          <h2 className="text-lg font-semibold my-4 text-foreground">Log intervals</h2>
+
+          <div className="space-y-2">
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Debug Log Interval</div>
+                <div className="text-sm break-all tracking-tight">{caseData.debugLogInterval}</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Syslog Interval</div>
+                <div className="text-sm break-all tracking-tight">{caseData.sysLogInterval}</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-3">
+              <div className="min-w-0 flex-1">
+                <div className="text-sm font-medium text-muted-foreground mb-1">Ptop Log interval</div>
+                <div className="text-sm break-all tracking-tight">{caseData.ptopLogInterval}</div>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Right Section - Tabs and Content */}
@@ -201,20 +205,40 @@ const CaseDetail = () => {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
               <TabsList>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="timeline">Timeline</TabsTrigger>
-                <TabsTrigger value="documents">Documents</TabsTrigger>
-                <TabsTrigger value="analysis">Analysis</TabsTrigger>
+                <TabsTrigger value="timeline">Stats</TabsTrigger>
+                <TabsTrigger value="documents">Debug Summary</TabsTrigger>
+                <TabsTrigger value="analysis">Syslog Summary</TabsTrigger>
+                <TabsTrigger value="bc">connect</TabsTrigger>
+                <TabsTrigger value="bc_metrics">connect metrics</TabsTrigger>
               </TabsList>
             </Tabs>
 
             <div className="flex items-center gap-2 ml-4">
-              <Button variant="outline" size="sm">
-                Export
-              </Button>
-              <Button variant="outline" size="sm">
-                Share
-              </Button>
-              <Button size="sm" onClick={() => setDialogOpen(true)}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Share2 />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background">Share Analysis</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="outline" size="icon">
+                    <Download />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background">Export Report</TooltipContent>
+              </Tooltip>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button variant="destructive" size="icon">
+                    <Bug />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background">Report Bug</TooltipContent>
+              </Tooltip>
+              <Button onClick={() => setDialogOpen(true)}>
                 View Analysis
               </Button>
             </div>
@@ -226,9 +250,9 @@ const CaseDetail = () => {
               <TabsContent value="overview" className="m-0">
                 {/* Visualizations Grid */}
                 <div className="space-y-2">
-                  {gridElements.map(elem => (
-                    <CollapsibleAnalysis {...elem} openFullscreen={openFullscreen} removeElement={removeElement}/>
-                  ))}
+                  {gridElements.length ? gridElements.map((elem, idx)=> (
+                    <CollapsibleAnalysis {...elem} openFullscreen={openFullscreen} removeElement={removeElement} key={idx}/>
+                  )) : <span className="text-muted-foreground px-2">No Analysis selected</span>}
                 </div>
               </TabsContent>
               
@@ -291,6 +315,70 @@ const CaseDetail = () => {
               </TabsContent>
               
               <TabsContent value="analysis" className="mt-0 h-full">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Analysis Results</h3>
+                  <div className="grid gap-4">
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                        <span className="font-medium">Critical Issues: 3</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Security vulnerabilities detected in system configuration
+                      </p>
+                    </div>
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                        <span className="font-medium">Warnings: 15</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Performance optimizations recommended
+                      </p>
+                    </div>
+                    <div className="p-4 border rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
+                        <span className="font-medium">Information: 6</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        System status and configuration details
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+
+              <TabsContent value="bc" className="mt-0 h-full">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Related Documents</h3>
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                      <FileText size={16} />
+                      <div className="flex-1">
+                        <div className="font-medium">{caseData.fileName}</div>
+                        <div className="text-sm text-muted-foreground">12.4 GB • Uploaded 2 days ago</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                      <FileText size={16} />
+                      <div className="flex-1">
+                        <div className="font-medium">Analysis Report.pdf</div>
+                        <div className="text-sm text-muted-foreground">2.1 MB • Generated 1 day ago</div>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
+                      <FileText size={16} />
+                      <div className="flex-1">
+                        <div className="font-medium">Configuration Export.json</div>
+                        <div className="text-sm text-muted-foreground">145 KB • Exported 6 hours ago</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="bc_metrics" className="mt-0 h-full">
                 <div className="space-y-4">
                   <h3 className="text-lg font-semibold">Analysis Results</h3>
                   <div className="grid gap-4">
