@@ -7,9 +7,9 @@ import {
 } from "@/components/ui/card"
 import moment from "moment-timezone";
 import { ChevronUp, ChevronDown } from "lucide-react";
-import { CasesTableFilters } from "./CasesTableFilters";
-import CasesTableRow from "./CasesTableRow";
-import { CasesTablePagination } from "./CasesTablePagination";
+import { CasesTableFilters } from "../components/caselist/CasesTableFilters";
+import CasesTableRow from "../components/caselist/CasesTableRow";
+import { CasesTablePagination } from "../components/caselist/CasesTablePagination";
 import { useCasesStore } from "@/store/casesStore";
 
 type CaseStatus = "new" | "in progress" | "queued" | "finished";
@@ -25,7 +25,7 @@ type CaseStatus = "new" | "in progress" | "queued" | "finished";
 //   syslogEndTime: string; // ISO string
 // }
 
-const CasesTable: React.FC = () => {
+const Cases: React.FC = () => {
   // Store state
   const { cases, isLoading, fetchCases } = useCasesStore();
   
@@ -226,4 +226,4 @@ const CasesTable: React.FC = () => {
   );
 };
 
-export default CasesTable;
+export default Cases;

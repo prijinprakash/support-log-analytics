@@ -168,6 +168,12 @@ body {
   .navicon {
     @apply rounded p-2 bg-lightbackground hover:bg-headerborder transition-colors h-9 w-9 flex items-center justify-center;
   }
+  .uplot-styles {
+    @apply selection:bg-fuchsia-300 selection:text-fuchsia-900 dark:bg-[#191a1b]
+  }
+  #my-chart.uplot-styles .o-over {
+    @apply selection:bg-fuchsia-300 selection:text-fuchsia-900
+  }
 }
 
 ::-webkit-scrollbar {

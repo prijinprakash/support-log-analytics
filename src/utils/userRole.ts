@@ -5,7 +5,7 @@ export type UserRole = 'admin' | 'user' | 'moderator';
 export const getCurrentUserRole = (): UserRole => {
   // For now, we'll use a hardcoded value
   // In a real app, this would check authentication state or make an API call
-  const mockRole = localStorage.getItem('mockUserRole') || 'user';
+  const mockRole = localStorage.getItem('mockUserRole') || 'admin';
   return mockRole as UserRole;
 };
 

@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import UserStatistics from "./pages/UserStatistics";
 import NotFound from "./pages/NotFound";
 import CaseDetail from "./pages/CaseDetail";
+import Cases from "./pages/Cases";
 
 const queryClient = new QueryClient();
 
@@ -32,7 +33,7 @@ const App = () => (
             {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
                 <Route path="/" element={<Index />} />
-                <Route path="/cases" element={<Index />} />
+                <Route path="/cases" element={<Cases />} />
                 <Route path="/cases/:caseId" element={<CaseDetail />} />
                 <Route path="/settings" element={<Settings />} />
                 <Route path="/statistics" element={<UserStatistics />} />

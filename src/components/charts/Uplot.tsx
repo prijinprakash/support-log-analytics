@@ -23,7 +23,6 @@ import { Button } from "@/components/ui/button"
 import uPlot from "uplot"
 import "uplot/dist/uPlot.min.css"
 
-
 const chartConfig = {
   cpu_usage_0: { label: "cpu_usage_0", color: "#FF6384" },
   cpu_usage_1: { label: "cpu_usage_1", color: "#36A2EB" },
@@ -110605,8 +110604,10 @@ export default function Uplot() {
     ): null)
 
     return {
+      id: 'my-chart',
       width: chartRef.current?.clientWidth || 600,
-    //   class: "selection:bg-fuchsia-300 selection:text-fuchsia-900",
+      // class: ["selection:bg-fuchsia-300", "selection:text-fuchsia-900", "h-[300px]"],
+      class: "uplot-styles",
       height: 300,
       series,
       legend: {
@@ -110646,7 +110647,7 @@ export default function Uplot() {
       },
       select: {
         show: true,
-        // over:false,
+        over:true,
         left: 0,
         width: 0,
         top: 0,
