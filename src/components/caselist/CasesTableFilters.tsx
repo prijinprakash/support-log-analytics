@@ -3,8 +3,7 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Search as SearchIcon } from "lucide-react";
-
-type CaseStatus = "new" | "in progress" | "queued" | "finished";
+import { CaseStatus } from "@/store/casesStore";
 
 interface CasesTableFiltersProps {
   search: string;

@@ -110565,7 +110565,7 @@ export default function Uplot() {
   const plotRef = React.useRef(null)
 
   // Filter data based on time range and zoom
-  const getFilteredData = React.useCallback(() => {
+  const filteredData = React.useMemo(() => {
     let filtered = chartData.filter((item) => {
       const date = new Date(item.date)
       // const referenceDate = new Date("2024-06-30")
@@ -110580,8 +110580,6 @@ export default function Uplot() {
 
     return filtered
   }, [timeRange])
-
-  const filteredData = getFilteredData()
 
   // Convert data to uPlot format
   const getUPlotData = React.useCallback(() => {

@@ -12,34 +12,21 @@ import CasesTableRow from "../components/caselist/CasesTableRow";
 import { CasesTablePagination } from "../components/caselist/CasesTablePagination";
 import { useCasesStore } from "@/store/casesStore";
 
-type CaseStatus = "new" | "in progress" | "queued" | "finished";
-// interface Case {
-//   id: number;
-//   uuid: string;
-//   caseNumber: string;
-//   status: CaseStatus;
-//   serialNumber: string;
-//   hostName: string;
-//   fileName: string;
-//   createdAt: string; // ISO string
-//   syslogEndTime: string; // ISO string
-// }
-
 const Cases: React.FC = () => {
   // Store state
-  const { cases, isLoading, fetchCases } = useCasesStore();
+  const { cases, isLoading, pageNumber, setPageNumber, fetchCases, setLoading } = useCasesStore();
   
   // Table state
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
-  const [sortBy, setSortBy] = useState<"id" | "createdAt" | "status">("id");
+  const [sortBy, setSortBy] = useState<"id" | "created_at" | "status">("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
   
   // Initialize pagination from localStorage
-  const [page, setPage] = useState(() => {
-    const savedPage = localStorage.getItem("casesTableCurrentPage");
-    return savedPage ? parseInt(savedPage, 10) : 1;
-  });
+  // const [page, setPage] = useState(() => {
+  //   const savedPage = localStorage.getItem("casesTableCurrentPage");
+  //   return savedPage ? parseInt(savedPage, 10) : 1;
+  // });
   
   const [pageSize, setPageSize] = useState(() => {
     const savedPageSize = localStorage.getItem("casesTablePageSize");
@@ -49,9 +36,17 @@ const Cases: React.FC = () => {
   // Timezone from localStorage or default (sync to changes)
   const [timezone, setTimezone] = useState<string>(moment.tz.guess());
 
+  useEffect(() => {
+    console.log('cases page component mounted')
+
+    return () => console.log('cases page component unmounted');
+  }, [])
+
   // Fetch cases on component mount
   useEffect(() => {
+    // setLoading(true);
     fetchCases();
+    // console.log(cases)
   }, [fetchCases]);
 
   useEffect(() => {
@@ -68,9 +63,9 @@ const Cases: React.FC = () => {
   }, []);
 
   // Save pagination settings to localStorage
-  useEffect(() => {
-    localStorage.setItem("casesTableCurrentPage", page.toString());
-  }, [page]);
+  // useEffect(() => {
+  //   localStorage.setItem("casesTableCurrentPage", page.toString());
+  // }, [page]);
 
   useEffect(() => {
     localStorage.setItem("casesTablePageSize", pageSize.toString());
@@ -83,10 +78,10 @@ const Cases: React.FC = () => {
       const s = search.trim().toLowerCase();
       items = items.filter(
         (d) =>
-          d.caseNumber.includes(s) ||
-          d.hostName.toLowerCase().includes(s) ||
-          d.serialNumber.toLowerCase().includes(s) ||
-          d.fileName.toLowerCase().includes(s)
+          d.case_number.includes(s) ||
+          d.host_name.toLowerCase().includes(s) ||
+          d.serial_number.toLowerCase().includes(s) ||
+          d.file_name.toLowerCase().includes(s)
       );
     }
     if (statusFilter !== "all") {
@@ -98,9 +93,9 @@ const Cases: React.FC = () => {
       if (sortBy === "id") {
         keyA = a.id;
         keyB = b.id;
-      } else if (sortBy === "createdAt") {
-        keyA = a.createdAt;
-        keyB = b.createdAt;
+      } else if (sortBy === "created_at") {
+        keyA = a.created_at;
+        keyB = b.created_at;
       } else if (sortBy === "status") {
         keyA = a.status;
         keyB = b.status;
@@ -117,9 +112,10 @@ const Cases: React.FC = () => {
     return filteredData.slice(start, start + pageSize);
   }, [filteredData, page, pageSize]);
 
+
   const pageCount = Math.ceil(filteredData.length / pageSize);
 
-  function handleSort(column: "id" | "createdAt" | "status") {
+  function handleSort(column: "id" | "created_at" | "status") {
     if (sortBy === column) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else {
       setSortBy(column);
@@ -144,7 +140,7 @@ const Cases: React.FC = () => {
 
   if (isLoading) {
     return (
-      <section className="px-4 w-full">
+      <section className="p-4 w-full">
         <div className="flex items-center justify-center py-12">
           <div className="w-8 h-8 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
           <span className="ml-3 text-muted-foreground">Loading cases...</span>
@@ -154,7 +150,7 @@ const Cases: React.FC = () => {
   }
 
   return (
-    <section className="px-4 w-full">
+    <section className="p-4 w-full">
       <Card>
         <CardHeader className="py-2 px-4 flex flex-row justify-between items-center space-y-0">
           <CasesTableFilters
@@ -194,10 +190,10 @@ const Cases: React.FC = () => {
               <TableHead className="h-8 text-muted-foreground font-semibold">Serial Number</TableHead>
               <TableHead className="h-8 text-muted-foreground font-semibold">Host Name</TableHead>
               <TableHead className="h-8 text-muted-foreground font-semibold">File Name</TableHead>
-              <TableHead className="h-8 min-w-[160px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("createdAt")}>
+              <TableHead className="h-8 min-w-[160px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("created_at")}>
                 <span className="inline-flex items-center">
                   Created At
-                  {sortBy === "createdAt" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
+                  {sortBy === "created_at" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
                 </span>
               </TableHead>
               <TableHead className="h-8 min-w-[160px] text-muted-foreground font-semibold">Syslog End Time</TableHead>

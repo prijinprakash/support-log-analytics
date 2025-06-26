@@ -3,18 +3,17 @@ import { TableCell, TableRow } from "@/components/ui/table";
 import { useState } from "react";
 import moment from "moment-timezone";
 import { CaseStatusBadge } from "./CaseStatusBadge";
-type CaseStatus = "new" | "in progress" | "queued" | "finished";
-
+import { CaseStatus } from "@/store/casesStore";
 interface Case {
   id: number;
-  uuid: string;
-  caseNumber: string;
+  // uuid: string;
+  case_number: string;
   status: CaseStatus;
-  serialNumber: string;
-  hostName: string;
-  fileName: string;
-  createdAt: string; // ISO string
-  syslogEndTime: string; // ISO string
+  serial_number: string;
+  host_name: string;
+  file_name: string;
+  created_at: string; // ISO string
+  syslog_end_time: string; // ISO string
 }
 
 interface CasesTableRowProps {
@@ -33,7 +32,7 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
     
     // Call the global openCase function from TabNavigation
     if ((window as any).openCase) {
-      (window as any).openCase(caseItem.caseNumber);
+      (window as any).openCase(caseItem.case_number);
     }
     
     setIsLoading(false);
@@ -55,21 +54,21 @@ const CasesTableRow: React.FC<CasesTableRowProps> = ({ case: caseItem, timezone 
           {isLoading ? (
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 border-2 border-gray-300 border-t-primary rounded-full animate-spin" />
-              {caseItem.caseNumber}
+              {caseItem.case_number}
             </div>
           ) : (
-            caseItem.caseNumber
+            caseItem.case_number
           )}
         </button>
       </TableCell>
       <TableCell className="py-1 font-mono">
         <CaseStatusBadge status={caseItem.status} />
       </TableCell>
-      <TableCell className="py-1 font-mono">{caseItem.serialNumber}</TableCell>
-      <TableCell className="py-1 font-mono">{caseItem.hostName}</TableCell>
-      <TableCell className="py-1 font-mono">{caseItem.fileName}</TableCell>
-      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.createdAt)}</TableCell>
-      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.syslogEndTime)}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.serial_number}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.host_name}</TableCell>
+      <TableCell className="py-1 font-mono">{caseItem.file_name}</TableCell>
+      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.created_at)}</TableCell>
+      <TableCell className="py-1 font-mono">{formatDateTime(caseItem.syslog_end_time)}</TableCell>
     </TableRow>
   );
 };

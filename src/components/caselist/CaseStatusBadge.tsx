@@ -1,7 +1,6 @@
 
 import React from "react";
-
-type CaseStatus = "new" | "in progress" | "queued" | "finished";
+import { CaseStatus } from "@/store/casesStore";
 
 interface CaseStatusBadgeProps {
   status: CaseStatus;

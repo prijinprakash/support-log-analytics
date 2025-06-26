@@ -1,18 +1,20 @@
 
+import React from 'react';
 import { create } from 'zustand';
+import { supabase } from "@/integrations/supabase/client";
 
-type CaseStatus = "new" | "in progress" | "queued" | "finished";
+export type CaseStatus = "new" | "in progress" | "queued" | "finished";
 
 interface Case {
   id: number;
-  uuid: string;
-  caseNumber: string;
+  // uuid: string;
+  case_number: string;
   status: CaseStatus;
-  serialNumber: string;
-  hostName: string;
-  fileName: string;
-  createdAt: string; // ISO string
-  syslogEndTime: string; // ISO string
+  serial_number: string;
+  host_name: string;
+  file_name: string;
+  created_at: string; // ISO string
+  syslog_end_time: string; // ISO string
 }
 
 interface CasesStore {
@@ -21,52 +23,68 @@ interface CasesStore {
   fetchCases: () => Promise<void>;
 }
 
-// Mock data that would come from an API
-function generateMockCases(): Case[] {
-  function randStatus(): CaseStatus {
-    const statuses: CaseStatus[] = ["new", "in progress", "queued", "finished"];
-    return statuses[Math.floor(Math.random() * statuses.length)];
-  }
-  
-  function randFileName(): string {
-    const prefixes = ["log", "data", "report", "analysis", "dump", "trace", "debug", "system", "error", "info"];
-    const suffixes = ["txt", "log", "csv", "json", "xml", "dat"];
-    const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
-    const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
-    const number = Math.floor(1000 + Math.random() * 9000);
-    return `${prefix}_${number}.${suffix}`;
-  }
-  
-  const now = Date.now();
-  return Array(5000)
-    .fill(null)
-    .map((_, idx) => ({
-      id: idx + 1,
-      uuid: crypto.randomUUID(),
-      caseNumber: ("00000000" + (Math.floor(100000 + Math.random() * 900000))).slice(-8),
-      status: randStatus(),
-      serialNumber: "SN-" + Math.floor(10000000 + Math.random() * 90000000),
-      hostName: `host${idx + 1}.example.com`,
-      fileName: randFileName(),
-      createdAt: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
-      syslogEndTime: new Date(now - Math.floor(Math.random() * 7 * 24 * 60 * 60 * 1000)).toISOString(),
-    }));
-}
+const caseStatusMap = Object.freeze({
+  0: "new",
+  1: "in progress",
+  2: "queued", 
+  3: "finished"
+})
 
-export const useCasesStore = create<CasesStore>((set) => ({
+// const fetchCases = async () => {
+//   const { data, error } = await supabase
+//         .from('cases')
+//         .select('*')
+
+//   if (error) console.error(error)
+//   else console.log('cases fetched...')
+// }
+
+export const useCasesStore = create<CasesStore>((set, get) => ({
   cases: [],
-  isLoading: false,
+  isLoading: true,
+  pageNumber: 0,
+  setLoading: (isLoading: boolean) => set({ isLoading }),
+  setPageNumber: (page: number) => set({ page }),
   fetchCases: async () => {
-    set({ isLoading: true });
+    const { cases, pageNumber, isLoading } = get();
+    if (!isLoading) return;
     
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 500));
-    
-    // In a real app, this would be:
-    // const response = await fetch('/api/cases');
-    // const cases = await response.json();
-    
-    const cases = generateMockCases();
-    set({ cases, isLoading: false });
-  },
+    const pageSize = parseInt(localStorage.getItem('hello')) || 10
+    const from = pageNumber * pageSize;
+    const to = from + pageSize - 1;
+    const { data, error } = await supabase
+        .from('cases')
+        .select('*')
+        .range(from, to);
+
+    if (error) {
+      console.error(error);
+      set({ isLoading: false });
+      return;
+    }
+
+    if (data.length === 0) {
+      // no more data
+      set({ isLoading: false });
+      return;
+    }
+    console.log(`fetched ${data.length} cases....`)
+
+    // set({ 
+    //   cases: data.map(caseItem => ({...caseItem, status: caseStatusMap[caseItem.status]})), 
+    //   isLoading: false,
+    //   page: page + 1,
+    // });
+    set({
+      cases: [
+        ...cases,
+        ...data.map(item => ({
+          ...item,
+          status: caseStatusMap[item.status],
+        })),
+      ],
+      isLoading: false,
+      pageNumber: pageNumber + 1,
+    });
+  }
 }));

@@ -104,9 +104,9 @@ const CaseDetail = () => {
 
   // Mock case data - in real app this would come from API
   const caseData = {
-    caseNumber: "00123456",
-    hostName: "server-prod-01.example.com",
-    fileName: "system_logs_2024.tar.gz",
+    case_number: "00123456",
+    host_name: "server-prod-01.example.com",
+    file_name: "system_logs_2024.tar.gz",
     clusterStatus: "Active",
     totalProcessingTime: "45 minutes",
     timezone: "UTC-5 (EST)",
@@ -128,7 +128,7 @@ const CaseDetail = () => {
               <FileText size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-medium text-muted-foreground mb-1">Case Number</div>
-                <div className="text-sm font-mono break-all">{caseData.caseNumber}</div>
+                <div className="text-sm font-mono break-all">{caseData.case_number}</div>
               </div>
             </div>
 
@@ -136,7 +136,7 @@ const CaseDetail = () => {
               <Server size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-medium text-muted-foreground mb-1">Host Name</div>
-                <div className="text-sm break-all">{caseData.hostName}</div>
+                <div className="text-sm break-all">{caseData.host_name}</div>
               </div>
             </div>
 
@@ -144,7 +144,7 @@ const CaseDetail = () => {
               <HardDrive size={18} className="text-muted-foreground mt-1 flex-shrink-0" />
               <div className="min-w-0 flex-1">
                 <div className="text-sm font-medium text-muted-foreground mb-1">File Name</div>
-                <div className="text-sm break-all">{caseData.fileName}</div>
+                <div className="text-sm break-all">{caseData.file_name}</div>
               </div>
             </div>
 
@@ -298,7 +298,7 @@ const CaseDetail = () => {
                     <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
                       <FileText size={16} />
                       <div className="flex-1">
-                        <div className="font-medium">{caseData.fileName}</div>
+                        <div className="font-medium">{caseData.file_name}</div>
                         <div className="text-sm text-muted-foreground">12.4 GB • Uploaded 2 days ago</div>
                       </div>
                     </div>
@@ -362,7 +362,7 @@ const CaseDetail = () => {
                     <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
                       <FileText size={16} />
                       <div className="flex-1">
-                        <div className="font-medium">{caseData.fileName}</div>
+                        <div className="font-medium">{caseData.file_name}</div>
                         <div className="text-sm text-muted-foreground">12.4 GB • Uploaded 2 days ago</div>
                       </div>
                     </div>

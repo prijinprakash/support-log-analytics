@@ -7,7 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Header from "./components/Header";
 import TabNavigation from "./components/TabNavigation";
 import NewReleasesDialog from "./components/NewReleasesDialog";
-// import { ScrollArea } from "@/components/ui/scroll-area";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import Index from "./pages/Index";
 import Settings from "./pages/Settings";
 import UserStatistics from "./pages/UserStatistics";
@@ -28,7 +28,7 @@ const App = () => (
           <Header />
           <TabNavigation />
         </div>
-        <div className="relative dark:bg-background bg-[#f8f8f8] text-foreground flex flex-col overflow-hidden min-h-[calc(100vh-130px)]">
+        {/* <div className="relative dark:bg-background bg-[#f8f8f8] text-foreground flex flex-col overflow-hidden min-h-[calc(100vh-130px)]"> */}
           {/* <div className="flex flex-col flex-1 min-h-0"> */}
             {/* <ScrollArea className="flex-1 h-full"> */}
               <Routes>
@@ -42,7 +42,7 @@ const App = () => (
               </Routes>
             {/* </ScrollArea> */}
           {/* </div> */}
-        </div>
+        {/* </div> */}
         <footer className="fixed left-0 bottom-0 w-full bg-background text-muted-foreground text-center py-2 z-50 border-t border-border">
           <span className="text-xs select-none">
             &copy; 2025 company name. All rights reserved.

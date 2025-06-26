@@ -1,157 +1,3 @@
-
-// import React, { useState } from "react";
-// import {
-//   Dialog,
-//   DialogContent,
-//   DialogHeader,
-//   DialogTitle,
-// } from "@/components/ui/dialog";
-// import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-// import { Textarea } from "@/components/ui/textarea";
-// import { Label } from "@/components/ui/label";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
-// import { useToast } from "@/hooks/use-toast";
-
-// type BugReportDialogProps = {
-//   open: boolean;
-//   onOpenChange: (open: boolean) => void;
-// };
-
-// const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
-//   const [formData, setFormData] = useState({
-//     title: "",
-//     description: "",
-//     priority: "",
-//     category: "",
-//     email: "",
-//   });
-//   const { toast } = useToast();
-
-//   const handleSubmit = (e: React.FormEvent) => {
-//     e.preventDefault();
-//     console.log("Bug report submitted:", formData);
-    
-//     // Close dialog first
-//     onOpenChange(false);
-    
-//     // Show success toast
-//     toast({
-//       title: "Bug Report Submitted",
-//       description: "Thank you for your feedback. We'll review your report and get back to you soon.",
-//     });
-
-//     // Reset form
-//     setFormData({
-//       title: "",
-//       description: "",
-//       priority: "",
-//       category: "",
-//       email: "",
-//     });
-//   };
-
-//   const handleInputChange = (field: string, value: string) => {
-//     setFormData(prev => ({ ...prev, [field]: value }));
-//   };
-
-//   return (
-//     <Dialog open={open} onOpenChange={onOpenChange}>
-//       <DialogContent className="max-w-md">
-//         <DialogHeader>
-//           <DialogTitle>Report a Bug</DialogTitle>
-//         </DialogHeader>
-//         <form onSubmit={handleSubmit} className="space-y-4">
-//           <div className="space-y-2">
-//             <Label htmlFor="title">Bug Title *</Label>
-//             <Input
-//               id="title"
-//               value={formData.title}
-//               onChange={(e) => handleInputChange("title", e.target.value)}
-//               placeholder="Brief description of the issue"
-//               required
-//             />
-//           </div>
-
-//           <div className="space-y-2">
-//             <Label htmlFor="description">Description *</Label>
-//             <Textarea
-//               id="description"
-//               value={formData.description}
-//               onChange={(e) => handleInputChange("description", e.target.value)}
-//               placeholder="Detailed description of the bug..."
-//               rows={4}
-//               required
-//             />
-//           </div>
-
-//           <div className="grid grid-cols-2 gap-4">
-//             <div className="space-y-2">
-//               <Label>Priority</Label>
-//               <Select value={formData.priority} onValueChange={(value) => handleInputChange("priority", value)}>
-//                 <SelectTrigger>
-//                   <SelectValue placeholder="Select priority" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="low">Low</SelectItem>
-//                   <SelectItem value="medium">Medium</SelectItem>
-//                   <SelectItem value="high">High</SelectItem>
-//                   <SelectItem value="critical">Critical</SelectItem>
-//                 </SelectContent>
-//               </Select>
-//             </div>
-
-//             <div className="space-y-2">
-//               <Label>Category</Label>
-//               <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
-//                 <SelectTrigger>
-//                   <SelectValue placeholder="Select category" />
-//                 </SelectTrigger>
-//                 <SelectContent>
-//                   <SelectItem value="ui">UI/UX</SelectItem>
-//                   <SelectItem value="performance">Performance</SelectItem>
-//                   <SelectItem value="functionality">Functionality</SelectItem>
-//                   <SelectItem value="data">Data Issues</SelectItem>
-//                   <SelectItem value="other">Other</SelectItem>
-//                 </SelectContent>
-//               </Select>
-//             </div>
-//           </div>
-
-//           <div className="space-y-2">
-//             <Label htmlFor="email">Contact Email</Label>
-//             <Input
-//               id="email"
-//               type="email"
-//               value={formData.email}
-//               onChange={(e) => handleInputChange("email", e.target.value)}
-//               placeholder="your.email@example.com"
-//             />
-//           </div>
-
-//           <div className="flex gap-2 pt-4">
-//             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
-//               Cancel
-//             </Button>
-//             <Button type="submit" className="flex-1">
-//               Submit Report
-//             </Button>
-//           </div>
-//         </form>
-//       </DialogContent>
-//     </Dialog>
-//   );
-// };
-
-// export default BugReportDialog;
-
-
 import React, { useState } from "react";
 import {
   Dialog,
@@ -183,9 +29,10 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
   const [formData, setFormData] = useState({
     title: "",
     description: "",
-    priority: "",
+    priority: "low",
     pageUrl: "",
     email: "",
+    category: "low"
   });
   const { toast } = useToast();
 
@@ -209,10 +56,12 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
       priority: "",
       pageUrl: "",
       email: "",
+      category: ""
     });
   };
 
   const handleInputChange = (field: string, value: string) => {
+    console.log(value)
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -262,23 +111,38 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
 
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <div className="flex items-center gap-1">
-                <Label className="text-sm font-medium">Page URL or Path</Label>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>The URL where the bug occurred</p>
-                  </TooltipContent>
-                </Tooltip>
-              </div>
-              <Input
-                value={formData.pageUrl}
-                onChange={(e) => handleInputChange("pageUrl", e.target.value)}
-                placeholder="/dashboard/profile"
-                className="h-12"
-              />
+              <Label className="text-sm font-medium">Category</Label>
+              <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
+                <SelectTrigger className="h-12">
+                  <SelectValue placeholder="Low" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="low">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                      Low
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="medium">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                      Medium
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="high">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      High
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="critical">
+                    <div className="flex items-center gap-2">
+                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
+                      Critical
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">

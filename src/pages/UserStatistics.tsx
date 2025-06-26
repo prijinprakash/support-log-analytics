@@ -3,11 +3,11 @@ import { ChartLine, Activity, Clock, Target, TrendingUp } from "lucide-react";
 
 const UserStatistics = () => {
   return (
-    <main className="container mx-auto px-4 py-8">
-      <div className="max-w-6xl mx-auto">
+    <main className="p-4">
+      {/* <div className="mx-auto"> */}
         <div className="flex items-center gap-3 mb-8">
-          <ChartLine size={32} className="text-primary" />
-          <h1 className="text-3xl font-bold">User Statistics</h1>
+          <ChartLine size={25} className="text-primary" />
+          <h1 className="text-lg font-bold">User Statistics</h1>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -104,7 +104,7 @@ const UserStatistics = () => {
             </div>
           </div>
         </div>
-      </div>
+      {/* </div> */}
     </main>
   );
 };
