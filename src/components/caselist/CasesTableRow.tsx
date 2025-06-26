@@ -6,7 +6,6 @@ import { CaseStatusBadge } from "./CaseStatusBadge";
 import { CaseStatus } from "@/store/casesStore";
 interface Case {
   id: number;
-  // uuid: string;
   case_number: string;
   status: CaseStatus;
   serial_number: string;

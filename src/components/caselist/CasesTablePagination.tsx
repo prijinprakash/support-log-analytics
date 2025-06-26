@@ -3,26 +3,24 @@ import React from "react";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { useCasesStore } from "@/store/casesStore";
 
 interface CasesTablePaginationProps {
-  currentPage: number;
   totalPages: number;
-  onPageChange: (page: number) => void;
   pageSize: number;
   onPageSizeChange: (pageSize: number) => void;
   totalItems: number;
 }
 
 export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
-  currentPage,
   totalPages,
-  onPageChange,
   pageSize,
   onPageSizeChange,
   totalItems,
 }) => {
-  const startItem = (currentPage - 1) * pageSize + 1;
-  const endItem = Math.min(currentPage * pageSize, totalItems);
+  const { pageNumber, setPageNumber } = useCasesStore();
+  const startItem = (pageNumber - 1) * pageSize + 1;
+  const endItem = Math.min(pageNumber * pageSize, totalItems);
 
   return (
     <div className="mt-0 flex items-center justify-end w-[30%]">
@@ -49,12 +47,12 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             <PaginationLink
               onClick={e => {
                 e.preventDefault();
-                onPageChange(1);
+                setPageNumber(1);
               }}
               href="#"
-              aria-disabled={currentPage <= 1}
-              tabIndex={currentPage <= 1 ? -1 : 0}
-              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              aria-disabled={pageNumber <= 1}
+              tabIndex={pageNumber <= 1 ? -1 : 0}
+              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <ChevronsLeft className="h-4 w-4" />
             </PaginationLink>
@@ -64,60 +62,23 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             <PaginationPrevious
               onClick={e => {
                 e.preventDefault();
-                onPageChange(Math.max(currentPage - 1, 1));
+                setPageNumber(Math.max(pageNumber - 1, 1));
               }}
               href="#"
-              aria-disabled={currentPage <= 1}
-              tabIndex={currentPage <= 1 ? -1 : 0}
-              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${currentPage <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              aria-disabled={pageNumber <= 1}
+              tabIndex={pageNumber <= 1 ? -1 : 0}
+              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
           </PaginationItem>
           
-          {/* {Array.from({ length: Math.min(totalPages, 5) }, (_, i) => {
-            let pageNum;
-            if (totalPages <= 5) {
-              pageNum = i + 1;
-            } else if (currentPage <= 3) {
-              pageNum = i + 1;
-            } else if (currentPage >= totalPages - 2) {
-              pageNum = totalPages - 4 + i;
-            } else {
-              pageNum = currentPage - 2 + i;
-            }
-            
-            return (
-              <PaginationItem key={pageNum}>
-                <PaginationLink
-                  isActive={pageNum === currentPage}
-                  href="#"
-                  tabIndex={0}
-                  onClick={e => {
-                    e.preventDefault();
-                    onPageChange(pageNum);
-                  }}
-                  className={`h-8 w-8 ${pageNum === currentPage 
-                    ? 'bg-primary text-primary-foreground border-primary' 
-                    : 'bg-background border-border hover:bg-accent hover:text-accent-foreground'
-                  }`}
-                >
-                  {pageNum}
-                </PaginationLink>
-              </PaginationItem>
-            );
-          })} */}
           <PaginationItem>
             <PaginationLink
               isActive={true}
               href="#"
               tabIndex={0}
-              // onClick={e => {
-              //   e.preventDefault();
-              //   onPageChange(pageNum);
-              // }}
-              // className="border-none"
               size="sm"
             >
-              {currentPage}
+              {pageNumber}
             </PaginationLink>
           </PaginationItem>
           
@@ -125,12 +86,12 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             <PaginationNext
               onClick={e => {
                 e.preventDefault();
-                onPageChange(Math.min(currentPage + 1, totalPages));
+                setPageNumber(Math.min(pageNumber + 1, totalPages));
               }}
               href="#"
-              aria-disabled={currentPage >= totalPages}
-              tabIndex={currentPage >= totalPages ? -1 : 0}
-              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${currentPage >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              aria-disabled={pageNumber >= totalPages}
+              tabIndex={pageNumber >= totalPages ? -1 : 0}
+              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
             />
           </PaginationItem>
           
@@ -138,12 +99,12 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             <PaginationLink
               onClick={e => {
                 e.preventDefault();
-                onPageChange(totalPages);
+                setPageNumber(totalPages);
               }}
               href="#"
-              aria-disabled={currentPage >= totalPages}
-              tabIndex={currentPage >= totalPages ? -1 : 0}
-              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${currentPage >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              aria-disabled={pageNumber >= totalPages}
+              tabIndex={pageNumber >= totalPages ? -1 : 0}
+              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <ChevronsRight className="h-4 w-4" />
             </PaginationLink>

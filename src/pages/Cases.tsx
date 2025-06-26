@@ -13,7 +13,7 @@ import { CasesTablePagination } from "../components/caselist/CasesTablePaginatio
 import { useCasesStore } from "@/store/casesStore";
 
 const Cases: React.FC = () => {
-  // Store state
+  // Stored state
   const { cases, isLoading, pageNumber, setPageNumber, fetchCases, setLoading } = useCasesStore();
   
   // Table state
@@ -21,13 +21,6 @@ const Cases: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"id" | "created_at" | "status">("id");
   const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
-  
-  // Initialize pagination from localStorage
-  // const [page, setPage] = useState(() => {
-  //   const savedPage = localStorage.getItem("casesTableCurrentPage");
-  //   return savedPage ? parseInt(savedPage, 10) : 1;
-  // });
-  
   const [pageSize, setPageSize] = useState(() => {
     const savedPageSize = localStorage.getItem("casesTablePageSize");
     return savedPageSize ? parseInt(savedPageSize, 10) : 10;
@@ -35,19 +28,6 @@ const Cases: React.FC = () => {
 
   // Timezone from localStorage or default (sync to changes)
   const [timezone, setTimezone] = useState<string>(moment.tz.guess());
-
-  useEffect(() => {
-    console.log('cases page component mounted')
-
-    return () => console.log('cases page component unmounted');
-  }, [])
-
-  // Fetch cases on component mount
-  useEffect(() => {
-    // setLoading(true);
-    fetchCases();
-    // console.log(cases)
-  }, [fetchCases]);
 
   useEffect(() => {
     const tz = localStorage.getItem("selectedTimezone") || moment.tz.guess();
@@ -61,11 +41,6 @@ const Cases: React.FC = () => {
     window.addEventListener("storage", onStorage);
     return () => window.removeEventListener("storage", onStorage);
   }, []);
-
-  // Save pagination settings to localStorage
-  // useEffect(() => {
-  //   localStorage.setItem("casesTableCurrentPage", page.toString());
-  // }, [page]);
 
   useEffect(() => {
     localStorage.setItem("casesTablePageSize", pageSize.toString());
@@ -108,13 +83,20 @@ const Cases: React.FC = () => {
   }, [cases, search, statusFilter, sortBy, sortDir]);
 
   const paginated = useMemo(() => {
-    const start = (page - 1) * pageSize;
+    const start = (pageNumber - 1) * pageSize;
     return filteredData.slice(start, start + pageSize);
-  }, [filteredData, page, pageSize]);
-
+  }, [filteredData, pageNumber, pageSize]);
 
   const pageCount = Math.ceil(filteredData.length / pageSize);
 
+  // compares pageNumber and pageCount fetches data if user is in last page
+  useEffect(() => {
+    if (pageNumber === pageCount) {
+      setLoading(true);
+      fetchCases();
+      console.log(pageNumber, pageCount)
+    }
+  }, [pageNumber])
   function handleSort(column: "id" | "created_at" | "status") {
     if (sortBy === column) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else {
@@ -125,17 +107,17 @@ const Cases: React.FC = () => {
 
   const handleSearchChange = (value: string) => {
     setSearch(value);
-    setPage(1);
+    setPageNumber(1);
   };
 
   const handleStatusFilterChange = (value: string) => {
     setStatusFilter(value);
-    setPage(1);
+    setPageNumber(1);
   };
 
   const handlePageSizeChange = (newPageSize: number) => {
     setPageSize(newPageSize);
-    setPage(1);
+    setPageNumber(1);
   };
 
   if (isLoading) {
@@ -161,61 +143,55 @@ const Cases: React.FC = () => {
             resultCount={filteredData.length}
           />
           <CasesTablePagination
-            currentPage={page}
             totalPages={pageCount}
-            onPageChange={setPage}
             pageSize={pageSize}
             onPageSizeChange={handlePageSizeChange}
             totalItems={filteredData.length}
           />
         </CardHeader>
         <CardContent className="p-0 border-t">
-          {/* <div className="bg-card rounded-lg border border-border overflow-hidden"> */}
-        <Table>
-          <TableHeader>
-            <TableRow className="border-b border-border hover:bg-transparent">
-              <TableHead className="h-8 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
-                <span className="inline-flex items-center">
-                  ID
-                  {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
-                </span>
-              </TableHead>
-              <TableHead className="h-8 min-w-[140px] text-muted-foreground font-semibold">Case Number</TableHead>
-              <TableHead className="h-8 min-w-[130px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
-                <span className="inline-flex items-center">
-                  Status
-                  {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
-                </span>
-              </TableHead>
-              <TableHead className="h-8 text-muted-foreground font-semibold">Serial Number</TableHead>
-              <TableHead className="h-8 text-muted-foreground font-semibold">Host Name</TableHead>
-              <TableHead className="h-8 text-muted-foreground font-semibold">File Name</TableHead>
-              <TableHead className="h-8 min-w-[160px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("created_at")}>
-                <span className="inline-flex items-center">
-                  Created At
-                  {sortBy === "created_at" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
-                </span>
-              </TableHead>
-              <TableHead className="h-8 min-w-[160px] text-muted-foreground font-semibold">Syslog End Time</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {paginated.length === 0 ? (
-              <TableRow className="border-b border-border hover:bg-muted/50">
-                <TableCell colSpan={8} className="text-center text-muted-foreground py-12 px-3">
-                  No results found.
-                </TableCell>
+          <Table>
+            <TableHeader>
+              <TableRow className="border-b border-border hover:bg-transparent">
+                <TableHead className="h-8 cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("id")}>
+                  <span className="inline-flex items-center">
+                    ID
+                    {sortBy === "id" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
+                  </span>
+                </TableHead>
+                <TableHead className="h-8 min-w-[140px] text-muted-foreground font-semibold">Case Number</TableHead>
+                <TableHead className="h-8 min-w-[130px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("status")}>
+                  <span className="inline-flex items-center">
+                    Status
+                    {sortBy === "status" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
+                  </span>
+                </TableHead>
+                <TableHead className="h-8 text-muted-foreground font-semibold">Serial Number</TableHead>
+                <TableHead className="h-8 text-muted-foreground font-semibold">Host Name</TableHead>
+                <TableHead className="h-8 text-muted-foreground font-semibold">File Name</TableHead>
+                <TableHead className="h-8 min-w-[160px] cursor-pointer select-none text-muted-foreground font-semibold" onClick={() => handleSort("created_at")}>
+                  <span className="inline-flex items-center">
+                    Created At
+                    {sortBy === "created_at" && (sortDir === "asc" ? <ChevronUp className="ml-1 w-4 h-4 text-primary" /> : <ChevronDown className="ml-1 w-4 h-4 text-primary" />)}
+                  </span>
+                </TableHead>
+                <TableHead className="h-8 min-w-[160px] text-muted-foreground font-semibold">Syslog End Time</TableHead>
               </TableRow>
-            ) : (
-              paginated.map(row => (
-                <CasesTableRow key={row.id} case={row} timezone={timezone} />
-              ))
-            )}
-          </TableBody>
-        </Table>
-      {/* </div> */}
-
-
+            </TableHeader>
+            <TableBody>
+              {paginated.length === 0 ? (
+                <TableRow className="border-b border-border hover:bg-muted/50">
+                  <TableCell colSpan={8} className="text-center text-muted-foreground py-12 px-3">
+                    No results found.
+                  </TableCell>
+                </TableRow>
+              ) : (
+                paginated.map(row => (
+                  <CasesTableRow key={row.id} case={row} timezone={timezone} />
+                ))
+              )}
+            </TableBody>
+          </Table>
         </CardContent>
       </Card>
     </section>
