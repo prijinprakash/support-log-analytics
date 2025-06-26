@@ -110579,7 +110579,7 @@ export default function Uplot() {
     })
 
     return filtered
-  }, [timeRange])
+  }, [timeRange, viewMode])
 
   // Convert data to uPlot format
   const getUPlotData = React.useCallback(() => {
@@ -110602,11 +110602,11 @@ export default function Uplot() {
     ): null)
 
     return {
-      id: 'my-chart',
+      // id: 'my-chart',
       width: chartRef.current?.clientWidth || 600,
       // class: ["selection:bg-fuchsia-300", "selection:text-fuchsia-900", "h-[300px]"],
-      class: "uplot-styles",
-      height: 300,
+      // class: "uplot-styles",
+      height: 400,
       series,
       legend: {
         show: false
@@ -110633,7 +110633,7 @@ export default function Uplot() {
           grid: {
             show: false,
             stroke: "#e2e8f0",
-            width: 1
+            width: 1,
           }
         }
       ],
@@ -110767,14 +110767,12 @@ export default function Uplot() {
 
       <CardContent className="p-0 overflow-auto">
         {viewMode === 'chart' ? (
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-2 relative">
             <div className="col-span-3 p-2">
               <div ref={chartRef} className="w-auto h-auto" />
-              <div className="mt-4">
-                <div className="text-xs text-muted-foreground">
+                <div className="text-xs text-muted-foreground absolute bottom-0 left-0 p-2">
                   💡 Click and drag to zoom • Double-click to reset zoom
                 </div>
-              </div>
             </div>
             <div className="col-span-1 flex flex-col justify-between border-l p-2">
               <div className="space-y-4">
