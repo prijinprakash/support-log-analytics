@@ -23,8 +23,11 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
   const endItem = Math.min(pageNumber * pageSize, totalItems);
 
   return (
-    <div className="mt-0 flex items-center justify-end w-[30%]">
-      <div className="flex items-center gap-2 w-1/2">
+    <div className="flex items-center justify-end w-[30%]">
+      <div className="flex items-center justify-between gap-2">
+        <div className="text-sm text-muted-foreground">
+          {startItem}-{endItem} of {totalItems}
+        </div>
         <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
           <SelectTrigger className="w-20 h-8 bg-background border-border">
             <SelectValue />
@@ -36,13 +39,10 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
             <SelectItem value="50" className="hover:bg-accent">50</SelectItem>
           </SelectContent>
         </Select>
-        <div className="text-sm text-muted-foreground">
-          {startItem}-{endItem} of {totalItems}
-        </div>
       </div>
       
       <Pagination className="justify-end mx-0 w-1/2">
-        <PaginationContent className="gap-0">
+        <PaginationContent className="gap-1">
           <PaginationItem>
             <PaginationLink
               onClick={e => {
@@ -52,7 +52,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
               href="#"
               aria-disabled={pageNumber <= 1}
               tabIndex={pageNumber <= 1 ? -1 : 0}
-              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={pageNumber <= 1 && 'opacity-50 cursor-not-allowed'}
             >
               <ChevronsLeft className="h-4 w-4" />
             </PaginationLink>
@@ -67,7 +67,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
               href="#"
               aria-disabled={pageNumber <= 1}
               tabIndex={pageNumber <= 1 ? -1 : 0}
-              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber <= 1 ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={pageNumber <= 1 && 'opacity-50 cursor-not-allowed'}
             />
           </PaginationItem>
           
@@ -76,7 +76,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
               isActive={true}
               href="#"
               tabIndex={0}
-              size="sm"
+              // size="sm"
             >
               {pageNumber}
             </PaginationLink>
@@ -91,7 +91,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
               href="#"
               aria-disabled={pageNumber >= totalPages}
               tabIndex={pageNumber >= totalPages ? -1 : 0}
-              className={`h-8 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={pageNumber >= totalPages && 'opacity-50 cursor-not-allowed'}
             />
           </PaginationItem>
           
@@ -104,7 +104,7 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
               href="#"
               aria-disabled={pageNumber >= totalPages}
               tabIndex={pageNumber >= totalPages ? -1 : 0}
-              className={`h-8 w-8 p-0 bg-background border-border hover:bg-accent hover:text-accent-foreground ${pageNumber >= totalPages ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={pageNumber >= totalPages && 'opacity-50 cursor-not-allowed'}
             >
               <ChevronsRight className="h-4 w-4" />
             </PaginationLink>

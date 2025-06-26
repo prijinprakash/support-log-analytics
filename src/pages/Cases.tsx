@@ -134,13 +134,12 @@ const Cases: React.FC = () => {
   return (
     <section className="p-4 w-full">
       <Card>
-        <CardHeader className="py-2 px-4 flex flex-row justify-between items-center space-y-0">
+        <CardHeader className="p-2 flex flex-row justify-between items-center space-y-0">
           <CasesTableFilters
             search={search}
             statusFilter={statusFilter}
             onSearchChange={handleSearchChange}
             onStatusFilterChange={handleStatusFilterChange}
-            resultCount={filteredData.length}
           />
           <CasesTablePagination
             totalPages={pageCount}

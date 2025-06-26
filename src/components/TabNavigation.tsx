@@ -70,7 +70,6 @@ const TabNavigation = () => {
         navigate('/');
       }
     }
-    
     setTabs(newTabs);
   };
 
