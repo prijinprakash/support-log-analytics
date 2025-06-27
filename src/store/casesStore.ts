@@ -32,25 +32,24 @@ export const useCasesStore = create<CasesStore>((set, get) => ({
   cases: [],
   isLoading: false,
   pageNumber: 0,
-  setLoading: (isLoading: boolean) => set({ isLoading }),
   setPageNumber: (pageNumber: number) => set({ pageNumber }),
   fetchCases: async () => {
-    const { cases, pageNumber, isLoading } = get();
-    
-    if (!isLoading) return;
-    
+    const { cases, pageNumber } = get();
+
+    set({ isLoading: true })
+    await new Promise(resolve => setTimeout(resolve, 3000)); // blocking code
     const pageSize = parseInt(localStorage.getItem("casesTablePageSize")) || 10
     const from = pageNumber * pageSize;
     const to = from + 1000 - 1;
-    console.log(isLoading, pageNumber, from, to)
+
     const { data, error } = await supabase
-        .from('cases')
-        .select('*')
-        .range(from, to);
-    // const { data, count, error } = await supabase
-    //   .from('cases')
-    //   .select('*', { count: 'exact' })
-    //   .range(from, to);
+      .from('cases')
+      .select('*')
+      .order('id', { ascending: true }) // this needs to be set as a global sort direction
+      .range(from, to);
+
+    // console.log(from, to)
+
     if (error) {
       console.error(error);
       set({ isLoading: false });
@@ -62,7 +61,7 @@ export const useCasesStore = create<CasesStore>((set, get) => ({
       set({ isLoading: false });
       return;
     }
-    console.log(`fetched ${data.length} cases....`)
+    console.log(`fetched ${data.length} cases from db`)
     const casesUpdated = [
       ...cases,
       ...data.map(item => ({
@@ -73,7 +72,7 @@ export const useCasesStore = create<CasesStore>((set, get) => ({
     set({
       cases: casesUpdated,
       isLoading: false,
-      pageNumber: pageNumber + 1,
+      pageNumber: pageNumber === 0 ? 1 : pageNumber,
     });
   }
 }));

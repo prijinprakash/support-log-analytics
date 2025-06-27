@@ -11,16 +11,17 @@ import { CasesTableFilters } from "../components/caselist/CasesTableFilters";
 import CasesTableRow from "../components/caselist/CasesTableRow";
 import { CasesTablePagination } from "../components/caselist/CasesTablePagination";
 import { useCasesStore } from "@/store/casesStore";
+import { Loader2Icon } from "lucide-react";
 
 const Cases: React.FC = () => {
   // Stored state
-  const { cases, isLoading, pageNumber, setPageNumber, fetchCases, setLoading } = useCasesStore();
-  
+  const { cases, isLoading, pageNumber, setPageNumber, fetchCases } = useCasesStore();
+
   // Table state
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [sortBy, setSortBy] = useState<"id" | "created_at" | "status">("id");
-  const [sortDir, setSortDir] = useState<"asc" | "desc">("desc");
+  const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [pageSize, setPageSize] = useState(() => {
     const savedPageSize = localStorage.getItem("casesTablePageSize");
     return savedPageSize ? parseInt(savedPageSize, 10) : 10;
@@ -89,15 +90,17 @@ const Cases: React.FC = () => {
 
   const pageCount = Math.ceil(filteredData.length / pageSize);
 
-  // compares pageNumber and pageCount fetches data if user is in last page
+  // loads initial page and fetches more pages as user reaches the last page
   useEffect(() => {
+    console.log(pageNumber, pageCount)
     if (pageNumber === pageCount) {
-      setLoading(true);
+      console.log('initial page load')
       fetchCases();
-      console.log(pageNumber, pageCount)
     }
   }, [pageNumber])
+  
   function handleSort(column: "id" | "created_at" | "status") {
+    setPageNumber(1);
     if (sortBy === column) setSortDir(sortDir === "asc" ? "desc" : "asc");
     else {
       setSortBy(column);
@@ -119,17 +122,6 @@ const Cases: React.FC = () => {
     setPageSize(newPageSize);
     setPageNumber(1);
   };
-
-  if (isLoading) {
-    return (
-      <section className="p-4 w-full">
-        <div className="flex items-center justify-center py-12">
-          <div className="w-8 h-8 border-4 border-gray-300 border-t-primary rounded-full animate-spin" />
-          <span className="ml-3 text-muted-foreground">Loading cases...</span>
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section className="p-4 w-full">
@@ -181,7 +173,9 @@ const Cases: React.FC = () => {
               {paginated.length === 0 ? (
                 <TableRow className="border-b border-border hover:bg-muted/50">
                   <TableCell colSpan={8} className="text-center text-muted-foreground py-12 px-3">
-                    No results found.
+                    {isLoading ? <span className="flex flex-1 text-sm text-muted-foreground gap-1 items-center justify-center">
+                      <Loader2Icon className="animate-spin stroke-primary"/> Loading...</span> : 
+                      <>No results found.</>}
                   </TableCell>
                 </TableRow>
               ) : (

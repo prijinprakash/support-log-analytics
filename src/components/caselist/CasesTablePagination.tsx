@@ -2,7 +2,7 @@
 import React from "react";
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+import { ChevronsLeft, ChevronsRight, Loader2Icon } from "lucide-react";
 import { useCasesStore } from "@/store/casesStore";
 
 interface CasesTablePaginationProps {
@@ -18,16 +18,18 @@ export const CasesTablePagination: React.FC<CasesTablePaginationProps> = ({
   onPageSizeChange,
   totalItems,
 }) => {
-  const { pageNumber, setPageNumber } = useCasesStore();
-  const startItem = (pageNumber - 1) * pageSize + 1;
+  const { pageNumber, setPageNumber, isLoading } = useCasesStore();
+  const startItem = Math.max(((pageNumber - 1) * pageSize + 1), 0);
   const endItem = Math.min(pageNumber * pageSize, totalItems);
 
   return (
     <div className="flex items-center justify-end w-[30%]">
       <div className="flex items-center justify-between gap-2">
-        <div className="text-sm text-muted-foreground">
+        {isLoading ? <span className="flex flex-1 text-sm text-muted-foreground gap-1 items-center justify-center">
+          <Loader2Icon className="animate-spin stroke-primary"/> Loading...</span> : <div className="text-sm text-muted-foreground">
           {startItem}-{endItem} of {totalItems}
-        </div>
+        </div>}
+        
         <Select value={pageSize.toString()} onValueChange={(value) => onPageSizeChange(Number(value))}>
           <SelectTrigger className="w-20 h-8 bg-background border-border">
             <SelectValue />

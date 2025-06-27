@@ -10,7 +10,6 @@ interface CasesTableFiltersProps {
   statusFilter: string;
   onSearchChange: (value: string) => void;
   onStatusFilterChange: (value: string) => void;
-  // resultCount: number;
 }
 
 const statusOptions: CaseStatus[] = ["new", "in progress", "queued", "finished"];
@@ -20,7 +19,6 @@ export const CasesTableFilters: React.FC<CasesTableFiltersProps> = ({
   statusFilter,
   onSearchChange,
   onStatusFilterChange,
-  // resultCount,
 }) => {
   return (
       <div className="flex gap-3 items-center justify-between">
