@@ -37,7 +37,7 @@ export const useCasesStore = create<CasesStore>((set, get) => ({
     const { cases, pageNumber } = get();
 
     set({ isLoading: true })
-    await new Promise(resolve => setTimeout(resolve, 3000)); // blocking code
+    // await new Promise(resolve => setTimeout(resolve, 3000)); // blocking code
     const pageSize = parseInt(localStorage.getItem("casesTablePageSize")) || 10
     const from = pageNumber * pageSize;
     const to = from + 1000 - 1;

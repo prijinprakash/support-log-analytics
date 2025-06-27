@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2 } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
-import PageLoader from "@/components/PageLoader";
+// import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import AnalysisDialog from "@/components/AnalysisDialog";
@@ -14,7 +14,7 @@ import BugReportDialog from "@/components/BugReportDialog";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
@@ -59,16 +59,16 @@ const CaseDetail = () => {
     { id: 'tabular_data', title: 'Tabular Data', el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> }
   ]);
   // Simulate loading and then set loading to false
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setIsLoading(false);
+  //   }, 1000);
     
-    return () => clearTimeout(timer);
-  }, []);
+  //   return () => clearTimeout(timer);
+  // }, []);
 
   useEffect(() => {
-    console.log('moounted case details')
+    console.log('mounted case details')
     return () => console.log('unmounted case details')
   }, [])
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A for Mac)
@@ -92,15 +92,15 @@ const CaseDetail = () => {
     setFullscreenContent({ title, content });
   };
 
-  if (isLoading) {
-    return (
-      <main className="container mx-auto px-4 py-8">
-        <div className="max-w-6xl mx-auto">
-          <PageLoader />
-        </div>
-      </main>
-    );
-  }
+  // if (isLoading) {
+  //   return (
+  //     <main className="container mx-auto px-4 py-8">
+  //       <div className="max-w-6xl mx-auto">
+  //         <PageLoader />
+  //       </div>
+  //     </main>
+  //   );
+  // }
 
   // Mock case data - in real app this would come from API
   const caseData = {
