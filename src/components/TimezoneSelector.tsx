@@ -1,19 +1,15 @@
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import { ChevronDown, Globe } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import moment from "moment-timezone";
 
-function getTimezones(): string[] {
-  return moment.tz.names();
-}
-
-function formatTimezoneWithOffset(timezone: string): string {
-  const offset = moment.tz(timezone).format('Z');
-  const abbreviation = moment.tz(timezone).format('z');
-  return `${timezone.replace(/_/g, ' ')} (UTC${offset})`;
-}
+// function formatTimezoneWithOffset(timezone: string): string {
+//   const offset = moment.tz(timezone).format('Z');
+//   const abbreviation = moment.tz(timezone).format('z');
+//   return `${timezone.replace(/_/g, ' ')} (UTC${offset})`;
+// }
 
 const TimezoneSelector = () => {
   const [open, setOpen] = useState(false);
@@ -27,15 +23,15 @@ const TimezoneSelector = () => {
     setTz(defaultTimezone);
   }, []);
 
-  const handleTimezoneChange = (newTimezone: string) => {
+  const handleTimezoneChange = useCallback((newTimezone: string) => {
     setTz(newTimezone);
     localStorage.setItem('selectedTimezone', newTimezone);
     setOpen(false);
-  };
+  }, []);
 
-  const zones = getTimezones().filter(z =>
+  const zones = useMemo(() => moment.tz.names().filter(z =>
     z.toLowerCase().includes(search.toLowerCase())
-  );
+  ), [search]);
 
   return (
     <Tooltip>
