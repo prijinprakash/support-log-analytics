@@ -1,14 +1,14 @@
 
 import React from 'react';
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "@/components/ui/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { AlertCircle, AlertTriangle, Info } from "lucide-react";
 
@@ -75,14 +75,14 @@ const SystemAlertDialog: React.FC<AlertDialogProps> = ({ open, onOpenChange }) =
   };
 
   return (
-    <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="max-w-2xl max-h-[80vh] overflow-hidden">
-        <AlertDialogHeader>
-          <AlertDialogTitle>System Alerts</AlertDialogTitle>
-          <AlertDialogDescription>
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent className="max-w-2xl max-h-[80vh] overflow-hidden">
+        <DialogHeader>
+          <DialogTitle>System Alerts</DialogTitle>
+          <DialogDescription>
             Current system alerts and notifications
-          </AlertDialogDescription>
-        </AlertDialogHeader>
+          </DialogDescription>
+        </DialogHeader>
         
         <div className="flex-1 overflow-auto space-y-4 py-4">
           {alerts.map((alert) => (
@@ -101,13 +101,13 @@ const SystemAlertDialog: React.FC<AlertDialogProps> = ({ open, onOpenChange }) =
           ))}
         </div>
 
-        <AlertDialogFooter>
-          <AlertDialogAction onClick={() => onOpenChange(false)}>
+        <DialogFooter>
+          <Button onClick={() => onOpenChange(false)}>
             Show
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
   );
 };
 

@@ -1,5 +1,6 @@
 
 import React from 'react';
+import GaugeComponent from 'react-gauge-component';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface GaugeMeterProps {
@@ -10,8 +11,6 @@ interface GaugeMeterProps {
 
 const GaugeMeter: React.FC<GaugeMeterProps> = ({ value, title, description }) => {
   const clampedValue = Math.min(Math.max(value, 0), 100);
-  const angle = (clampedValue / 100) * 180 - 90; // -90 to 90 degrees
-  const isRedZone = clampedValue > 70;
 
   return (
     <Card>
@@ -20,56 +19,47 @@ const GaugeMeter: React.FC<GaugeMeterProps> = ({ value, title, description }) =>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center">
-        <div className="relative w-48 h-24 mb-4">
-          {/* Background arc */}
-          <svg className="w-full h-full" viewBox="0 0 200 100">
-            <path
-              d="M 20 80 A 80 80 0 0 1 180 80"
-              fill="none"
-              stroke="#e2e8f0"
-              strokeWidth="8"
-              strokeLinecap="round"
-            />
-            {/* Green zone */}
-            <path
-              d="M 20 80 A 80 80 0 0 1 140 80"
-              fill="none"
-              stroke="#22c55e"
-              strokeWidth="8"
-              strokeLinecap="round"
-            />
-            {/* Red zone */}
-            <path
-              d="M 140 80 A 80 80 0 0 1 180 80"
-              fill="none"
-              stroke="#ef4444"
-              strokeWidth="8"
-              strokeLinecap="round"
-            />
-            {/* Needle */}
-            <g transform={`rotate(${angle} 100 80)`}>
-              <line
-                x1="100"
-                y1="80"
-                x2="100"
-                y2="25"
-                stroke={isRedZone ? "#ef4444" : "#64748b"}
-                strokeWidth="3"
-                strokeLinecap="round"
-              />
-              <circle
-                cx="100"
-                cy="80"
-                r="4"
-                fill={isRedZone ? "#ef4444" : "#64748b"}
-              />
-            </g>
-          </svg>
+        <div className="w-48 h-32 mb-4">
+          <GaugeComponent
+            arc={{
+              subArcs: [
+                {
+                  limit: 70,
+                  color: '#22c55e',
+                  showTick: true
+                },
+                {
+                  limit: 100,
+                  color: '#ef4444',
+                  showTick: true
+                }
+              ]
+            }}
+            pointer={{
+              type: "needle",
+              color: clampedValue > 70 ? '#ef4444' : '#64748b'
+            }}
+            value={clampedValue}
+            maxValue={100}
+            labels={{
+              valueLabel: {
+                formatTextValue: value => `${value}%`,
+                style: { fontSize: '24px', fontWeight: 'bold', fill: clampedValue > 70 ? '#ef4444' : '#000' }
+              },
+              tickLabels: {
+                type: 'outer',
+                ticks: [
+                  { value: 0 },
+                  { value: 25 },
+                  { value: 50 },
+                  { value: 70 },
+                  { value: 100 }
+                ]
+              }
+            }}
+          />
         </div>
         <div className="text-center">
-          <div className={`text-3xl font-bold ${isRedZone ? 'text-red-500' : 'text-foreground'}`}>
-            {clampedValue}%
-          </div>
           <div className="text-sm text-muted-foreground mt-1">
             Current Usage
           </div>

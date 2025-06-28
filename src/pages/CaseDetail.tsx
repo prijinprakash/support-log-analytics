@@ -16,6 +16,7 @@ import SystemAlertDialog from "@/components/casedetail/AlertDialog";
 import GaugeMeter from "@/components/casedetail/GaugeMeter";
 import ViewSelector from "@/components/casedetail/ViewSelector";
 import DateTimeRangeSelector from "@/components/casedetail/DateTimeRangeSelector";
+import Terminal from "@/components/casedetail/Terminal";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -431,12 +432,7 @@ const CaseDetail = () => {
                 </div>
               </TabsContent>
               <TabsContent value="terminal" className="mt-0 h-full">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Connect ssh</h3>
-                  <div className="grid gap-4">
-                    {/* terminal window goes here */}
-                  </div>
-                </div>
+                <Terminal />
               </TabsContent>
             </Tabs>
           </div>
