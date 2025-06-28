@@ -1,6 +1,7 @@
 
 import React from 'react';
-import GaugeComponent from 'react-gauge-component';
+// import GaugeComponent from 'react-gauge-component';
+import GaugeChart from 'react-gauge-chart';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface GaugeMeterProps {
@@ -19,7 +20,7 @@ const GaugeMeter: React.FC<GaugeMeterProps> = ({ value, title, description }) =>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent className="flex flex-col items-center">
-        <div className="w-48 h-32 mb-4">
+        {/* <div className="w-48 mb-4">
           <GaugeComponent
             arc={{
               subArcs: [
@@ -58,7 +59,17 @@ const GaugeMeter: React.FC<GaugeMeterProps> = ({ value, title, description }) =>
               }
             }}
           />
-        </div>
+        </div> */}
+        <GaugeChart
+            id="gauge-chart"
+            animate={false}
+            nrOfLevels={15}
+            percent={0.78}
+            needleColor="#345243"
+            textColor="red"
+            style={{ width: '100%', maxWidth: 500, height: 250 }}
+            // formatTextValue={(value) => `${(data.rpzRatio * 100).toFixed(2)}%`}
+        />
         <div className="text-center">
           <div className="text-sm text-muted-foreground mt-1">
             Current Usage

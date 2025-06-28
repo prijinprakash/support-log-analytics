@@ -16,7 +16,8 @@ import SystemAlertDialog from "@/components/casedetail/AlertDialog";
 import GaugeMeter from "@/components/casedetail/GaugeMeter";
 import ViewSelector from "@/components/casedetail/ViewSelector";
 import DateTimeRangeSelector from "@/components/casedetail/DateTimeRangeSelector";
-import Terminal from "@/components/casedetail/Terminal";
+// import Terminal from "@/components/casedetail/TerminalComponent";
+import TerminalComponent from "@/components/casedetail/TerminalComponent";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -28,7 +29,7 @@ const CaseDetail = () => {
   const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const [alertDialogOpen, setAlertDialogOpen] = useState(false);
-  const [dateTimeRange, setDateTimeRange] = useState<{from: Date | null; to: Date | null}>({
+  const [dateTimeRange, setDateTimeRange] = useState<{from: string | null; to: string | null}>({
     from: null,
     to: null
   });
@@ -432,7 +433,7 @@ const CaseDetail = () => {
                 </div>
               </TabsContent>
               <TabsContent value="terminal" className="mt-0 h-full">
-                <Terminal />
+                <TerminalComponent />
               </TabsContent>
             </Tabs>
           </div>

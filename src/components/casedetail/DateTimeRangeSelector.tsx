@@ -7,8 +7,8 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 
 interface DateTimeRange {
-  from: Date | null;
-  to: Date | null;
+  from: string | null;
+  to: string | null;
 }
 
 interface DateTimeRangeSelectorProps {
@@ -25,13 +25,11 @@ const DateTimeRangeSelector: React.FC<DateTimeRangeSelectorProps> = ({
 
   const handleDateTimeChange = (dateTime: string | undefined, fromOrTo: "from" | "to") => {
     if (dateTime) {
-      const newDate = new Date(dateTime);
-      console.log(newDate)
-      fromOrTo === "from" ? onChange({ ...value, from: newDate }) : onChange({ ...value, to: newDate })
+      fromOrTo === "from" ? onChange({ ...value, from: dateTime }) : onChange({ ...value, to: dateTime })
     }
   }
 
-  const formatDateTime = (date: Date | null) => {
+  const formatDateTime = (date: string | null) => {
     if (!date) return "Select date & time";
     return `${format(date, "MMM dd, yyyy")} ${format(date, "HH:mm:ss")}`;
   };
@@ -50,9 +48,8 @@ const DateTimeRangeSelector: React.FC<DateTimeRangeSelectorProps> = ({
   const handleQuickRange = (milliseconds: number) => {
     const to = new Date();
     const from = new Date(to.getTime() - milliseconds);
-    onChange({ from, to });
+    onChange({ from: format(from, "yyyy-MM-dd'T'HH:mm:ss"), to: format(to, "yyyy-MM-dd'T'HH:mm:ss") });
   };
-
   return (
     <div className="flex items-center gap-2 bg-muted/30 border rounded-md py-1 min-w-[390px] justify-between">
       {/* Custom Range Selector */}
@@ -98,13 +95,13 @@ const DateTimeRangeSelector: React.FC<DateTimeRangeSelectorProps> = ({
               {/* From DateTime */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground block">From</label>
-                <input type="datetime-local" value={value.from && value.from.toISOString().split('.')[0]} className='border rounded p-2 text-sm w-full' onChange={(e) => handleDateTimeChange(e.target.value, "from")}/>
+                <input type="datetime-local" step="1" value={value.from} className='border rounded p-2 text-sm w-full dark:bg-background' onChange={(e) => handleDateTimeChange(e.target.value, "from")}/>
               </div>
 
               {/* To DateTime */}
               <div className="space-y-2">
                 <label className="text-sm font-medium text-muted-foreground block">To</label>
-                <input type="datetime-local" value={value.to && value.to.toISOString().split('.')[0]} className='text-sm border rounded p-2 w-full' onChange={(e) => handleDateTimeChange(e.target.value, "to")}/>
+                <input type="datetime-local" step="1" value={value.to} className='text-sm border rounded p-2 w-full dark:bg-background' onChange={(e) => handleDateTimeChange(e.target.value, "to")}/>
               </div>
             </div>
           </div>
