@@ -12,10 +12,11 @@ type CollapsibleAnalysisProps = {
   el: React.ReactNode;
   openFullscreen: (title: string, el: React.ReactNode) => void;
   removeElement: (id: string) => void;
+  onInfoClick: (id: string) => void;
   className?: string;
 };
 
-const CollapsibleAnalysis = ({id, title, el, className, openFullscreen, removeElement}: CollapsibleAnalysisProps) => {
+const CollapsibleAnalysis = ({id, title, el, className, openFullscreen, removeElement, onInfoClick}: CollapsibleAnalysisProps) => {
   const [open, setOpen] = React.useState(false);
   return (
     <Collapsible 
@@ -36,7 +37,7 @@ const CollapsibleAnalysis = ({id, title, el, className, openFullscreen, removeEl
                   size="sm"
                   onClick={e => {
                     e.stopPropagation();
-                    console.log('clicked')
+                    onInfoClick(id);
                   }}
                   className="h-8 w-8 p-0"
               >

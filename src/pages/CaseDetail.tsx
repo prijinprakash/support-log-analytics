@@ -11,12 +11,15 @@ import CollapsibleAnalysis from "@/components/casedetail/CollapsibleAnalysis";
 import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
 import BugReportDialog from "@/components/casedetail/BugReportDialog";
+import AnalysisSheet from "@/components/casedetail/AnalysisSheet";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
   // const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(true);
+  const [activeSheet, setActiveSheet] = useState(null);
   const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
   const [bugReportOpen, setBugReportOpen] = useState(false);
   const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
@@ -53,10 +56,24 @@ const CaseDetail = () => {
   ];
 
   const [gridElements, setGridElements] = useState([
-    { id: 'chart', title: 'Interactive Line Chart', el: <Uplot /> },
-    { id: 'logs', title: 'Recent Log Entries', 
-      el: <div className="font-mono whitespace-pre-line text-sm focus-visible:ring-0 text-muted-foreground">{logs}</div> },
-    { id: 'tabular_data', title: 'Tabular Data', el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> }
+    { 
+      id: 'chart', 
+      title: 'Interactive Line Chart', 
+      el: <Uplot />, 
+      description: "this chart represents the cpu usage over time" 
+    },
+    { 
+      id: 'logs', 
+      title: 'Recent Log Entries', 
+      el: <div className="font-mono whitespace-pre-line text-sm focus-visible:ring-0 text-muted-foreground">{logs}</div> 
+    },
+    { id: 'tabular_data', 
+      title: 'Tabular Data', 
+      el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> ,
+      description: `<p>this is some tabular data</p>
+      <p><a href='#' class='text-brand hover:text-brand/80 underline'>follow the link<a/>
+      </p>`
+    }
   ]);
   // Simulate loading and then set loading to false
   // useEffect(() => {
@@ -91,6 +108,11 @@ const CaseDetail = () => {
   const openFullscreen = (title: string, content: React.ReactNode) => {
     setFullscreenContent({ title, content });
   };
+
+  const onInfoClick = (id: String) => {
+    setSheetOpen(true);
+    setActiveSheet(gridElements.filter(ele => ele.id === id))
+  }
 
   // if (isLoading) {
   //   return (
@@ -257,7 +279,7 @@ const CaseDetail = () => {
                 {/* Visualizations Grid */}
                 <div className="space-y-2">
                   {gridElements.length ? gridElements.map((elem, idx)=> (
-                    <CollapsibleAnalysis {...elem} openFullscreen={openFullscreen} removeElement={removeElement} key={idx}/>
+                    <CollapsibleAnalysis {...elem} openFullscreen={openFullscreen} removeElement={removeElement} key={idx} onInfoClick={onInfoClick}/>
                   )) : <span className="text-muted-foreground px-2">No Analysis selected</span>}
                 </div>
               </TabsContent>
@@ -440,6 +462,9 @@ const CaseDetail = () => {
       
       {/* Bug Report Dialog */}
       <BugReportDialog open={bugReportOpen} onOpenChange={setBugReportOpen} />
+
+      {/* Dialog for selecting analyses */}
+      {activeSheet && <AnalysisSheet open={sheetOpen} onOpenChange={setSheetOpen} activeSheet={activeSheet}/>}
     </div>
   );
 };
