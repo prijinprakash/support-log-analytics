@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2 } from "lucide-react";
+import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2, TriangleAlert } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 // import PageLoader from "@/components/PageLoader";
@@ -229,7 +229,7 @@ const CaseDetail = () => {
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
               <TabsList>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
-                <TabsTrigger value="timeline">Stats</TabsTrigger>
+                <TabsTrigger value="stats">Stats</TabsTrigger>
                 <TabsTrigger value="documents">Debug Summary</TabsTrigger>
                 <TabsTrigger value="analysis">Syslog Summary</TabsTrigger>
                 <TabsTrigger value="bc">connect</TabsTrigger>
@@ -238,6 +238,7 @@ const CaseDetail = () => {
             </Tabs>
 
             <div className="flex items-center gap-2 ml-4">
+              {/* datetime selector should go here */}
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="outline" size="icon">
@@ -266,6 +267,19 @@ const CaseDetail = () => {
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Report Bug</TooltipContent>
               </Tooltip>
+              {/* alert button */}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button 
+                    variant="destructive" 
+                    size="icon"
+                    // onClick={() => setBugReportOpen(true)}
+                  >
+                    <TriangleAlert />
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background">Alerts</TooltipContent>
+              </Tooltip>
               <Button onClick={() => setDialogOpen(true)} className="bg-brand hover:bg-brand/80">
                 View Analysis
               </Button>
@@ -284,31 +298,11 @@ const CaseDetail = () => {
                 </div>
               </TabsContent>
               
-              <TabsContent value="timeline" className="mt-0 h-full">
+              <TabsContent value="stats" className="mt-0 h-full">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Case Timeline</h3>
+                  <h3 className="text-lg font-semibold">Case Stats</h3>
                   <div className="space-y-4">
-                    <div className="flex items-center gap-3 p-3 rounded border">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <div className="font-medium">Case created</div>
-                        <div className="text-sm text-muted-foreground">2 days ago</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded border">
-                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <div className="font-medium">Initial processing started</div>
-                        <div className="text-sm text-muted-foreground">1 day ago</div>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded border">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                      <div className="flex-1">
-                        <div className="font-medium">Analysis in progress</div>
-                        <div className="text-sm text-muted-foreground">Currently active</div>
-                      </div>
-                    </div>
+                    {/* gauge meter and zone selector should go here */}
                   </div>
                 </div>
               </TabsContent>
