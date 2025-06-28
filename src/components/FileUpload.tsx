@@ -9,6 +9,7 @@ interface FileUploadProps {
   accept?: string;
   placeholder?: string;
   className?: string;
+  id?: string;
 }
 
 const FileUpload = ({ 
@@ -16,7 +17,8 @@ const FileUpload = ({
   selectedFile, 
   accept,
   placeholder = "Drag and drop a file here, or click to select",
-  className = ""
+  className = "",
+  id = ""
 }: FileUploadProps) => {
   const [isDragOver, setIsDragOver] = useState(false);
 
@@ -92,10 +94,10 @@ const FileUpload = ({
             onChange={handleFileSelect}
             accept={accept}
             className="hidden"
-            id={`fileInput-${Math.random()}`}
+            id={`fileInput-${id}`}
           />
           <label
-            htmlFor={`fileInput-${Math.random()}`}
+            htmlFor={`fileInput-${id}`}
             className="cursor-pointer text-primary hover:text-brand/80 text-sm font-medium"
           >
             Browse files

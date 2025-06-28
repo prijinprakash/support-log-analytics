@@ -182,6 +182,7 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
               selectedFile={selectedFile}
               accept="image/*,video/*"
               placeholder="Drag and drop an image or video here, or click to select"
+              id="bug-report"
             />
           </div>
 

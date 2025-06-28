@@ -84,6 +84,7 @@ const UploadDialog = ({ open, onOpenChange }: UploadDialogProps) => {
             <FileUpload
               onFileSelect={setSelectedFile}
               selectedFile={selectedFile}
+              id="case-upload"
             />
           </div>
 
