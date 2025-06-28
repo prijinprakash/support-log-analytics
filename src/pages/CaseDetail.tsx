@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2, TriangleAlert } from "lucide-react";
+import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2, TriangleAlert, SquareTerminal } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
 // import PageLoader from "@/components/PageLoader";
@@ -236,6 +236,7 @@ const CaseDetail = () => {
                 <TabsTrigger value="analysis">Syslog Summary</TabsTrigger>
                 <TabsTrigger value="bc">connect</TabsTrigger>
                 <TabsTrigger value="bc_metrics">connect metrics</TabsTrigger>
+                <TabsTrigger value="terminal"><SquareTerminal size={20}/></TabsTrigger>
               </TabsList>
             </Tabs>
 
@@ -426,6 +427,14 @@ const CaseDetail = () => {
                         System status and configuration details
                       </p>
                     </div>
+                  </div>
+                </div>
+              </TabsContent>
+              <TabsContent value="terminal" className="mt-0 h-full">
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold">Connect ssh</h3>
+                  <div className="grid gap-4">
+                    {/* terminal window goes here */}
                   </div>
                 </div>
               </TabsContent>
