@@ -92,7 +92,6 @@ const Cases: React.FC = () => {
 
   // loads initial page and fetches more pages as user reaches the last page
   useEffect(() => {
-    console.log(pageNumber, pageCount)
     if (pageNumber === pageCount) {
       console.log('initial page load')
       fetchCases();

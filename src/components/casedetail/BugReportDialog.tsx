@@ -32,7 +32,7 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
     priority: "low",
     pageUrl: "",
     email: "",
-    category: "low"
+    category: ""
   });
   const { toast } = useToast();
 
@@ -114,31 +114,32 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
               <Label className="text-sm font-medium">Category</Label>
               <Select value={formData.category} onValueChange={(value) => handleInputChange("category", value)}>
                 <SelectTrigger className="h-12">
-                  <SelectValue placeholder="Low" />
+                  <SelectValue placeholder="Select a bug category" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="low">
+                <SelectContent className="bg-background">
+                  <SelectItem value="visual">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                      Low
+                      Visual/aesthetic issue
                     </div>
                   </SelectItem>
-                  <SelectItem value="medium">
+                  <SelectItem value="functionality">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-yellow-500 rounded-full"></div>
-                      Medium
+                      Functionality issue
                     </div>
                   </SelectItem>
-                  <SelectItem value="high">
+                  <SelectItem value="performance">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                      High
+                      Performance issue
                     </div>
                   </SelectItem>
-                  <SelectItem value="critical">
+                  <SelectItem value="crash">
                     <div className="flex items-center gap-2">
-                      <div className="w-2 h-2 bg-red-500 rounded-full"></div>
-                      Critical
+                      Crash/error issue
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="other">
+                    <div className="flex items-center gap-2">
+                      other
                     </div>
                   </SelectItem>
                 </SelectContent>
@@ -151,7 +152,7 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
                 <SelectTrigger className="h-12">
                   <SelectValue placeholder="Low" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="bg-background">
                   <SelectItem value="low">
                     <div className="flex items-center gap-2">
                       <div className="w-2 h-2 bg-green-500 rounded-full"></div>
@@ -181,51 +182,20 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Upload Image</Label>
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                <Image className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Image</p>
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-sm font-medium">Upload Video</Label>
-              <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-                <Video className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Video</p>
-              </div>
-            </div>
-          </div>
-
           <div className="space-y-2">
-            <div className="flex items-center gap-1">
-              <Label htmlFor="email" className="text-sm font-medium">Your email (optional)</Label>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <HelpCircle className="h-4 w-4 text-muted-foreground" />
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>We'll use this to follow up on your report</p>
-                </TooltipContent>
-              </Tooltip>
+            {/* convert to a file upload field using FileUpload component here */}
+            <Label className="text-sm font-medium">Upload file</Label>
+            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
+              <Image className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+              <p className="text-sm text-muted-foreground">File</p>
             </div>
-            <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => handleInputChange("email", e.target.value)}
-              placeholder="proof.of.email@decentralized.biz"
-              className="h-12"
-            />
           </div>
 
           <div className="flex gap-3 pt-4 border-t">
             <Button type="button" variant="outline" onClick={() => onOpenChange(false)} className="flex-1">
               Cancel
             </Button>
-            <Button type="submit" className="flex-1 bg-slate-900 hover:bg-slate-800 text-white">
+            <Button type="submit" className="flex-1 bg-brand text-white hover:bg-brand/80">
               Send bug report
             </Button>
           </div>

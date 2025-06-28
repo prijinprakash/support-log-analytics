@@ -5,12 +5,12 @@ import { useState, useEffect } from "react";
 // import PageLoader from "@/components/PageLoader";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import AnalysisDialog from "@/components/AnalysisDialog";
+import AnalysisDialog from "@/components/casedetail/AnalysisDialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
-import CollapsibleAnalysis from "@/components/CollapsibleAnalysis";
+import CollapsibleAnalysis from "@/components/casedetail/CollapsibleAnalysis";
 import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
-import BugReportDialog from "@/components/BugReportDialog";
+import BugReportDialog from "@/components/casedetail/BugReportDialog";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -244,7 +244,7 @@ const CaseDetail = () => {
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Report Bug</TooltipContent>
               </Tooltip>
-              <Button onClick={() => setDialogOpen(true)}>
+              <Button onClick={() => setDialogOpen(true)} className="bg-brand hover:bg-brand/80">
                 View Analysis
               </Button>
             </div>

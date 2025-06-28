@@ -110606,6 +110606,7 @@ export default function Uplot() {
       width: chartRef.current?.clientWidth || 600,
       // class: ["selection:bg-fuchsia-300", "selection:text-fuchsia-900", "h-[300px]"],
       // class: "uplot-styles",
+      padding: [10,0,0,10],
       height: 400,
       series,
       legend: {
@@ -110634,7 +110635,8 @@ export default function Uplot() {
             show: false,
             stroke: "#e2e8f0",
             width: 1,
-          }
+          },
+          values: (u, vals) => vals.map(v => v.toExponential(1)),
         }
       ],
       cursor: {

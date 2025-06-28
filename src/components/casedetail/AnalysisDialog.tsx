@@ -306,7 +306,7 @@ const AnalysisDialog = ({ open, onOpenChange }: AnalysisDialogProps) => {
           </Button>
           <Button
             onClick={() => onOpenChange(false)}
-            className="flex-1 h-9"
+            className="flex-1 h-9 bg-brand hover:bg-brand/80"
           >
             View Analyses
           </Button>
