@@ -12,6 +12,10 @@ import VirtualTabularData from "@/components/VirtualTabularData";
 import Uplot from "@/components/charts/Uplot";
 import BugReportDialog from "@/components/casedetail/BugReportDialog";
 import AnalysisSheet from "@/components/casedetail/AnalysisSheet";
+import SystemAlertDialog from "@/components/casedetail/AlertDialog";
+import GaugeMeter from "@/components/casedetail/GaugeMeter";
+import ViewSelector from "@/components/casedetail/ViewSelector";
+import DateTimeRangeSelector from "@/components/casedetail/DateTimeRangeSelector";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -22,6 +26,11 @@ const CaseDetail = () => {
   const [activeSheet, setActiveSheet] = useState(null);
   const [fullscreenContent, setFullscreenContent] = useState<{ title: string; content: React.ReactNode } | null>(null);
   const [bugReportOpen, setBugReportOpen] = useState(false);
+  const [alertDialogOpen, setAlertDialogOpen] = useState(false);
+  const [dateTimeRange, setDateTimeRange] = useState<{from: Date | null; to: Date | null}>({
+    from: null,
+    to: null
+  });
   const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
 192.168.1.15 - - [16/Jun/2025:11:00:10 +0530] "POST /submit_form HTTP/1.1" 200 123 "-" "curl/7.68.0"
 192.168.1.20 - - [16/Jun/2025:11:00:15 +0530] "GET /images/logo.png HTTP/1.1" 200 15789 "-" "Mozilla/5.0
@@ -113,6 +122,11 @@ const CaseDetail = () => {
     setSheetOpen(true);
     setActiveSheet(gridElements.filter(ele => ele.id === id))
   }
+
+  const handleRefresh = () => {
+    console.log('Refreshing data for range:', dateTimeRange);
+    // Add refresh logic here
+  };
 
   // if (isLoading) {
   //   return (
@@ -238,7 +252,13 @@ const CaseDetail = () => {
             </Tabs>
 
             <div className="flex items-center gap-2 ml-4">
-              {/* datetime selector should go here */}
+              {/* DateTime Range Selector */}
+              <DateTimeRangeSelector
+                value={dateTimeRange}
+                onChange={setDateTimeRange}
+                onRefresh={handleRefresh}
+              />
+              
               <Tooltip>
                 <TooltipTrigger asChild>
                   <Button variant="outline" size="icon">
@@ -273,7 +293,7 @@ const CaseDetail = () => {
                   <Button 
                     variant="destructive" 
                     size="icon"
-                    // onClick={() => setBugReportOpen(true)}
+                    onClick={() => setAlertDialogOpen(true)}
                   >
                     <TriangleAlert />
                   </Button>
@@ -300,9 +320,14 @@ const CaseDetail = () => {
               
               <TabsContent value="stats" className="mt-0 h-full">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Case Stats</h3>
-                  <div className="space-y-4">
-                    {/* gauge meter and zone selector should go here */}
+                  <h3 className="text-lg font-semibold">System Statistics</h3>
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <GaugeMeter
+                      value={78}
+                      title="CPU Usage"
+                      description="Current system CPU utilization percentage"
+                    />
+                    <ViewSelector />
                   </div>
                 </div>
               </TabsContent>
@@ -459,6 +484,9 @@ const CaseDetail = () => {
 
       {/* Dialog for selecting analyses */}
       {activeSheet && <AnalysisSheet open={sheetOpen} onOpenChange={setSheetOpen} activeSheet={activeSheet}/>}
+      
+      {/* System Alert Dialog */}
+      <SystemAlertDialog open={alertDialogOpen} onOpenChange={setAlertDialogOpen} />
     </div>
   );
 };
