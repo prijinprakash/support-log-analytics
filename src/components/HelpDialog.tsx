@@ -48,14 +48,14 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-background border-zinc-800">
+      <DialogContent className="max-w-4xl max-h-[80vh] overflow-y-auto bg-background border">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold text-foreground">Help & Documentation</DialogTitle>
         </DialogHeader>
         
         <div className="space-y-6">
           {/* Getting Started */}
-          <Card className="bg-card border-zinc-800">
+          <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="text-xl text-foreground">Getting Started</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -85,7 +85,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
           </Card>
 
           {/* API Examples */}
-          <Card className="bg-card border-zinc-800">
+          <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="text-xl text-foreground">API Examples</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -116,7 +116,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
           </Card>
 
           {/* Keyboard Shortcuts */}
-          <Card className="bg-card border-zinc-800">
+          <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="text-xl text-foreground">Keyboard Shortcuts</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -125,28 +125,28 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex justify-between items-center py-2 border-b border-zinc-800">
+                <div className="flex justify-between items-center p-2 border-b border">
                   <span className="text-sm text-foreground">Open Search</span>
-                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + K</kbd>
+                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-primary">Ctrl + K</kbd>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-zinc-800">
+                <div className="flex justify-between items-center p-2 border-b border">
                   <span className="text-sm text-foreground">Upload File</span>
-                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + U</kbd>
+                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-primary">Ctrl + U</kbd>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-zinc-800">
+                <div className="flex justify-between items-center p-2 border-b border">
                   <span className="text-sm text-foreground">Load analysis</span>
-                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + Shift + A</kbd>
+                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-primary">Ctrl + Shift + A</kbd>
                 </div>
-                <div className="flex justify-between items-center py-2 border-b border-zinc-800">
+                <div className="flex justify-between items-center p-2 border-b border">
                   <span className="text-sm text-foreground">Settings</span>
-                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-muted-foreground">Ctrl + ,</kbd>
+                  <kbd className="px-2 py-1 bg-zinc-800 rounded text-xs text-primary">Ctrl + ,</kbd>
                 </div>
               </div>
             </CardContent>
           </Card>
 
           {/* Useful Links */}
-          <Card className="bg-card border-zinc-800">
+          <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="text-xl text-foreground">Useful Links</CardTitle>
               <CardDescription className="text-muted-foreground">
@@ -158,7 +158,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
                 href="https://docs.example.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-md bg-zinc-900 hover:bg-zinc-800 transition-colors"
+                className="flex items-center justify-between p-3 rounded-md border transition-colors"
               >
                 <div>
                   <div className="font-medium text-foreground">API Documentation</div>
@@ -170,7 +170,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
                 href="https://support.example.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-md bg-zinc-900 hover:bg-zinc-800 transition-colors"
+                className="flex items-center justify-between p-3 rounded-md border transition-colors"
               >
                 <div>
                   <div className="font-medium text-foreground">Support Center</div>
@@ -182,7 +182,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
                 href="https://status.example.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between p-3 rounded-md bg-zinc-900 hover:bg-zinc-800 transition-colors"
+                className="flex items-center justify-between p-3 rounded-md border transition-colors"
               >
                 <div>
                   <div className="font-medium text-foreground">System Status</div>
@@ -194,7 +194,7 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
           </Card>
 
           {/* Contact */}
-          <Card className="bg-card border-zinc-800">
+          <Card className="bg-card border">
             <CardHeader>
               <CardTitle className="text-xl text-foreground">Need More Help?</CardTitle>
             </CardHeader>
@@ -202,18 +202,11 @@ const HelpDialog = ({ open, onOpenChange }: HelpDialogProps) => {
               <p className="text-sm text-muted-foreground mb-4">
                 If you can't find what you're looking for, feel free to reach out to our support team.
               </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Button variant="outline" asChild>
-                  <a href="mailto:support@example.com">
-                    Email Support
-                  </a>
-                </Button>
-                <Button variant="outline" asChild>
-                  <a href="https://chat.example.com" target="_blank" rel="noopener noreferrer">
-                    Live Chat
-                  </a>
-                </Button>
-              </div>
+              <Button variant="outline" asChild>
+                <a href="mailto:support@example.com">
+                  Email Support
+                </a>
+              </Button>
             </CardContent>
           </Card>
         </div>
