@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import {
   Dialog,
@@ -17,8 +18,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Bug, HelpCircle, Image, Video, X } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Bug } from "lucide-react";
+import FileUpload from "../FileUpload";
 
 type BugReportDialogProps = {
   open: boolean;
@@ -34,11 +35,12 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
     email: "",
     category: ""
   });
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { toast } = useToast();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Bug report submitted:", formData);
+    console.log("Bug report submitted:", formData, "File:", selectedFile);
     
     // Close dialog first
     onOpenChange(false);
@@ -53,15 +55,15 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
     setFormData({
       title: "",
       description: "",
-      priority: "",
+      priority: "low",
       pageUrl: "",
       email: "",
       category: ""
     });
+    setSelectedFile(null);
   };
 
   const handleInputChange = (field: string, value: string) => {
-    console.log(value)
     setFormData(prev => ({ ...prev, [field]: value }));
   };
 
@@ -109,6 +111,17 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
             </p>
           </div>
 
+          <div className="space-y-2">
+            <Label htmlFor="pageUrl" className="text-sm font-medium">Page URL</Label>
+            <Input
+              id="pageUrl"
+              value={formData.pageUrl}
+              onChange={(e) => handleInputChange("pageUrl", e.target.value)}
+              placeholder="https://example.com/feedback"
+              className="h-12"
+            />
+          </div>
+
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label className="text-sm font-medium">Category</Label>
@@ -117,31 +130,11 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
                   <SelectValue placeholder="Select a bug category" />
                 </SelectTrigger>
                 <SelectContent className="bg-background">
-                  <SelectItem value="visual">
-                    <div className="flex items-center gap-2">
-                      Visual/aesthetic issue
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="functionality">
-                    <div className="flex items-center gap-2">
-                      Functionality issue
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="performance">
-                    <div className="flex items-center gap-2">
-                      Performance issue
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="crash">
-                    <div className="flex items-center gap-2">
-                      Crash/error issue
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="other">
-                    <div className="flex items-center gap-2">
-                      other
-                    </div>
-                  </SelectItem>
+                  <SelectItem value="visual">Visual/aesthetic issue</SelectItem>
+                  <SelectItem value="functionality">Functionality issue</SelectItem>
+                  <SelectItem value="performance">Performance issue</SelectItem>
+                  <SelectItem value="crash">Crash/error issue</SelectItem>
+                  <SelectItem value="other">Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -183,12 +176,13 @@ const BugReportDialog = ({ open, onOpenChange }: BugReportDialogProps) => {
           </div>
 
           <div className="space-y-2">
-            {/* convert to a file upload field using FileUpload component here */}
             <Label className="text-sm font-medium">Upload file</Label>
-            <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-6 text-center">
-              <Image className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-              <p className="text-sm text-muted-foreground">File</p>
-            </div>
+            <FileUpload
+              onFileSelect={setSelectedFile}
+              selectedFile={selectedFile}
+              accept="image/*,video/*"
+              placeholder="Drag and drop an image or video here, or click to select"
+            />
           </div>
 
           <div className="flex gap-3 pt-4 border-t">

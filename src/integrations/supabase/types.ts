@@ -9,7 +9,39 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      cases: {
+        Row: {
+          case_number: string
+          created_at: string
+          file_name: string | null
+          host_name: string | null
+          id: number
+          serial_number: string | null
+          status: number | null
+          syslog_end_time: string | null
+        }
+        Insert: {
+          case_number: string
+          created_at?: string
+          file_name?: string | null
+          host_name?: string | null
+          id?: number
+          serial_number?: string | null
+          status?: number | null
+          syslog_end_time?: string | null
+        }
+        Update: {
+          case_number?: string
+          created_at?: string
+          file_name?: string | null
+          host_name?: string | null
+          id?: number
+          serial_number?: string | null
+          status?: number | null
+          syslog_end_time?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
