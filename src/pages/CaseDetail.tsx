@@ -84,19 +84,7 @@ const CaseDetail = () => {
       </p>`
     }
   ]);
-  // Simulate loading and then set loading to false
-  // useEffect(() => {
-  //   const timer = setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 1000);
-    
-  //   return () => clearTimeout(timer);
-  // }, []);
 
-  useEffect(() => {
-    console.log('mounted case details')
-    return () => console.log('unmounted case details')
-  }, [])
   // Keyboard shortcut: Ctrl+Shift+A (or Cmd+Shift+A for Mac)
   useEffect(() => {
     const toggleDialog = (e: KeyboardEvent) => {
@@ -251,56 +239,38 @@ const CaseDetail = () => {
               </TabsList>
             </Tabs>
 
-            <div className="flex items-center gap-2 ml-4">
+            <div className="flex items-center gap-3">
               {/* DateTime Range Selector */}
               <DateTimeRangeSelector
                 value={dateTimeRange}
                 onChange={setDateTimeRange}
                 onRefresh={handleRefresh}
               />
-              
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Share2 />
-                  </Button>
+                    <Share2 size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => console.log('share button clicked')}/>
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Share Analysis</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button variant="outline" size="icon">
-                    <Download />
-                  </Button>
+                    <Download size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => console.log('share button clicked')}/>
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Export Report</TooltipContent>
               </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button 
-                    variant="destructive" 
-                    size="icon"
-                    onClick={() => setBugReportOpen(true)}
-                  >
-                    <Bug />
-                  </Button>
+                    <Bug size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => setBugReportOpen(true)} />
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Report Bug</TooltipContent>
               </Tooltip>
-              {/* alert button */}
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button 
-                    variant="destructive" 
-                    size="icon"
-                    onClick={() => setAlertDialogOpen(true)}
-                  >
-                    <TriangleAlert />
-                  </Button>
+                    <TriangleAlert size={20} className="cursor-pointer stroke-red-600 hover:stroke-red-800" onClick={() => setAlertDialogOpen(true)}/>
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Alerts</TooltipContent>
               </Tooltip>
-              <Button onClick={() => setDialogOpen(true)} className="bg-brand hover:bg-brand/80">
+              <Button onClick={() => setDialogOpen(true)} className="bg-brand hover:bg-brand/80 h-8">
                 View Analysis
               </Button>
             </div>

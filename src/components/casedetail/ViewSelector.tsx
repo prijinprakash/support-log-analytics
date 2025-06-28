@@ -48,7 +48,7 @@ const ViewSelector: React.FC = () => {
             <SelectTrigger>
               <SelectValue placeholder="Select a view" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className='bg-background'>
               <SelectItem value="view_1">View 1 - Internal Network</SelectItem>
               <SelectItem value="view_2">View 2 - DMZ Network</SelectItem>
               <SelectItem value="view_3">View 3 - External Traffic</SelectItem>
