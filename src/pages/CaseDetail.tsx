@@ -8,8 +8,8 @@ import { Button } from "@/components/ui/button";
 import AnalysisDialog from "@/components/casedetail/AnalysisDialog";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import CollapsibleAnalysis from "@/components/casedetail/CollapsibleAnalysis";
-import VirtualTabularData from "@/components/VirtualTabularData";
-import Uplot from "@/components/charts/Uplot";
+import VirtualTabularData from "@/components/datavisulization/VirtualTabularData";
+import LineChart from "@/components/datavisulization/LineChart";
 import BugReportDialog from "@/components/casedetail/BugReportDialog";
 import AnalysisSheet from "@/components/casedetail/AnalysisSheet";
 import SystemAlertDialog from "@/components/casedetail/AlertDialog";
@@ -18,6 +18,7 @@ import ViewSelector from "@/components/casedetail/ViewSelector";
 import DateTimeRangeSelector from "@/components/casedetail/DateTimeRangeSelector";
 // import Terminal from "@/components/casedetail/TerminalComponent";
 import TerminalComponent from "@/components/casedetail/TerminalComponent";
+import ToolTipChart from "@/components/datavisulization/ToolTipChart";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -70,7 +71,13 @@ const CaseDetail = () => {
     { 
       id: 'chart', 
       title: 'Interactive Line Chart', 
-      el: <Uplot />, 
+      el: <LineChart />, 
+      description: "this chart represents the cpu usage over time" 
+    },
+    { 
+      id: 'tooltip_chart', 
+      title: 'Interactive Tooltip Chart', 
+      el: <ToolTipChart />, 
       description: "this chart represents the cpu usage over time" 
     },
     { 

@@ -26,7 +26,7 @@ import {
 } from "@/components/ui/select"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Button } from "@/components/ui/button"
-import VirtualTabularData from "../VirtualTabularData"
+import VirtualTabularData from "./VirtualTabularData"
 
 // const chartData = [
 //   { date: "2024-04-01", desktop: 222, mobile: 150 },

@@ -1,12 +1,13 @@
-
 "use client"
 
 import * as React from "react"
-import { Line, LineChart, XAxis, ResponsiveContainer, Tooltip, YAxis } from "recharts"
+import { Area, AreaChart, CartesianGrid, XAxis, Dot, ResponsiveContainer, Tooltip, YAxis } from "recharts"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BarChart3, Table as TableIcon } from "lucide-react"
-import VirtualTabularData from "../VirtualTabularData"
+
+// import TabularData from "../TabularData"
+import VirtualTabularData from "./VirtualTabularData"
 
 import {
   Card,
@@ -125,7 +126,7 @@ const chartConfig = {
   mobile: { label: "Mobile", color: "#10b981" },
 }
 
-export function InteractiveLineChart() {
+export function InteractiveAreaChart() {
   const [timeRange, setTimeRange] = React.useState("90d")
   const [selectedKeys, setSelectedKeys] = React.useState(["desktop", "mobile"])
   const [loadedKeys, setLoadedKeys] = React.useState(["desktop", "mobile"])
@@ -287,7 +288,7 @@ export function InteractiveLineChart() {
               {isSelecting && selectionStart && selectionEnd && (
                 <div className="absolute inset-0 pointer-events-none z-10">
                   <div 
-                    className="absolute bg-blue-200 bg-opacity-30"
+                    className="absolute bg-blue-200 bg-opacity-30 border border-blue-400 border-dashed"
                     style={{
                       left: `${Math.min(
                         (filteredData.findIndex(d => d.date === selectionStart) / (filteredData.length - 1)) * 100,
@@ -309,13 +310,24 @@ export function InteractiveLineChart() {
                 ref={chartRef}
               >
                 <ResponsiveContainer minHeight={"300px"}>
-                  <LineChart
+                  <AreaChart
                     data={filteredData}
                     onMouseDown={handleMouseDown}
                     onMouseMove={handleMouseMove}
                     onMouseUp={handleMouseUp}
                     onMouseLeave={handleMouseLeave}
                   >
+                  {/* <defs>
+                    <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.1} />
+                    </linearGradient>
+                    <linearGradient id="fillMobile" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#10b981" stopOpacity={0.8} />
+                      <stop offset="95%" stopColor="#10b981" stopOpacity={0.1} />
+                    </linearGradient>
+                  </defs> */}
+                  {/* <CartesianGrid horizontal={false} /> */}
                   <Tooltip content={<></>}/>
                   <XAxis
                     dataKey="date"
@@ -338,28 +350,28 @@ export function InteractiveLineChart() {
                     allowDataOverflow
                   />
                   {loadedKeys.includes("desktop") && (
-                    <Line 
+                    <Area 
                       dataKey="desktop" 
                       type="natural" 
                       fill="url(#fillDesktop)" 
                       stroke="#3b82f6" 
                       // stackId="a"
+                      activeDot={<Dot fill="#3b82f6" />}
                       isAnimationActive={false}
-                      dot={false}
                     />
                   )}
                   {loadedKeys.includes("mobile") && (
-                    <Line 
+                    <Area 
                       dataKey="mobile" 
                       type="natural" 
                       fill="url(#fillMobile)" 
                       stroke="#10b981" 
                       // stackId="a"
+                      activeDot={<Dot fill="#10b981" />}
                       isAnimationActive={false}
-                      dot={false}
                     />
                   )}
-                  </LineChart>
+                  </AreaChart>
                 </ResponsiveContainer>
               </ChartContainer>
             </div>

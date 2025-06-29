@@ -72,7 +72,7 @@ const CollapsibleAnalysis = ({id, title, el, className, openFullscreen, removeEl
           </div>
         </CardHeader>
         <CollapsibleContent>
-          <CardContent className={`border-0 ${id!=='chart' ? "p-2 h-64 overflow-auto" : "p-0"}`}>
+          <CardContent className={`border-0 ${id!=='chart' && id!=='tooltip_chart' ? "p-2 h-64 overflow-auto" : "p-0"}`}>
               {el}
           </CardContent>
         </CollapsibleContent>
