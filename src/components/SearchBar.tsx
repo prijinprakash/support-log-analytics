@@ -1,7 +1,6 @@
 
 import { Search, ListFilter } from "lucide-react";
 import { useState, useEffect, useCallback } from "react";
-import { Button } from "./ui/button";
 import SearchDialog from "./SearchDialog";
 import FilterDialog from "./FilterDialog";
 
@@ -30,7 +29,7 @@ const SearchBar = () => {
   useEffect(() => {
     window.addEventListener("keydown", handleKeydown);
     return () => window.removeEventListener("keydown", handleKeydown);
-  }, [handleKeydown]);
+  }, []);
 
   const handleSearchClick = () => {
     setSearchOpen(true);
@@ -59,9 +58,6 @@ const SearchBar = () => {
         {/* Label */}
         <span className="truncate text-left text-[#bbb] pr-2 flex-1">Search...</span>
         {/* Keyboard shortcut */}
-        {/* <span className="ml-2 px-1.5 py-0.5 text-xs rounded-md bg-[#232324] text-[#bbb] border border-[#28282a] font-mono tracking-tight">
-          {getShortcutLabel()}
-        </span> */}
         <span className="py-0.5 rounded text-[#bbb]">{getShortcutLabel()}</span>
         {/* Filter icon, inline after shortcut */}
         <button
@@ -72,10 +68,6 @@ const SearchBar = () => {
         >
           <ListFilter size={16} className="align-middle" />
         </button>
-
-        {/* <Button variant="ghost" size="sm" className="cursor-pointer">
-            <ListFilter size="sm"/>
-        </Button> */}
       </button>
       <SearchDialog open={searchOpen} onOpenChange={setSearchOpen} />
       <FilterDialog open={filterOpen} onOpenChange={setFilterOpen} />

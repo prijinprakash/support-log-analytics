@@ -24,7 +24,6 @@ body {
     --popover: hsl(0 0% 100%);
     --popover-foreground: hsl(224 71.4% 4.1%);
 
-    /* --primary: hsl(142 76% 36%); */
     --primary: #03bd4d;
     --primary-foreground: hsl(355.7 100% 97.3%);
 
@@ -61,7 +60,6 @@ body {
     --popover: hsl(224 71.4% 4.1%);
     --popover-foreground: hsl(210 20% 98%);
 
-    /* --primary: hsl(142 76% 36%); */
     --primary: #03bd4d;
     --primary-foreground: hsl(355.7 100% 97.3%);
 
