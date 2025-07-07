@@ -19,6 +19,8 @@ interface CasesStore {
   cases: Case[];
   isLoading: boolean;
   fetchCases: () => Promise<void>;
+  setPageNumber: (pageNumber: number) => void;
+  pageNumber: number;
 }
 
 const caseStatusMap = Object.freeze({

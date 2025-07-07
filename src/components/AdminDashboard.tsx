@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -22,6 +22,7 @@ import {
   Plus,
   Edit,
   Trash2,
+  LayoutDashboard
 } from "lucide-react";
 
 const AdminDashboard = () => {
@@ -59,8 +60,9 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="space-y-6 p-6">
-      <div className="flex items-center justify-between">
+    <main className="p-4 space-y-4">
+    {/* <div className="space-y-6 p-4"> */}
+      {/* <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold">Admin Dashboard</h1>
         <div className="flex items-center gap-2">
           <div className="relative">
@@ -73,6 +75,10 @@ const AdminDashboard = () => {
             />
           </div>
         </div>
+      </div> */}
+      <div className="flex items-center gap-3 mb-8">
+        <LayoutDashboard size={25} className="text-primary"/>
+        <h1 className="text-xl font-bold">Admin Dashboard</h1>
       </div>
 
       {/* Metrics Cards */}
@@ -266,7 +272,8 @@ const AdminDashboard = () => {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    {/* </div> */}
+    </main>
   );
 };
 
