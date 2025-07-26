@@ -5,7 +5,6 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { BarChart3, Table as TableIcon } from "lucide-react"
 import VirtualTabularData from "./VirtualTabularData"
-
 import {
   Card,
   CardContent,
@@ -17,28 +16,8 @@ import Uplot from "./Uplot"
 import { chartData, chartConfig } from "@/store/lineChartStore"
 
 export default function ToolTipChart() {
-  const [timeRange, setTimeRange] = React.useState("90d")
-  // const [selectedKeys, setSelectedKeys] = React.useState(Object.keys(chartConfig)[])
-  const [loadedKeys, setLoadedKeys] = React.useState(Object.keys(chartConfig).slice(0,1))
   const [yAxisMax, setYAxisMax] = React.useState(undefined)
   const [viewMode, setViewMode] = React.useState('chart')
-  
-  // Filter data based on time range and zoom
-  const filteredData = React.useMemo(() => {
-    let filtered = chartData.filter((item) => {
-      const date = new Date(item.date)
-      // const referenceDate = new Date("2024-06-30")
-      // let daysToSubtract = 90
-      // if (timeRange === "30d") daysToSubtract = 30
-      // else if (timeRange === "7d") daysToSubtract = 7
-      // const startDate = new Date(referenceDate)
-      // startDate.setDate(startDate.getDate() - daysToSubtract)
-      // return date >= startDate
-      return date;
-    })
-
-    return filtered
-  }, [timeRange, viewMode])
 
   return (
     <Card className="p-0 col-span-2 border-none shadow-none">
@@ -73,16 +52,6 @@ export default function ToolTipChart() {
               <TableIcon size={16} />
             </Button>
           </div>
-          {/* <Select value={timeRange} onValueChange={setTimeRange}>
-            <SelectTrigger className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex">
-              <SelectValue placeholder="Last 3 months" />
-            </SelectTrigger>
-            <SelectContent className="rounded-xl bg-background">
-              <SelectItem value="90d">Last 3 months</SelectItem>
-              <SelectItem value="30d">Last 30 days</SelectItem>
-              <SelectItem value="7d">Last 7 days</SelectItem>
-            </SelectContent>
-          </Select> */}
         </div>
       </CardHeader>
 
@@ -90,16 +59,16 @@ export default function ToolTipChart() {
         {viewMode === 'chart' ? (
           <div className="grid grid-cols-4 gap-2 relative">
             <div className="col-span-4 p-2">
-              <Uplot chartData={filteredData} chartConfig={chartConfig} loadedKeys={loadedKeys} yAxisMax={yAxisMax}/>
+              <Uplot chartData={chartData} chartConfig={chartConfig} loadedKeys={Object.keys(chartConfig).slice(0,1)} yAxisMax={yAxisMax}/>
             </div>
             <div className="col-span-4 flex flex-col justify-between border-l p-2">
               <div className="space-y-4">
-                <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={filteredData}/>
+                <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={chartData}/>
               </div>
             </div>
           </div>
         ) : (
-          <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={filteredData}/>
+          <VirtualTabularData headers={["Date", ...Object.keys(chartConfig).map(key => chartConfig[key].label)]} data={chartData}/>
         )}
       </CardContent>
     </Card>

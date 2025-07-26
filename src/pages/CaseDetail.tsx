@@ -21,6 +21,7 @@ import ToolTipChart from "@/components/datavisulization/ToolTipChart";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import EngineeringSummary from "@/components/EngineeringSummary";
+import { AggregationTable } from "@/components/datavisulization/AggregationTable";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -106,6 +107,14 @@ const CaseDetail = () => {
       title: 'Tabular Data', 
       el: <VirtualTabularData headers={["Metric", "Value", "Status", "Last Updated"]} data={metrics}/> ,
       description: `<p>this is some tabular data</p>
+      <p><a href='#' class='text-brand hover:text-brand/80 underline'>follow the link<a/>
+      </p>`
+    }
+    ,
+    { id: 'aggregation_table', 
+      title: 'Aggregation Table', 
+      el: <AggregationTable />,
+      description: `<p>this is some aggregation data</p>
       <p><a href='#' class='text-brand hover:text-brand/80 underline'>follow the link<a/>
       </p>`
     }
