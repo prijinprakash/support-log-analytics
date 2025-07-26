@@ -1,4 +1,3 @@
-import { useParams } from "react-router-dom";
 import { FileText, Clock, AlertCircle, Server, Globe, HardDrive, Bug, Download, Share2, TriangleAlert, SquareTerminal } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 import { useState, useEffect } from "react";
@@ -19,11 +18,15 @@ import DateTimeRangeSelector from "@/components/casedetail/DateTimeRangeSelector
 // import Terminal from "@/components/casedetail/TerminalComponent";
 import TerminalComponent from "@/components/casedetail/TerminalComponent";
 import ToolTipChart from "@/components/datavisulization/ToolTipChart";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Label } from "@/components/ui/label";
+import EngineeringSummary from "@/components/EngineeringSummary";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
   // const [isLoading, setIsLoading] = useState(true);
   const [activeTab, setActiveTab] = useState("overview");
+  const [activeSummary, setActiveSummary] = useState("syslog-summary");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [sheetOpen, setSheetOpen] = useState(true);
   const [activeSheet, setActiveSheet] = useState(null);
@@ -66,6 +69,20 @@ const CaseDetail = () => {
     { metric: "Error Rate", value: "0.02%", status: "Normal", lastUpdated: "2 min ago" },
     { metric: "Response Time", value: "145ms", status: "Good", lastUpdated: "1 min ago" },
   ];
+
+  const syslogSummary: Record<string, string> = {
+    "Introduction": "Welcome to the documentation! This is the intro section.",
+    "Getting Started": "Here's how to get started with the project. Make sure to follow the steps carefully.",
+    "Installation": "",
+    "API Reference": "This section contains API details for the project. Each endpoint is explained here.",
+  };
+
+  const debugSummary: Record<string, string> = {
+    "Introduction": "Welcome to the documentation! This is the intro section.",
+    "Getting Started": "Here's how to get started with the project. Make sure to follow the steps carefully.",
+    "Installation": "To install the app, run `npm install` or `yarn add` in the root directory.",
+    "API Reference": "This section contains API details for the project. Each endpoint is explained here.",
+  };
 
   const [gridElements, setGridElements] = useState([
     { 
@@ -237,14 +254,14 @@ const CaseDetail = () => {
         <div className="flex-1 flex flex-col min-w-0 p-4 border-l">
           {/* Top Flexbox - Tabs and Buttons */}
           <div className="flex items-center justify-between mb-4">
+
             <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1">
               <TabsList>
                 <TabsTrigger value="overview">Overview</TabsTrigger>
                 <TabsTrigger value="stats">Stats</TabsTrigger>
-                <TabsTrigger value="documents">Debug Summary</TabsTrigger>
-                <TabsTrigger value="analysis">Syslog Summary</TabsTrigger>
-                <TabsTrigger value="bc">connect</TabsTrigger>
-                <TabsTrigger value="bc_metrics">connect metrics</TabsTrigger>
+                <TabsTrigger value="summaries">Summaries</TabsTrigger>
+                <TabsTrigger value="bc">BloxConnect</TabsTrigger>
+                <TabsTrigger value="bc_metrics">BloxConnect Metrics</TabsTrigger>
                 <TabsTrigger value="terminal"><SquareTerminal size={20}/></TabsTrigger>
               </TabsList>
             </Tabs>
@@ -312,67 +329,45 @@ const CaseDetail = () => {
                 </div>
               </TabsContent>
               
-              <TabsContent value="documents" className="mt-0 h-full">
+              <TabsContent value="summaries" className="mt-0 h-full">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Related Documents</h3>
-                  <div className="space-y-2">
-                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
-                      <FileText size={16} />
-                      <div className="flex-1">
-                        <div className="font-medium">{caseData.file_name}</div>
-                        <div className="text-sm text-muted-foreground">12.4 GB • Uploaded 2 days ago</div>
+                  <h3 className="text-lg font-semibold">Engineering Summary</h3>
+                  <Tabs value={activeSummary} onValueChange={setActiveSummary} className="flex-1">
+                    <TabsList>
+                      <TabsTrigger value="syslog-summary">Syslog Summary</TabsTrigger>
+                      <TabsTrigger value="debug-summary">Debug Summary</TabsTrigger>
+                    </TabsList>
+                  </Tabs>
+                  <Tabs value={activeSummary}>
+                    <TabsContent value="syslog-summary" className="mt-0 h-full">
+                      <div className="border hover:bg-muted/50 rounded-lg min-h-[650px]">
+                        <EngineeringSummary
+                          content={
+                            Object.entries(syslogSummary).map(([title, content]) => (
+                              <div key={title}>
+                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')}>{title}</h2>
+                                <p>{content}</p>
+                              </div>
+                            ))
+                          }
+                        />
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
-                      <FileText size={16} />
-                      <div className="flex-1">
-                        <div className="font-medium">Analysis Report.pdf</div>
-                        <div className="text-sm text-muted-foreground">2.1 MB • Generated 1 day ago</div>
+                    </TabsContent>
+                    <TabsContent value="debug-summary" className="mt-0 h-full">
+                      <div className="border hover:bg-muted/50 rounded-lg min-h-[650px]">
+                        <EngineeringSummary
+                          content={
+                            Object.entries(debugSummary).map(([title, content]) => (
+                              <div key={title}>
+                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')}>{title}</h2>
+                                <p>{content}</p>
+                              </div>
+                            ))
+                          }
+                        />
                       </div>
-                    </div>
-                    <div className="flex items-center gap-3 p-3 rounded border hover:bg-muted/50 cursor-pointer">
-                      <FileText size={16} />
-                      <div className="flex-1">
-                        <div className="font-medium">Configuration Export.json</div>
-                        <div className="text-sm text-muted-foreground">145 KB • Exported 6 hours ago</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </TabsContent>
-              
-              <TabsContent value="analysis" className="mt-0 h-full">
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Analysis Results</h3>
-                  <div className="grid gap-4">
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                        <span className="font-medium">Critical Issues: 3</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Security vulnerabilities detected in system configuration
-                      </p>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                        <span className="font-medium">Warnings: 15</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Performance optimizations recommended
-                      </p>
-                    </div>
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                        <span className="font-medium">Information: 6</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        System status and configuration details
-                      </p>
-                    </div>
-                  </div>
+                    </TabsContent>
+                  </Tabs>
                 </div>
               </TabsContent>
 
