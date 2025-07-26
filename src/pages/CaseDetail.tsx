@@ -73,7 +73,7 @@ const CaseDetail = () => {
   const syslogSummary: Record<string, string> = {
     "Introduction": "Welcome to the documentation! This is the intro section.",
     "Getting Started": "Here's how to get started with the project. Make sure to follow the steps carefully.",
-    "Installation": "",
+    "Installation": logs,
     "API Reference": "This section contains API details for the project. Each endpoint is explained here.",
   };
 
@@ -344,9 +344,9 @@ const CaseDetail = () => {
                         <EngineeringSummary
                           content={
                             Object.entries(syslogSummary).map(([title, content]) => (
-                              <div key={title}>
-                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')}>{title}</h2>
-                                <p>{content}</p>
+                              <div key={title} className="p-0">
+                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')} className="m-0 mb-1 text-lg">{title}</h2>
+                                <p className="font-mono whitespace-pre-line text-sm">{content}</p>
                               </div>
                             ))
                           }
@@ -358,9 +358,9 @@ const CaseDetail = () => {
                         <EngineeringSummary
                           content={
                             Object.entries(debugSummary).map(([title, content]) => (
-                              <div key={title}>
-                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')}>{title}</h2>
-                                <p>{content}</p>
+                              <div key={title} className="p-0">
+                                <h2 id={title.toLowerCase().replace(/\s+/g, '-')} className="m-0 text-lg">{title}</h2>
+                                <p className="font-mono whitespace-pre-line text-sm">{content}</p>
                               </div>
                             ))
                           }

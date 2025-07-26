@@ -79,7 +79,7 @@ const EngineeringSummary: React.FC<EngineeringSummaryProps> = ({ content }) => {
                     level === "H3" ? "ml-4 text-gray-500" : "",
                     activeId === id
                       ? "text-primary font-semibold"
-                      : "text-gray-700 hover:text-brand-500"
+                      : "text-gray-700 hover:text-brand/80"
                   )}
                 >
                   {text}
