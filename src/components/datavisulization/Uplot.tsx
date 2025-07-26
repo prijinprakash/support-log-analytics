@@ -34,7 +34,7 @@ export default function Uplot({chartData, chartConfig, loadedKeys, yAxisMax, cha
       width: chartRef.current?.clientWidth || 600,
       // class: ["selection:bg-fuchsia-300", "selection:text-fuchsia-900", "h-[300px]"],
       // class: "uplot-styles",
-      padding: [10,0,0,10],
+      padding: [10, 10, 10, 10] as [number, number, number, number],
       height: 400,
       series,
       legend: {
@@ -45,7 +45,10 @@ export default function Uplot({chartData, chartConfig, loadedKeys, yAxisMax, cha
           time: true,
         },
         y: {
-          range: yAxisMax ? [0, yAxisMax] : [null, null]
+          range: (self, initMin, initMax, scaleKey) => {
+            if (yAxisMax) return [0, yAxisMax] as [number, number];
+            return [initMin || 0, initMax || 100] as [number, number];
+          }
         }
       },
       axes: [

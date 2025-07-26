@@ -2,17 +2,19 @@ import SearchBar from "./SearchBar";
 import TimezoneSelector from "./TimezoneSelector";
 import UploadDialog from "./UploadDialog";
 import HelpDialog from "./HelpDialog";
-import { HelpCircle, Moon, Sun } from "lucide-react";
+import { HelpCircle, Moon, Sun, Terminal } from "lucide-react";
 import { Tooltip, TooltipTrigger, TooltipContent } from "@/components/ui/tooltip";
 import { Button } from "./ui/button";
 import { useState, useEffect } from "react";
 import { FileUp, ChartLine, Settings } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import TerminalDrawer from "./TerminalDrawer";
 
 const Header = () => {
   const [dark, setDark] = useState(true);
   const [uploadDialogOpen, setUploadDialogOpen] = useState(false);
   const [helpDialogOpen, setHelpDialogOpen] = useState(false);
+  const [terminalDrawerOpen, setTerminalDrawerOpen] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -105,6 +107,19 @@ const Header = () => {
               <TooltipTrigger asChild>
                 <Button
                   className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
+                  aria-label="terminal"
+                  onClick={() => setTerminalDrawerOpen(true)}
+                  variant="outline"
+                >
+                  <Terminal/>
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent className="bg-white text-secondary text-xs">cloud shell</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  className="h-9 w-9 cursor-pointer bg-lightbackground text-white border border-headerborder hover:bg-headerborder hover:text-white"
                   aria-label="upload-file"
                   variant="outline"
                   onClick={() => setUploadDialogOpen(true)}
@@ -154,6 +169,7 @@ const Header = () => {
       </header>
       <UploadDialog open={uploadDialogOpen} onOpenChange={setUploadDialogOpen} />
       <HelpDialog open={helpDialogOpen} onOpenChange={setHelpDialogOpen} />
+      <TerminalDrawer open={terminalDrawerOpen} onOpenChange={setTerminalDrawerOpen} />
     </>
   );
 };

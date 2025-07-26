@@ -27713,7 +27713,7 @@ export function InteractiveChart() {
       //     endDate: actualEnd
       //   })
       // }
-      if (Math.abs(actualEnd - actualStart) > 60 * 1000) {
+      if (Math.abs(Number(actualEnd) - Number(actualStart)) > 60 * 1000) {
         setZoomDomain({
           startDate: actualStart,
           endDate: actualEnd
