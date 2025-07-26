@@ -22,6 +22,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import EngineeringSummary from "@/components/EngineeringSummary";
 import { AggregationTable } from "@/components/datavisulization/AggregationTable";
+import TerminalDrawer from "@/components/TerminalDrawer";
 
 const CaseDetail = () => {
   // const { caseId } = useParams<{ caseId: string }>();
@@ -38,6 +39,7 @@ const CaseDetail = () => {
     from: null,
     to: null
   });
+  const [terminalDrawerOpen, setTerminalDrawerOpen] = useState(false);
   const logs = `192.168.1.10 - - [16/Jun/2025:11:00:05 +0530] "GET /index.html HTTP/1.1" 200 2345 "-" "Mozilla/5.0"
 192.168.1.15 - - [16/Jun/2025:11:00:10 +0530] "POST /submit_form HTTP/1.1" 200 123 "-" "curl/7.68.0"
 192.168.1.20 - - [16/Jun/2025:11:00:15 +0530] "GET /images/logo.png HTTP/1.1" 200 15789 "-" "Mozilla/5.0
@@ -284,7 +286,7 @@ const CaseDetail = () => {
               />
               <Tooltip>
                 <TooltipTrigger asChild>
-                    <SquareTerminal size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => console.log('share button clicked')}/>
+                    <SquareTerminal size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => setTerminalDrawerOpen(true)}/>
                 </TooltipTrigger>
                 <TooltipContent className="bg-background">Open Shell</TooltipContent>
               </Tooltip>
@@ -480,6 +482,13 @@ const CaseDetail = () => {
       
       {/* System Alert Dialog */}
       <SystemAlertDialog open={alertDialogOpen} onOpenChange={setAlertDialogOpen} />
+      
+      {/* Terminal Drawer */}
+      <TerminalDrawer
+        open={terminalDrawerOpen}
+        onOpenChange={setTerminalDrawerOpen}
+        caseNumber={caseData.case_number}
+      />
     </div>
   );
 };

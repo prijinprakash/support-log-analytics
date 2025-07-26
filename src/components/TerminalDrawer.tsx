@@ -24,11 +24,15 @@ import Terminal from "./casedetail/TerminalComponent";
 interface TerminalDrawerProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  caseNumber?: string;
 }
 
-const TerminalDrawer: React.FC<TerminalDrawerProps> = ({ open, onOpenChange }) => {
+const TerminalDrawer: React.FC<TerminalDrawerProps> = ({ open, onOpenChange, caseNumber }) => {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [terminals, setTerminals] = useState([{ id: 1, name: "Terminal 1", active: true }]);
+  const [terminals, setTerminals] = useState(() => {
+    const defaultName = caseNumber ? `Case ${caseNumber}` : "Terminal 1";
+    return [{ id: 1, name: defaultName, active: true, caseNumber }];
+  });
   const [activeTerminal, setActiveTerminal] = useState(1);
 
   const handleTerminate = () => {
@@ -41,7 +45,8 @@ const TerminalDrawer: React.FC<TerminalDrawerProps> = ({ open, onOpenChange }) =
     const newTerminal = {
       id: terminals.length + 1,
       name: `Terminal ${terminals.length + 1}`,
-      active: true
+      active: true,
+      caseNumber: undefined
     };
     setTerminals([...terminals, newTerminal]);
     setActiveTerminal(newTerminal.id);
