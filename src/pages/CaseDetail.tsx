@@ -262,7 +262,7 @@ const CaseDetail = () => {
                 <TabsTrigger value="summaries">Summaries</TabsTrigger>
                 <TabsTrigger value="bc">BloxConnect</TabsTrigger>
                 <TabsTrigger value="bc_metrics">BloxConnect Metrics</TabsTrigger>
-                <TabsTrigger value="terminal"><SquareTerminal size={20}/></TabsTrigger>
+                {/* <TabsTrigger value="terminal"><SquareTerminal size={20}/></TabsTrigger> */}
               </TabsList>
             </Tabs>
 
@@ -273,6 +273,12 @@ const CaseDetail = () => {
                 onChange={setDateTimeRange}
                 onRefresh={handleRefresh}
               />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                    <SquareTerminal size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => console.log('share button clicked')}/>
+                </TooltipTrigger>
+                <TooltipContent className="bg-background">Open Shell</TooltipContent>
+              </Tooltip>
               <Tooltip>
                 <TooltipTrigger asChild>
                     <Share2 size={20} className="cursor-pointer stroke-muted-foreground hover:stroke-foreground" onClick={() => console.log('share button clicked')}/>
@@ -434,9 +440,9 @@ const CaseDetail = () => {
                   </div>
                 </div>
               </TabsContent>
-              <TabsContent value="terminal" className="mt-0 h-full">
+              {/* <TabsContent value="terminal" className="mt-0 h-full">
                 <TerminalComponent />
-              </TabsContent>
+              </TabsContent> */}
             </Tabs>
           </div>
         </div>

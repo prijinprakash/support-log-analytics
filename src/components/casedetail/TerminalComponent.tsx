@@ -280,8 +280,9 @@ const TerminalComponent = () => {
       ref={terminalRef}
       style={{
         width: '100%',
-        height: '800px',
+        height: '100%',
         backgroundColor: '#1e1e1e',
+        padding: "10px",
       }}
     />
   );

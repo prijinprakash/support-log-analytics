@@ -68,7 +68,7 @@ const TerminalDrawer: React.FC<TerminalDrawerProps> = ({ open, onOpenChange }) =
           <DrawerHeader className="border-b border-border">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <DrawerTitle>CloudShell</DrawerTitle>
+                {/* <DrawerTitle>CloudShell</DrawerTitle> */}
                 <div className="flex items-center gap-2">
                   {terminals.map((terminal) => (
                     <div key={terminal.id} className="flex items-center gap-1">
